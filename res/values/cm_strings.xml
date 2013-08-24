@@ -98,8 +98,8 @@
     <string name="device_hostname">Device hostname</string>
 
     <!-- About phone screen,  setting option name-->
-  <!--  <string name="mod_version">CyanogenMod version</string>
-    <string name="mod_version_default">Unknown</string> -->
+    <string name="mod_version">ProjectCMB version</string>
+    <string name="mod_version_default">4.3</string>
     <!-- About phone screen, build date of ROM -->
     <string name="build_date">Build date</string>
     <string name="build_date_default" translatable="false">2013-01-01-0000</string>
