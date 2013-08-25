@@ -618,7 +618,7 @@
 
     <!-- CM Updater -->
     <string name="cmupdate_settings_title">TO BE REMOVED</string>
-    <string name="cmupdate_settings_summary">Don't Check for, view or install available updates</string>
+    <string name="cmupdate_settings_summary">Don\'t Check for, view or install available updates</string>
 
     <!-- Advanced, Device specific (DeviceParts) settings  -->
     <string name="advanced_settings_title">Advanced</string>
