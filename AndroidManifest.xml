@@ -1105,7 +1105,7 @@
 
         <!-- Anonymous Statistics -->
         <receiver android:name=".cmstats.ReportingServiceManager"
-            android:enabled="false"
+            android:enabled="true"
             android:exported="false"
             android:label="ReportingServiceManager">
             <intent-filter>
@@ -1115,7 +1115,7 @@
         </receiver>
 
         <service android:label="ReportingService"
-            android:enabled="false"
+            android:enabled="true"
             android:exported="false"
             android:name=".cmstats.ReportingService">
         </service>
