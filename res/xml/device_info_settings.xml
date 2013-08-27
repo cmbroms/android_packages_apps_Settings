@@ -58,10 +58,10 @@
         </PreferenceScreen>-->
 
         <!-- Change Log -->
-        <PreferenceScreen android:key="changelog"
+   <!--     <PreferenceScreen android:key="changelog"
             android:title="@string/changelog_title"
             android:fragment="com.android.settings.cyanogenmod.ChangeLog" >
-        </PreferenceScreen>
+        </PreferenceScreen> -->
 
         <!-- Legal Information -->
         <PreferenceScreen
@@ -160,10 +160,10 @@
                 android:summary="@string/device_info_default"/>
 
         <!-- Mod version -->
-        <Preference android:key="mod_version"
+     <!--   <Preference android:key="mod_version"
                 style="?android:preferenceInformationStyle"
                 android:title="@string/mod_version"
-                android:summary="@string/mod_version_default" />
+                android:summary="@string/mod_version_default" /> -->
 
         <!-- Mod build date -->
         <Preference android:key="build_date"
