@@ -611,10 +611,11 @@
     </string-array>
 
     <!-- Gamma calibration descriptors, deliberately empty as string values populated via
-    per-device overlay. Required to build on non-hardware tunable devices -->
-    <string-array name="gamma_descriptors">
+         per-device overlay. Required to build on non-hardware tunable devices -->
+    <string-array name="gamma_descriptors" translatable="false">
     </string-array>
 
+    <!-- Performance profiles -->
     <string-array name="perf_profile_entries" translatable="false">
         <item>@string/perf_profile_pwrsv</item>
         <item>@string/perf_profile_bal</item>
