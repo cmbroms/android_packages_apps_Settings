@@ -16,7 +16,6 @@
 
 package com.android.settings.cyanogenmod;
 
-import android.content.Context;
 import android.database.ContentObserver;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,26 +28,21 @@ import android.provider.Settings;
 import com.android.internal.view.RotationPolicy;
 import com.android.settings.R;
 import com.android.settings.SettingsPreferenceFragment;
-import com.android.settings.Utils;
 
 public class DisplayRotation extends SettingsPreferenceFragment implements OnPreferenceChangeListener {
     private static final String TAG = "DisplayRotation";
 
     private static final String KEY_ACCELEROMETER = "accelerometer";
-    private static final String LOCKSCREEN_ROTATION = "lockscreen_rotation";
     private static final String ROTATION_0_PREF = "display_rotation_0";
     private static final String ROTATION_90_PREF = "display_rotation_90";
     private static final String ROTATION_180_PREF = "display_rotation_180";
     private static final String ROTATION_270_PREF = "display_rotation_270";
-    private static final String KEY_SWAP_VOLUME_BUTTONS = "swap_volume_buttons";
 
     private CheckBoxPreference mAccelerometer;
-    private CheckBoxPreference mLockScreenRotationPref;
     private CheckBoxPreference mRotation0Pref;
     private CheckBoxPreference mRotation90Pref;
     private CheckBoxPreference mRotation180Pref;
     private CheckBoxPreference mRotation270Pref;
-    private CheckBoxPreference mSwapVolumeButtons;
 
     public static final int ROTATION_0_MODE = 1;
     public static final int ROTATION_90_MODE = 2;
@@ -76,7 +70,6 @@ public class DisplayRotation extends SettingsPreferenceFragment implements OnPre
         mAccelerometer = (CheckBoxPreference) findPreference(KEY_ACCELEROMETER);
         mAccelerometer.setPersistent(false);
 
-        mLockScreenRotationPref = (CheckBoxPreference) prefSet.findPreference(LOCKSCREEN_ROTATION);
         mRotation0Pref = (CheckBoxPreference) prefSet.findPreference(ROTATION_0_PREF);
         mRotation90Pref = (CheckBoxPreference) prefSet.findPreference(ROTATION_90_PREF);
         mRotation180Pref = (CheckBoxPreference) prefSet.findPreference(ROTATION_180_PREF);
@@ -91,26 +84,9 @@ public class DisplayRotation extends SettingsPreferenceFragment implements OnPre
         mRotation180Pref.setChecked((mode & ROTATION_180_MODE) != 0);
         mRotation270Pref.setChecked((mode & ROTATION_270_MODE) != 0);
 
-        mSwapVolumeButtons = (CheckBoxPreference) prefSet.findPreference(KEY_SWAP_VOLUME_BUTTONS);
-        if (mSwapVolumeButtons != null) {
-            if (!Utils.hasVolumeRocker(getActivity())) {
-                prefSet.removePreference(mSwapVolumeButtons);
-            } else {
-                int swapVolumeKeys = Settings.System.getInt(getContentResolver(),
-                        Settings.System.SWAP_VOLUME_KEYS_ON_ROTATION, 0);
-                mSwapVolumeButtons.setChecked(swapVolumeKeys > 0);
-            }
-        }
-
-        if (mLockScreenRotationPref != null) {
-            mLockScreenRotationPref.setChecked(Settings.System.getInt(getContentResolver(),
-                    Settings.System.LOCKSCREEN_ROTATION, 0) != 0);
-        }
-
         if (hasRotationLock) {
             // Disable accelerometer checkbox, but leave others enabled
             mAccelerometer.setEnabled(false);
-            mSwapVolumeButtons.setDependency(null);
             mRotation0Pref.setDependency(null);
             mRotation90Pref.setDependency(null);
             mRotation180Pref.setDependency(null);
@@ -170,15 +146,6 @@ public class DisplayRotation extends SettingsPreferenceFragment implements OnPre
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.ACCELEROMETER_ROTATION_ANGLES, mode);
             return true;
-        } else if (preference == mLockScreenRotationPref) {
-            boolean value = mLockScreenRotationPref.isChecked();
-            Settings.System.putInt(getActivity().getContentResolver(),
-                    Settings.System.LOCKSCREEN_ROTATION, value ? 1 : 0);
-            return true;
-        } else if (preference == mSwapVolumeButtons) {
-            int value = mSwapVolumeButtons.isChecked() ? (Utils.isTablet(getActivity()) ? 2 : 1) : 0;
-            Settings.System.putInt(getActivity().getContentResolver(),
-                    Settings.System.SWAP_VOLUME_KEYS_ON_ROTATION, value);
         }
 
         return super.onPreferenceTreeClick(preferenceScreen, preference);

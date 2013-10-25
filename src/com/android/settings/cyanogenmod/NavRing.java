@@ -194,11 +194,6 @@ public class NavRing extends Fragment implements
             .setAlphabeticShortcut('r')
             .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM |
                 MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-        menu.add(0, MENU_SAVE, 0, R.string.wifi_save)
-            .setIcon(R.drawable.ic_menu_save)
-            .setAlphabeticShortcut('s')
-            .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM |
-                MenuItem.SHOW_AS_ACTION_WITH_TEXT);
     }
 
     @Override
@@ -206,10 +201,6 @@ public class NavRing extends Fragment implements
         switch (item.getItemId()) {
             case MENU_RESET:
                 resetAll();
-                return true;
-            case MENU_SAVE:
-                saveAll();
-                Toast.makeText(getActivity(), R.string.navring_target_save, Toast.LENGTH_LONG).show();
                 return true;
             default:
                 return false;
@@ -243,26 +234,27 @@ public class NavRing extends Fragment implements
             Settings.System.putString(cr,
                     Settings.System.NAVIGATION_RING_TARGETS[i], mTargetActivities[i]);
         }
-        updateDrawables();
+        setDrawables();
     }
 
     @Override
     public void shortcutPicked(String uri, String friendlyName, boolean isApplication) {
         mTargetActivities[mTargetIndex] = uri;
-        setDrawables();
+        saveAll();
     }
 
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         mPicker.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void updateDrawables() {
+    private void updateDrawables() {
         mTargetActivities = NavigationRingHelpers.getTargetActions(getActivity());
         setDrawables();
     }
 
-    public void onTargetChange(String uri) {
+    private void onTargetChange(String uri) {
         if (uri.equals(ACTION_APP)) {
             final String label = getResources().getString(R.string.lockscreen_target_empty);
             final ShortcutIconResource iconResource =
@@ -273,7 +265,7 @@ public class NavRing extends Fragment implements
                     getId());
         } else {
             mTargetActivities[mTargetIndex] = uri;
-            setDrawables();
+            saveAll();
         }
     }
 

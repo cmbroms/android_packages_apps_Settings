@@ -29,6 +29,7 @@ import static com.android.internal.util.cm.QSConstants.TILE_GPS;
 import static com.android.internal.util.cm.QSConstants.TILE_LOCKSCREEN;
 import static com.android.internal.util.cm.QSConstants.TILE_LTE;
 import static com.android.internal.util.cm.QSConstants.TILE_MOBILEDATA;
+import static com.android.internal.util.cm.QSConstants.TILE_NETWORKADB;
 import static com.android.internal.util.cm.QSConstants.TILE_NETWORKMODE;
 import static com.android.internal.util.cm.QSConstants.TILE_NFC;
 import static com.android.internal.util.cm.QSConstants.TILE_PROFILE;
@@ -145,6 +146,9 @@ public class QuickSettingsUtil {
         registerTile(new QuickSettingsUtil.TileInfo(
                 TILE_WIFIAP, R.string.title_tile_wifiap,
                 "com.android.systemui:drawable/ic_qs_wifi_ap_neutral"));
+        registerTile(new QuickSettingsUtil.TileInfo(
+                TILE_NETWORKADB, R.string.title_tile_network_adb,
+                "com.android.systemui:drawable/ic_qs_network_adb_off"));
     }
 
     private static void registerTile(QuickSettingsUtil.TileInfo info) {
@@ -169,13 +173,7 @@ public class QuickSettingsUtil {
         }
     }
 
-    private static boolean sUnsupportedRemoved = false;
-
     private static synchronized void removeUnsupportedTiles(Context context) {
-        if (sUnsupportedRemoved) {
-            return;
-        }
-
         // Don't show mobile data options if not supported
         if (!QSUtils.deviceSupportsMobileData(context)) {
             removeTile(TILE_MOBILEDATA);
@@ -203,7 +201,10 @@ public class QuickSettingsUtil {
             removeTile(TILE_TORCH);
         }
 
-        sUnsupportedRemoved = true;
+        // Don't show the Camera tile if the device has no cameras
+        if (!QSUtils.deviceSupportsCamera()) {
+            removeTile(TILE_CAMERA);
+        }
     }
 
     private static synchronized void refreshAvailableTiles(Context context) {
@@ -245,6 +246,13 @@ public class QuickSettingsUtil {
         } else {
             disableTile(TILE_EXPANDEDDESKTOP);
         }
+
+        // Don't show the Network ADB tile if adb debugging is disabled
+        if (QSUtils.adbEnabled(resolver)) {
+            enableTile(TILE_NETWORKADB);
+        } else {
+            disableTile(TILE_NETWORKADB);
+        }
     }
 
     public static synchronized void updateAvailableTiles(Context context) {
@@ -256,24 +264,27 @@ public class QuickSettingsUtil {
         return ENABLED_TILES.containsKey(id);
     }
 
-    public static String getCurrentTiles(Context context) {
+    public static String getCurrentTiles(Context context, boolean isRibbon) {
         String tiles = Settings.System.getString(context.getContentResolver(),
-                Settings.System.QUICK_SETTINGS_TILES);
+                isRibbon ? Settings.System.QUICK_SETTINGS_RIBBON_TILES
+                         : Settings.System.QUICK_SETTINGS_TILES);
         if (tiles == null) {
             tiles = getDefaultTiles(context);
         }
         return tiles;
     }
 
-    public static void saveCurrentTiles(Context context, String tiles) {
+    public static void saveCurrentTiles(Context context, String tiles, boolean isRibbon) {
         Settings.System.putString(context.getContentResolver(),
-                Settings.System.QUICK_SETTINGS_TILES, tiles);
+                isRibbon ? Settings.System.QUICK_SETTINGS_RIBBON_TILES
+                         : Settings.System.QUICK_SETTINGS_TILES, tiles);
     }
 
-    public static void resetTiles(Context context) {
+    public static void resetTiles(Context context, boolean isRibbon) {
         String defaultTiles = getDefaultTiles(context);
         Settings.System.putString(context.getContentResolver(),
-                Settings.System.QUICK_SETTINGS_TILES, defaultTiles);
+                isRibbon ? Settings.System.QUICK_SETTINGS_RIBBON_TILES
+                         : Settings.System.QUICK_SETTINGS_TILES, defaultTiles);
     }
 
     public static String mergeInNewTileString(String oldString, String newString) {
