@@ -503,8 +503,22 @@
     <string name="ring_mode_mute">Mute</string>
     <string name="automation_effects_title">Automation &amp; Effects</string>
 
+    <!-- Reset tiles -->
+    <string name="tiles_add_title">Add</string>
+    <string name="tiles_reset_title">Reset</string>
+    <string name="tiles_reset_message">Restore the default displayed tiles and layout?</string>
+
     <!-- Hardware keys -->
     <string name="button_settings">Buttons</string>
+    <string name="hardware_keys_title">Hardware keys</string>
+    <string name="hardware_keys_bindings_title">Key actions</string>
+    <string name="hardware_keys_home_long_press_title">Home key (long press)</string>
+    <string name="hardware_keys_menu_press_title">Menu key</string>
+    <string name="hardware_keys_menu_long_press_title">Menu key (long press)</string>
+    <string name="hardware_keys_assist_press_title">Search key</string>
+    <string name="hardware_keys_assist_long_press_title">Search key (long press)</string>
+    <string name="hardware_keys_app_switch_press_title">App switch key</string>
+    <string name="hardware_keys_app_switch_long_press_title">App switch key (long press)</string>
     <string name="hardware_keys_enable_custom_title">Allow custom buttons</string>
     <string name="hardware_keys_home_key_title">Home button</string>
     <string name="hardware_keys_menu_key_title">Menu button</string>
@@ -530,6 +544,8 @@
     <string name="home_wake_summary">Pressing the home button will wake your device</string>
     <string name="volume_wake_title">Volume button wake</string>
     <string name="volume_wake_summary">Pressing either volume button will wake your device</string>
+    <string name="additional_options_title">Additional options</string>
+
 
     <!-- Swap volume buttons when the screen is rotated -->
     <string name="swap_volume_buttons_title">Reorient volume buttons</string>

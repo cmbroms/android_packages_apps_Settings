@@ -298,6 +298,28 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="status_bar_sizes_entries">
+        <item>@string/status_bar_size_normal</item>
+        <item>@string/status_bar_size_small</item>
+        <item>@string/status_bar_hidden</item>
+    </string-array>
+
+    <string-array name="status_bar_sizes_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <!-- Entries and values for notification icons -->
+    <string-array name="status_bar_max_notifications">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
     <string-array name="increasing_ring_interval_entries" translatable="false">
         <item>@string/increasing_ring_interval_eachring</item>
         <item>@string/increasing_ring_interval_half_second</item>
