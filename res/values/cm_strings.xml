@@ -1066,4 +1066,30 @@ two in order to insert additional control points. \'Remove\' deletes the selecte
     <!-- Label for are-halo-notifications-allowed checkbox in app details [CHAR LIMIT=20] -->
     <string name="app_halo_label_black">Blacklist from HALO</string>
     <string name="app_halo_label_white">Whitelist from HALO</string>
+
+    <!-- Quick pulldown -->
+    <string name="quick_pulldown_title">Quick pulldown</string>
+    <string name="quick_pulldown_summary">Edge of status bar will pull down Quick Settings</string>
+   <!-- Show clock -->
+    <string name="show_clock_title">Show clock</string>
+    <!-- Circle battery -->
+    <string name="circle_battery_title">Circle battery</string>
+    <!-- AM/PM style -->
+    <string name="am_pm_style_title">AM/PM style</string>
+    <string name="status_bar_size_normal">Normal</string>
+    <string name="status_bar_size_small">Small</string>
+    <string name="status_bar_hidden">Hidden (default)</string>
+    <string name="status_bar_am_pm_info">24-hour clock is enabled</string>
+    <!-- Status bar notification count -->
+    <string name="status_bar_notif_count_title">Notification count</string>
+    <string name="status_bar_notif_count_summary">Display number of pending notifications on the status bar</string>
+    <!-- Split menu -->
+    <string name="navigation_bar_tabui_menu_title">Split menu button</string>
+    <string name="navigation_bar_tabui_menu_summary">Show separate menu button instead of merging it to recents button</string>
+    <!-- Status bar notification limit -->
+    <string name="status_bar_max_notifications_title">Limit of notifications</string>
+    <string name="status_bar_max_notifications_summary">Select the limit of notification icons to be shown on status bar. Applies only to portrait orientation</string>
+    <!-- Do not disturb -->
+    <string name="status_bar_donotdisturb_title">Do not disturb</string>
+    <string name="status_bar_donotdisturb_summary">Disable ticker animation for incoming notifications</string>
 </resources>
