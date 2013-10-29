@@ -55,8 +55,7 @@ limitations under the License.
     <PreferenceScreen
         android:key="general_ui_settings"
         android:fragment="com.android.settings.cyanogenmod.UserInterface"
-        android:title="@string/title_ui"
-        android:summary="@string/title_ui_summary" />
+        android:title="@string/title_ui" />
 
     <PreferenceCategory
         android:key="navigation_bar"
