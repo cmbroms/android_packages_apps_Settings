@@ -4,9 +4,9 @@
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
      You may obtain a copy of the License at
-
+  
           http://www.apache.org/licenses/LICENSE-2.0
-
+  
      Unless required by applicable law or agreed to in writing, software
      distributed under the License is distributed on an "AS IS" BASIS,
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,15 +27,15 @@
                 android:targetClass="com.android.development.Development" />
     </PreferenceScreen>
 
-    <com.android.settings.BugreportPreference
-            android:key="bugreport"
-            android:title="@*android:string/bugreport_title"
-            android:dialogTitle="@*android:string/bugreport_title" />
-
     <CheckBoxPreference
         android:key="advanced_reboot"
         android:title="@string/advanced_reboot_title"
         android:summary="@string/advanced_reboot_summary" />
+
+    <com.android.settings.BugreportPreference
+            android:key="bugreport"
+            android:title="@*android:string/bugreport_title"
+            android:dialogTitle="@*android:string/bugreport_title" />
 
     <PreferenceScreen
             android:key="local_backup_password"
@@ -48,10 +48,17 @@
                 android:targetClass="com.android.settings.SetFullBackupPassword" />
     </PreferenceScreen>
 
-    <CheckBoxPreference
-        android:key="keep_screen_on"
-        android:title="@string/keep_screen_on"
+    <CheckBoxPreference 
+        android:key="keep_screen_on" 
+        android:title="@string/keep_screen_on" 
         android:summary="@string/keep_screen_on_summary"/>
+
+    <ListPreference
+        android:key="select_runtime"
+        android:title="@string/select_runtime_title"
+        android:dialogTitle="@string/select_runtime_dialog_title"
+        android:entries="@array/select_runtime_titles"
+        android:entryValues="@array/select_runtime_values" />
 
     <ListPreference
         android:key="hdcp_checking"
@@ -61,9 +68,15 @@
         android:entryValues="@array/hdcp_checking_values" />
 
     <CheckBoxPreference
-        android:key="enforce_read_external"
-        android:title="@string/enforce_read_external_title"
-        android:summary="@string/enforce_read_external_summary" />
+        android:key="bt_hci_snoop_log"
+        android:title="@string/bt_hci_snoop_log"
+        android:summary="@string/bt_hci_snoop_log_summary"/>
+
+    <PreferenceScreen android:key="proc_stats"
+            android:title="@string/process_stats_summary_title"
+            android:summary="@string/process_stats_summary"
+            android:fragment="com.android.settings.applications.ProcessStatsUi">
+    </PreferenceScreen>
 
     <ListPreference
         android:key="root_access"
@@ -84,27 +97,9 @@
                 android:title="@string/clear_adb_keys" />
 
         <CheckBoxPreference
-            android:key="adb_notify"
-            android:title="@string/adb_notify"
-            android:summary="@string/adb_notify_summary"
-            android:dependency="enable_adb"/>
-
-        <CheckBoxPreference
-            android:key="adb_over_network"
-            android:title="@string/adb_over_network"
-            android:summary="@string/adb_over_network_summary"
-            android:dependency="enable_adb"/>
-
-        <com.android.settings.HostnamePreference
-            android:key="device_hostname"
-            android:title="@string/device_hostname"
-            android:dialogTitle="@string/device_hostname"
-            android:positiveButtonText="@string/wifi_save"
-            android:negativeButtonText="@string/wifi_cancel"
-            android:selectAllOnFocus="true"
-            android:imeOptions="actionDone"
-            android:inputType="textNoSuggestions"
-            android:persistent="false" />
+            android:key="enable_terminal"
+            android:title="@string/enable_terminal_title"
+            android:summary="@string/enable_terminal_summary" />
 
         <CheckBoxPreference
             android:key="bugreport_in_power"
@@ -116,12 +111,8 @@
             android:title="@string/allow_mock_location"
             android:summary="@string/allow_mock_location_summary"/>
 
-        <CheckBoxPreference
-            android:key="allow_mock_sms"
-            android:title="@string/allow_mock_sms"/>
-
         <PreferenceScreen android:key="debug_app"
-            android:title="@string/debug_app" />
+                android:title="@string/debug_app" />
 
         <CheckBoxPreference
             android:key="wait_for_debugger"
@@ -133,6 +124,10 @@
             android:title="@string/verify_apps_over_usb_title"
             android:summary="@string/verify_apps_over_usb_summary"/>
 
+        <CheckBoxPreference
+            android:key="wifi_display_certification"
+            android:title="@string/wifi_display_certification"
+            android:summary="@string/wifi_display_certification_summary"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:key="debug_input_category"
@@ -162,6 +157,11 @@
             android:key="debug_layout"
             android:title="@string/debug_layout"
             android:summary="@string/debug_layout_summary"/>
+
+        <CheckBoxPreference
+            android:key="force_rtl_layout_all_locales"
+            android:title="@string/force_rtl_layout_all_locales"
+            android:summary="@string/force_rtl_layout_all_locales_summary"/>
 
         <ListPreference
             android:key="window_animation_scale"
@@ -211,10 +211,12 @@
                 android:title="@string/show_hw_layers_updates"
                 android:summary="@string/show_hw_layers_updates_summary"/>
 
-        <CheckBoxPreference
-                android:key="show_hw_overdraw"
-                android:title="@string/show_hw_overdraw"
-                android:summary="@string/show_hw_overdraw_summary"/>
+        <ListPreference
+                android:key="debug_hw_overdraw"
+                android:title="@string/debug_hw_overdraw"
+                android:persistent="false"
+                android:entries="@array/debug_hw_overdraw_entries"
+                android:entryValues="@array/debug_hw_overdraw_values" />
 
         <ListPreference
                 android:key="show_non_rect_clip"
@@ -283,16 +285,6 @@
             android:key="show_all_anrs"
             android:title="@string/show_all_anrs"
             android:summary="@string/show_all_anrs_summary"/>
-
-        <CheckBoxPreference
-            android:key="kill_app_longpress_back"
-            android:title="@string/kill_app_longpress_back"
-            android:summary="@string/kill_app_longpress_back_summary"/>
-
-        <CheckBoxPreference
-            android:key="experimental_webview"
-            android:title="@string/experimental_webview"
-            android:summary="@string/experimental_webview_summary"/>
 
      </PreferenceCategory>
 
