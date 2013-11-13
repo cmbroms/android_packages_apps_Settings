@@ -4903,7 +4903,7 @@
 
     <!-- Text to display in regulatory info screen (from device overlay). -->
     <string name="regulatory_info_text"></string>
-    <!-- **** CYANOGENMOD ADDITIONS START **** -->
+    <!-- **** CMB/CYANOGENMOD ADDITIONS START **** -->
 
     <!-- Setting checkbox title for root access -->
     <string name="root_access">Root access</string>
@@ -4914,7 +4914,7 @@
     <string name="root_access_adb">ADB only</string>
     <string name="root_access_all">Apps and ADB</string>
 
-    <!-- CYANOGENMOD EDITS START -->
+    <!-- CMB/CYANOGENMOD EDITS START -->
 
     <string name="ok">OK</string>
 
@@ -4950,7 +4950,7 @@
     <string name="end_time_title">End</string>
 
     <!-- About phone screen,  setting option name-->
-    <string name="mod_version">CyanogenMod version</string>
+    <string name="mod_version">CMB Roms version</string>
     <string name="mod_version_default">Unknown</string>
     <!-- About phone screen, build date of ROM -->
     <string name="build_date">Build date</string>
@@ -4963,8 +4963,8 @@
 
     <!-- Anonymous Statistics #CM -->
     <!-- About device screen, list item title. Takes the user to the screen about opting in or out of anonymous statistics. -->
-    <string name="anonymous_statistics_title">CyanogenMod statistics</string>
-    <string name="anonymous_statistics_summary">Help make CyanogenMod better by opting into anonymous statistics reporting</string>
+    <string name="anonymous_statistics_title">CM stats</string>
+    <string name="anonymous_statistics_summary">CMB Roms thinks opting in (rather than out) is better, if you want to help make CM (or derivatives) better, then enable anonymous statistics reporting</string>
     <string name="anonymous_statistics_warning_title">About</string>
     <string name="anonymous_statistics_warning">Opting into CyanogenMod Statistics will allow non-personal data to be submitted to the
         developers of CyanogenMod to track unique installations across devices. The information submitted includes an unique identifier,
@@ -4996,8 +4996,8 @@
     <string name="performance_settings_title">Performance</string>
 
     <!-- Performance Settings : Warning dialog  -->
-    <string name="performance_settings_warning_title">Proceed with Caution</string>
-    <string name="performance_settings_warning">These settings are included for experimentation and any changes made to them have the potential to cause instability, crashes, data loss or hardware failures.\n\nWe request you do not file bug reports if any of these settings have been changed from the defaults.</string>
+    <string name="performance_settings_warning_title">Warning Dragons Ahead!</string>
+    <string name="performance_settings_warning">You know the deal, We assume no responsibility here!</string>
 
     <!-- Performance Settings : Processor Settings -->
     <!-- Performance Settings : Processor settings title -->
@@ -5059,8 +5059,8 @@
     <string name="changelog_version">Version</string>
 
     <!-- CM Updater -->
-    <string name="cmupdate_settings_title">CyanogenMod updates</string>
-    <string name="cmupdate_settings_summary">Check for, view or install available updates</string>
+    <string name="cmupdate_settings_title">TO BE REMOVED</string>
+    <string name="cmupdate_settings_summary">Don\'t Check for, view or install available updates</string>
 
     <!-- Launches Dev Tools -->
     <string name="development_tools_title">Launch Tools</string>
