@@ -38,6 +38,8 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemProperties;
+import android.os.UserHandle;
+import android.os.UserManager;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceScreen;
@@ -385,6 +387,8 @@ public class TetherSettings extends SettingsPreferenceFragment
         }
 
         BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+        if (adapter == null)
+            return;
         int btState = adapter.getState();
         if (btState == BluetoothAdapter.STATE_TURNING_OFF) {
             mBluetoothTether.setEnabled(false);
@@ -589,5 +593,18 @@ public class TetherSettings extends SettingsPreferenceFragment
     @Override
     public int getHelpResource() {
         return R.string.help_url_tether;
+    }
+
+    /**
+     * Checks whether this screen will have anything to show on this device. This is called by
+     * the shortcut picker for Settings shortcuts (home screen widget).
+     * @param context a context object for getting a system service.
+     * @return whether Tether & portable hotspot should be shown in the shortcuts picker.
+     */
+    public static boolean showInShortcuts(Context context) {
+        final ConnectivityManager cm =
+                (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        final boolean isSecondaryUser = UserHandle.myUserId() != UserHandle.USER_OWNER;
+        return !isSecondaryUser && cm.isTetheringSupported();
     }
 }

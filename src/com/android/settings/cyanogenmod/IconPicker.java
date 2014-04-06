@@ -38,6 +38,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.internal.util.cm.LockscreenTargetUtils;
 import com.android.settings.R;
 
 import java.io.File;
@@ -48,8 +49,8 @@ public class IconPicker {
     public static final String PACKAGE_NAME = "package_name";
 
     public static final int REQUEST_PICK_SYSTEM = 0;
-    public static final int REQUEST_PICK_GALLERY = 1;
-    public static final int REQUEST_PICK_ICON_PACK = 2;
+    public static final int REQUEST_PICK_ICON_PACK = 1;
+    public static final int REQUEST_PICK_GALLERY = 2;
 
     private Activity mParent;
     private Resources mResources;
@@ -73,11 +74,11 @@ public class IconPicker {
         Intent iconPackIntent = new Intent(ICON_ACTION);
         ComponentName component = iconPackIntent.resolveActivity(mParent.getPackageManager());
 
-        String[] items = new String[component != null ? 3 : 2];
+        String[] items = new String[component != null ? 2 : 1];
         items[0] = mResources.getString(R.string.icon_picker_system_icons_title);
-        items[1] = mResources.getString(R.string.icon_picker_gallery_title);
+        //items[1] = mResources.getString(R.string.icon_picker_gallery_title);
         if (component != null) {
-            items[2] = mResources.getString(R.string.icon_picker_pack_title);
+            items[1] = mResources.getString(R.string.icon_picker_pack_title);
         }
 
         new AlertDialog.Builder(mParent)
@@ -149,11 +150,11 @@ public class IconPicker {
 
     class IconAdapter extends BaseAdapter {
         String[] labels;
-        TypedArray icons;
+        String[] icons;
 
         public IconAdapter() {
             labels = mResources.getStringArray(R.array.lockscreen_icon_picker_labels);
-            icons = mResources.obtainTypedArray(R.array.lockscreen_icon_picker_icons);
+            icons = mResources.getStringArray(R.array.lockscreen_icon_picker_icons);
         }
 
         @Override
@@ -163,14 +164,13 @@ public class IconPicker {
 
         @Override
         public Object getItem(int position) {
-            return icons.getDrawable(position);
+            return LockscreenTargetUtils.getDrawableFromResources(
+                    mParent, null, icons[position], false);
         }
 
         public String getItemReference(int position) {
-            String name = icons.getString(position);
-            int separatorIndex = name.lastIndexOf(File.separator);
-            int periodIndex = name.lastIndexOf('.');
-            return name.substring(separatorIndex + 1, periodIndex);
+            String name = icons[position];
+            return name;
         }
 
         @Override

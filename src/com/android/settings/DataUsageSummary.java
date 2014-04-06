@@ -1,8 +1,7 @@
 /*
- * Copyright (C) 2011 The Android Open Source Project
  * Copyright (c) 2013, The Linux Foundation. All rights reserved.
- *
  * Not a Contribution.
+ * Copyright (C) 2011 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +24,9 @@ import static android.net.ConnectivityManager.TYPE_WIFI;
 import static android.net.ConnectivityManager.TYPE_WIMAX;
 import static android.net.NetworkPolicy.LIMIT_DISABLED;
 import static android.net.NetworkPolicy.WARNING_DISABLED;
+import static android.net.NetworkPolicy.CYCLE_DAILY;
+import static android.net.NetworkPolicy.CYCLE_MONTHLY;
+import static android.net.NetworkPolicy.CYCLE_WEEKLY;
 import static android.net.NetworkPolicyManager.EXTRA_NETWORK_TEMPLATE;
 import static android.net.NetworkPolicyManager.POLICY_NONE;
 import static android.net.NetworkPolicyManager.POLICY_REJECT_METERED_BACKGROUND;
@@ -146,12 +148,12 @@ import com.android.settings.widget.ChartDataUsageView.DataUsageChartListener;
 import com.android.settings.widget.PieChartView;
 import com.google.android.collect.Lists;
 
+import libcore.util.Objects;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-
-import libcore.util.Objects;
 
 /**
  * Panel showing data usage history across various networks, including options
@@ -282,6 +284,16 @@ public class DataUsageSummary extends Fragment {
 
         mPolicyEditor = new NetworkPolicyEditor(mPolicyManager);
         mPolicyEditor.read();
+
+        try {
+            if (!mNetworkService.isBandwidthControlEnabled()) {
+                Log.w(TAG, "No bandwidth control; leaving");
+                getActivity().finish();
+            }
+        } catch (RemoteException e) {
+            Log.w(TAG, "No bandwidth control; leaving");
+            getActivity().finish();
+        }
 
         try {
             mStatsSession = mStatsService.openSession();
@@ -1801,6 +1813,23 @@ public class DataUsageSummary extends Fragment {
             dialog.show(parent.getFragmentManager(), TAG_CYCLE_EDITOR);
         }
 
+        private void updatePicker(int cycleLength, int cycleDay, NumberPicker cycleDayPicker,
+                NumberPicker cycleWeekDayPicker,View cdEditor) {
+            if (cycleLength == CYCLE_MONTHLY) {
+                cdEditor.setVisibility(View.VISIBLE);
+                cycleWeekDayPicker.setVisibility(View.GONE);
+                cycleDayPicker.setVisibility(View.VISIBLE);
+                cycleDayPicker.setValue(cycleDay);
+            } else if (cycleLength == CYCLE_WEEKLY) {
+                cdEditor.setVisibility(View.VISIBLE);
+                cycleWeekDayPicker.setVisibility(View.VISIBLE);
+                cycleDayPicker.setVisibility(View.GONE);
+                cycleWeekDayPicker.setValue(cycleDay);
+            } else if (cycleLength == CYCLE_DAILY) {
+                cdEditor.setVisibility(View.GONE);
+            }
+        }
+
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             final Context context = getActivity();
@@ -1810,16 +1839,57 @@ public class DataUsageSummary extends Fragment {
             final AlertDialog.Builder builder = new AlertDialog.Builder(context);
             final LayoutInflater dialogInflater = LayoutInflater.from(builder.getContext());
 
-            final View view = dialogInflater.inflate(R.layout.data_usage_cycle_editor, null, false);
-            final NumberPicker cycleDayPicker = (NumberPicker) view.findViewById(R.id.cycle_day);
-
             final NetworkTemplate template = getArguments().getParcelable(EXTRA_TEMPLATE);
+            final int cycleLength = editor.getPolicyCycleLength(template);
             final int cycleDay = editor.getPolicyCycleDay(template);
 
+            final View view = dialogInflater.inflate(R.layout.data_usage_cycle_editor, null, false);
+            final View cdEditor = view.findViewById(R.id.cycle_day_editor);
+
+            final NumberPicker cycleDayPicker = (NumberPicker) view.findViewById(R.id.cycle_day);
             cycleDayPicker.setMinValue(1);
             cycleDayPicker.setMaxValue(31);
-            cycleDayPicker.setValue(cycleDay);
             cycleDayPicker.setWrapSelectorWheel(true);
+
+            final NumberPicker cycleWeekDayPicker = (NumberPicker) view.findViewById(
+                    R.id.cycle_weekday);
+            cycleWeekDayPicker.setMinValue(0);
+            cycleWeekDayPicker.setMaxValue(6);
+            cycleWeekDayPicker.setDisplayedValues(getResources().getStringArray(
+                    R.array.data_usage_cycle_weekdays));
+            cycleWeekDayPicker.setWrapSelectorWheel(true);
+
+            final Spinner cycleLengthSpinner = (Spinner) view.findViewById(
+                    R.id.cycle_lengths_spinner);
+            ArrayAdapter<CharSequence> cycleLengthAdapter = ArrayAdapter.createFromResource(context,
+                    R.array.data_usage_cycle_length,
+                    android.R.layout.simple_spinner_item);
+            cycleLengthAdapter.setDropDownViewResource(
+                    android.R.layout.simple_spinner_dropdown_item);
+            cycleLengthSpinner.setAdapter(cycleLengthAdapter);
+            cycleLengthSpinner.setSelection(cycleLength);
+            cycleLengthSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+                private int lastCycleLength = cycleLength;
+
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view,
+                        int position, long id) {
+                    if (position != lastCycleLength) {
+                        editor.setPolicyCycleLength(template, position);
+                        updatePicker(position, cycleDay, cycleDayPicker, cycleWeekDayPicker,
+                                cdEditor);
+                        lastCycleLength = position;
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                    // ignored
+                }
+            });
+
+            updatePicker(cycleLength, cycleDay, cycleDayPicker, cycleWeekDayPicker, cdEditor);
 
             builder.setTitle(R.string.data_usage_cycle_editor_title);
             builder.setView(view);
@@ -1830,8 +1900,17 @@ public class DataUsageSummary extends Fragment {
                         public void onClick(DialogInterface dialog, int which) {
                             // clear focus to finish pending text edits
                             cycleDayPicker.clearFocus();
+                            cycleWeekDayPicker.clearFocus();
 
-                            final int cycleDay = cycleDayPicker.getValue();
+                            final int cycleDay;
+                            final int cycleLength = editor.getPolicyCycleLength(template);
+                            if (cycleLength == CYCLE_MONTHLY) {
+                                cycleDay = cycleDayPicker.getValue();
+                            } else if (cycleLength == CYCLE_WEEKLY) {
+                                cycleDay = cycleWeekDayPicker.getValue();
+                            } else {
+                                cycleDay = 0;
+                            }
                             final String cycleTimezone = new Time().timezone;
                             editor.setPolicyCycleDay(template, cycleDay, cycleTimezone);
                             target.updatePolicy(true);
@@ -2278,7 +2357,7 @@ public class DataUsageSummary extends Fragment {
     }
 
     /**
-     * Test if device has a mobile data radio with subscription in ready state.
+     * Test if device has a mobile data radio with SIM in ready state.
      */
     public static boolean hasReadyMobileRadio(Context context) {
         if (TEST_RADIOS) {
@@ -2286,9 +2365,10 @@ public class DataUsageSummary extends Fragment {
         }
 
         final ConnectivityManager conn = ConnectivityManager.from(context);
+        final TelephonyManager tele = TelephonyManager.from(context);
 
-        // require both supported network and subscription
-        return conn.isNetworkSupported(TYPE_MOBILE) && hasSubscription(context);
+        // require both supported network and ready SIM
+        return conn.isNetworkSupported(TYPE_MOBILE) && tele.getSimState() == SIM_STATE_READY;
     }
 
     /**
@@ -2352,14 +2432,6 @@ public class DataUsageSummary extends Fragment {
     }
 
     /**
-     * Test if device has either a SIM card or a phone number (for SIM-less CDMA).
-     */
-    private static boolean hasSubscription(Context context) {
-        final TelephonyManager tele = TelephonyManager.from(context);
-        return tele.getSimState() == SIM_STATE_READY || !TextUtils.isEmpty(tele.getLine1Number());
-    }
-
-    /**
      * Inflate a {@link Preference} style layout, adding the given {@link View}
      * widget into {@link android.R.id#widget_frame}.
      */
@@ -2413,7 +2485,8 @@ public class DataUsageSummary extends Fragment {
         // build combined list of all limited networks
         final ArrayList<CharSequence> limited = Lists.newArrayList();
 
-        if (hasSubscription(context)) {
+        final TelephonyManager tele = TelephonyManager.from(context);
+        if (tele.getSimState() == SIM_STATE_READY) {
             final String subscriberId = getActiveSubscriberId(context);
             if (mPolicyEditor.hasLimitedPolicy(buildTemplateMobileAll(subscriberId))) {
                 limited.add(getText(R.string.data_usage_list_mobile));

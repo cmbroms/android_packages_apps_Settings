@@ -224,6 +224,7 @@ public class ShortcutPickHelper {
             }
         }
 
+
         public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
                 View convertView, ViewGroup parent) {
             if (convertView == null) {

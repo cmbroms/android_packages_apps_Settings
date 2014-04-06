@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2012 The CyanogenMod Project
+<!--
+     Copyright (C) 2012-2014 The CyanogenMod Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -30,14 +31,6 @@
         </PreferenceScreen>
 
         <ListPreference
-            android:key="lockscreen_background"
-            android:persistent="false"
-            android:dialogTitle="@string/lockscreen_custom_background_title"
-            android:title="@string/lockscreen_custom_background_title"
-            android:entries="@array/lockscreen_background_entries"
-            android:entryValues="@array/lockscreen_background_values" />
-
-        <ListPreference
             android:key="lockscreen_battery_status"
             android:persistent="false"
             android:dialogTitle="@string/lockscreen_battery_status_title"
@@ -64,39 +57,28 @@
         android:title="@string/lockscreen_widgets_category_title"
         android:key="lockscreen_widgets_category" >
 
+        <CheckBoxPreference
+            android:key="keyguard_enable_widgets"
+            android:title="@string/lockscreen_custom_widgets_title" />
+
+        <CheckBoxPreference
+                android:key="keyguard_enable_camera"
+                android:title="@string/lockscreen_enable_camera_title" />
+
+        <!-- Lock clock -->
         <PreferenceScreen
             android:key="lock_clock"
-            android:summary="@string/lock_clock_summary"
-            android:title="@string/lock_clock_title" >
-
-            <intent
-                android:action="android.intent.action.MAIN"
-                android:targetClass="com.cyanogenmod.lockclock.preference.Preferences"
-                android:targetPackage="com.cyanogenmod.lockclock" />
+            android:title="@string/lock_clock_title"
+            android:summary="@string/lock_clock_summary">
+            <intent android:action="android.intent.action.MAIN"
+                    android:targetPackage="com.cyanogenmod.lockclock"
+                    android:targetClass="com.cyanogenmod.lockclock.preference.Preferences" />
         </PreferenceScreen>
 
         <com.android.settings.cyanogenmod.SystemSettingCheckBoxPreference
             android:key="lockscreen_maximize_widgets"
             android:summary="@string/lockscreen_maximize_widgets_summary"
             android:title="@string/lockscreen_maximize_widgets_title" />
-
-        <CheckBoxPreference
-            android:key="lockscreen_enable_widgets"
-            android:persistent="false"
-            android:title="@string/lockscreen_enable_widgets_title"
-            android:summary="@string/lockscreen_enable_widgets_summary" />
-
-        <CheckBoxPreference
-            android:key="lockscreen_enable_camera"
-            android:persistent="false"
-            android:title="@string/lockscreen_enable_camera_title"
-            android:summary="@string/lockscreen_enable_camera_summary" />
-
-        <com.android.settings.cyanogenmod.SystemSettingCheckBoxPreference
-            android:key="lockscreen_music_controls"
-            android:title="@string/lockscreen_music_controls_title"
-            android:summary="@string/lockscreen_music_controls_summary"
-            android:defaultValue="true" />
 
     </PreferenceCategory>
 </PreferenceScreen>

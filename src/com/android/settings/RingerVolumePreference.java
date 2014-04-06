@@ -89,6 +89,13 @@ public class RingerVolumePreference extends VolumePreference {
         R.id.alarm_mute_button
     };
 
+    private static final int[] SEEKBAR_SECTION_ID = new int[] {
+        R.id.media_section,
+        R.id.ringer_section,
+        R.id.notification_section,
+        R.id.alarm_section
+    };
+
     private static final int[] SEEKBAR_MUTED_RES_ID = new int[] {
         com.android.internal.R.drawable.ic_audio_vol_mute,
         com.android.internal.R.drawable.ic_audio_ring_notif_mute,
@@ -374,6 +381,24 @@ public class RingerVolumePreference extends VolumePreference {
                 }
             };
             getContext().registerReceiver(mRingModeChangedReceiver, filter);
+        }
+
+        boolean useMasterVolume = getContext().getResources().
+                getBoolean(com.android.internal.R.bool.config_useMasterVolume);
+        if (useMasterVolume) {
+            // If config_useMasterVolume is true, all streams are treated as STREAM_MASTER.
+            // So hide all except a stream.
+            int id;
+            if (Utils.isVoiceCapable(getContext())) {
+                id = R.id.ringer_section;
+            } else {
+                id = R.id.media_section;
+            }
+            for (int i = 0; i < SEEKBAR_SECTION_ID.length; i++) {
+                if (SEEKBAR_SECTION_ID[i] != id) {
+                    view.findViewById(SEEKBAR_SECTION_ID[i]).setVisibility(View.GONE);
+                }
+            }
         }
     }
 

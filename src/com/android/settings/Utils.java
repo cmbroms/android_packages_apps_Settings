@@ -26,6 +26,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
@@ -120,7 +121,7 @@ public class Utils {
     private static final int DEVICE_TABLET = 2;
 
     // Device type reference
-    private static int mDeviceType = -1;
+    private static int sDeviceType = -1;
 
     /**
      * Finds a matching activity for a preference's intent. If a matching
@@ -354,7 +355,7 @@ public class Utils {
     /**
      * Returns the WIFI IP Addresses, if any, taking into account IPv4 and IPv6 style addresses.
      * @param context the application context
-     * @return the formatted and comma-separated IP addresses, or null if none.
+     * @return the formatted and newline-separated IP addresses, or null if none.
      */
     public static String getWifiIpAddresses(Context context) {
         ConnectivityManager cm = (ConnectivityManager)
@@ -367,7 +368,7 @@ public class Utils {
      * Returns the default link's IP addresses, if any, taking into account IPv4 and IPv6 style
      * addresses.
      * @param context the application context
-     * @return the formatted and comma-separated IP addresses, or null if none.
+     * @return the formatted and newline-separated IP addresses, or null if none.
      */
     public static String getDefaultIpAddresses(Context context) {
         ConnectivityManager cm = (ConnectivityManager)
@@ -378,14 +379,14 @@ public class Utils {
 
     private static String formatIpAddresses(LinkProperties prop) {
         if (prop == null) return null;
-        Iterator<InetAddress> iter = prop.getAddresses().iterator();
+        Iterator<InetAddress> iter = prop.getAllAddresses().iterator();
         // If there are no entries, return null
         if (!iter.hasNext()) return null;
         // Concatenate all available addresses, comma separated
         String addresses = "";
         while (iter.hasNext()) {
             addresses += iter.next().getHostAddress();
-            if (iter.hasNext()) addresses += ", ";
+            if (iter.hasNext()) addresses += "\n";
         }
         return addresses;
     }
@@ -410,21 +411,45 @@ public class Utils {
         }
     }
 
+    public static boolean isBatteryPresent(Intent batteryChangedIntent) {
+        return batteryChangedIntent.getBooleanExtra(BatteryManager.EXTRA_PRESENT, true);
+    }
+
+    public static boolean isDockBatteryPresent(Intent batteryChangedIntent) {
+        return batteryChangedIntent.getBooleanExtra(BatteryManager.EXTRA_DOCK_PRESENT, true);
+    }
+
+    public static boolean isDockBatteryPlugged(Intent batteryChangedIntent) {
+        if (!isDockBatteryPresent(batteryChangedIntent)) return false;
+        return batteryChangedIntent.getIntExtra(BatteryManager.EXTRA_DOCK_PLUGGED, 0) != 0;
+    }
+
     public static String getBatteryPercentage(Intent batteryChangedIntent) {
-        int level = batteryChangedIntent.getIntExtra("level", 0);
-        int scale = batteryChangedIntent.getIntExtra("scale", 100);
+        int level = batteryChangedIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
+        int scale = batteryChangedIntent.getIntExtra(BatteryManager.EXTRA_SCALE, 100);
         return String.valueOf(level * 100 / scale) + "%";
     }
 
     public static String getBatteryStatus(Resources res, Intent batteryChangedIntent) {
         final Intent intent = batteryChangedIntent;
 
-        int plugType = intent.getIntExtra("plugged", 0);
-        int status = intent.getIntExtra("status", BatteryManager.BATTERY_STATUS_UNKNOWN);
+        int dockPlugType = intent.getIntExtra(BatteryManager.EXTRA_DOCK_PLUGGED, 0);
+        int plugType = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0);
+        int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS,
+                BatteryManager.BATTERY_STATUS_UNKNOWN);
         String statusString;
         if (status == BatteryManager.BATTERY_STATUS_CHARGING) {
             statusString = res.getString(R.string.battery_info_status_charging);
-            if (plugType > 0) {
+            if (isDockBatteryPresent(batteryChangedIntent) &&
+                    isDockBatteryPlugged(batteryChangedIntent) && dockPlugType > 0) {
+                int resId;
+                if (dockPlugType == BatteryManager.BATTERY_DOCK_PLUGGED_AC) {
+                    resId = R.string.battery_info_status_charging_dock_ac;
+                } else {
+                    resId = R.string.battery_info_status_charging_dock_usb;
+                }
+                statusString = statusString + " " + res.getString(resId);
+            } else if (plugType > 0) {
                 int resId;
                 if (plugType == BatteryManager.BATTERY_PLUGGED_AC) {
                     resId = R.string.battery_info_status_charging_ac;
@@ -661,70 +686,90 @@ public class Utils {
                 .getUsers().size() > 1;
     }
 
-    private static int getScreenType(Context con) {
-        if (mDeviceType == -1) {
-            WindowManager wm = (WindowManager)con.getSystemService(Context.WINDOW_SERVICE);
+    private static int getScreenType(Context context) {
+        if (sDeviceType == -1) {
+            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
             DisplayInfo outDisplayInfo = new DisplayInfo();
             wm.getDefaultDisplay().getDisplayInfo(outDisplayInfo);
             int shortSize = Math.min(outDisplayInfo.logicalHeight, outDisplayInfo.logicalWidth);
-            int shortSizeDp = shortSize * DisplayMetrics.DENSITY_DEFAULT / outDisplayInfo.logicalDensityDpi;
+            int shortSizeDp = shortSize * DisplayMetrics.DENSITY_DEFAULT
+                    / outDisplayInfo.logicalDensityDpi;
             if (shortSizeDp < 600) {
                 // 0-599dp: "phone" UI with a separate status & navigation bar
-                mDeviceType =  DEVICE_PHONE;
+                sDeviceType =  DEVICE_PHONE;
             } else if (shortSizeDp < 720) {
                 // 600-719dp: "phone" UI with modifications for larger screens
-                mDeviceType = DEVICE_HYBRID;
+                sDeviceType = DEVICE_HYBRID;
             } else {
                 // 720dp: "tablet" UI with a single combined status & navigation bar
-                mDeviceType = DEVICE_TABLET;
+                sDeviceType = DEVICE_TABLET;
             }
         }
-        return mDeviceType;
+        return sDeviceType;
     }
 
-    public static boolean isPhone(Context con) {
-        return getScreenType(con) == DEVICE_PHONE;
+    public static boolean isPhone(Context context) {
+        return getScreenType(context) == DEVICE_PHONE;
     }
 
-    public static boolean isHybrid(Context con) {
-        return getScreenType(con) == DEVICE_HYBRID;
+    public static boolean isHybrid(Context context) {
+        return getScreenType(context) == DEVICE_HYBRID;
     }
 
-    public static boolean isTablet(Context con) {
-        return getScreenType(con) == DEVICE_TABLET;
-    }
-
-    /* returns whether the device has volume rocker or not. */
-    public static boolean hasVolumeRocker(Context con) {
-        return con.getResources().getBoolean(R.bool.has_volume_rocker);
+    public static boolean isTablet(Context context) {
+        return getScreenType(context) == DEVICE_TABLET;
     }
 
     /**
      * Locks the activity orientation to the current device orientation
-     * @param act
+     * @param activity
      */
-    public static void lockCurrentOrientation(Activity act) {
-        int currentRotation = act.getWindowManager().getDefaultDisplay().getRotation();
+    public static void lockCurrentOrientation(Activity activity) {
+        int currentRotation = activity.getWindowManager().getDefaultDisplay().getRotation();
+        int orientation = activity.getResources().getConfiguration().orientation;
         int frozenRotation = 0;
-        int orientation = act.getResources().getConfiguration().orientation;
-        switch(currentRotation) {
+        switch (currentRotation) {
             case Surface.ROTATION_0:
                 frozenRotation = orientation == Configuration.ORIENTATION_LANDSCAPE
-                    ? ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+                    ? ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                    : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
                 break;
             case Surface.ROTATION_90:
                 frozenRotation = orientation == Configuration.ORIENTATION_PORTRAIT
-                    ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+                    ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
+                    : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
                 break;
             case Surface.ROTATION_180:
                 frozenRotation = orientation == Configuration.ORIENTATION_LANDSCAPE
-                    ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE : ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
+                    ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+                    : ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
                 break;
             case Surface.ROTATION_270:
                 frozenRotation = orientation == Configuration.ORIENTATION_PORTRAIT
-                    ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT : ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
+                    ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                    : ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
                 break;
         }
-        act.setRequestedOrientation(frozenRotation);
+        activity.setRequestedOrientation(frozenRotation);
+    }
+
+    /* returns whether the device has volume rocker or not. */
+    public static boolean hasVolumeRocker(Context context) {
+        return context.getResources().getBoolean(R.bool.has_volume_rocker);
+    }
+
+    public static boolean isPackageInstalled(Context context, String pkg) {
+        if (pkg != null) {
+            try {
+                PackageInfo pi = context.getPackageManager().getPackageInfo(pkg, 0);
+                if (!pi.applicationInfo.enabled) {
+                    return false;
+                }
+            } catch (NameNotFoundException e) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

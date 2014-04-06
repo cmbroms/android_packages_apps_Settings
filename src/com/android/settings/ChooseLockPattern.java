@@ -22,6 +22,7 @@ import com.android.internal.widget.LinearLayoutWithDefaultTouchRecepient;
 import com.android.internal.widget.LockPatternUtils;
 import com.android.internal.widget.LockPatternView;
 import com.android.internal.widget.LockPatternView.Cell;
+import com.android.settings.ChooseLockGeneric.ChooseLockGenericFragment;
 
 import static com.android.internal.widget.LockPatternView.DisplayMode;
 
@@ -66,6 +67,12 @@ public class ChooseLockPattern extends PreferenceActivity {
         modIntent.putExtra(EXTRA_SHOW_FRAGMENT, ChooseLockPatternFragment.class.getName());
         modIntent.putExtra(EXTRA_NO_HEADERS, true);
         return modIntent;
+    }
+
+    @Override
+    protected boolean isValidFragment(String fragmentName) {
+        if (ChooseLockPatternFragment.class.getName().equals(fragmentName)) return true;
+        return false;
     }
 
     @Override
@@ -297,13 +304,17 @@ public class ChooseLockPattern extends PreferenceActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             mChooseLockSettingsHelper = new ChooseLockSettingsHelper(getActivity());
+            if (!(getActivity() instanceof ChooseLockPattern)) {
+                throw new SecurityException("Fragment contained in wrong activity");
+            }
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
 
-            mPatternSize = getActivity().getIntent().getByteExtra("pattern_size", LockPatternUtils.PATTERN_SIZE_DEFAULT);
+            mPatternSize = getActivity().getIntent().getByteExtra("pattern_size",
+                    LockPatternUtils.PATTERN_SIZE_DEFAULT);
             LockPatternView.Cell.updateSize(mPatternSize);
             mAnimatePattern = Collections.unmodifiableList(Lists.newArrayList(
                     LockPatternView.Cell.of(0, 0, mPatternSize),
@@ -338,7 +349,7 @@ public class ChooseLockPattern extends PreferenceActivity {
             topLayout.setDefaultTouchRecepient(mLockPatternView);
 
             final boolean confirmCredentials = getActivity().getIntent()
-                    .getBooleanExtra("confirm_credentials", false);
+                    .getBooleanExtra("confirm_credentials", true);
 
             if (savedInstanceState == null) {
                 if (confirmCredentials) {

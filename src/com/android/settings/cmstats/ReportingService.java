@@ -66,13 +66,12 @@ public class ReportingService extends Service {
     private class StatsUploadTask extends AsyncTask<Void, Void, Boolean> {
         @Override
         protected Boolean doInBackground(Void... params) {
-            final Context context = ReportingService.this;
-            String deviceId = Utilities.getUniqueID(context);
+            String deviceId = Utilities.getUniqueID(getApplicationContext());
             String deviceName = Utilities.getDevice();
             String deviceVersion = Utilities.getModVersion();
-            String deviceCountry = Utilities.getCountryCode(context);
-            String deviceCarrier = Utilities.getCarrier(context);
-            String deviceCarrierId = Utilities.getCarrierId(context);
+            String deviceCountry = Utilities.getCountryCode(getApplicationContext());
+            String deviceCarrier = Utilities.getCarrier(getApplicationContext());
+            String deviceCarrierId = Utilities.getCarrierId(getApplicationContext());
 
             Log.d(TAG, "SERVICE: Device ID=" + deviceId);
             Log.d(TAG, "SERVICE: Device Name=" + deviceName);
@@ -82,7 +81,7 @@ public class ReportingService extends Service {
             Log.d(TAG, "SERVICE: Carrier ID=" + deviceCarrierId);
 
             // report to google analytics
-            GoogleAnalytics ga = GoogleAnalytics.getInstance(context);
+            GoogleAnalytics ga = GoogleAnalytics.getInstance(ReportingService.this);
             Tracker tracker = ga.getTracker(getString(R.string.ga_trackingId));
             tracker.sendEvent(deviceName, deviceVersion, deviceCountry, null);
 
@@ -104,7 +103,7 @@ public class ReportingService extends Service {
 
             // report to the cmstats service
             HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost("http://stats.cyanogenmod.org/submit");
+            HttpPost httpPost = new HttpPost("https://stats.cyanogenmod.org/submit");
             boolean success = false;
 
             try {

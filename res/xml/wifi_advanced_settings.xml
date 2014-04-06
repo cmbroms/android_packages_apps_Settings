@@ -69,6 +69,7 @@
             android:persistent="false"
             android:fragment="com.android.settings.wifi.WifiPriority"
             />
+
     <Preference
             android:key="install_credentials"
             android:title="@string/wifi_install_credentials"

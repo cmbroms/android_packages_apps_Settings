@@ -31,7 +31,7 @@ import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.android.settings.LocationSettings;
+import com.android.settings.location.LocationSettings;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -66,10 +66,12 @@ public class LtoService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!LongTermOrbits.isSupported() &&
-                prefs.getBoolean(LocationSettings.KEY_LOCATION_TOGGLE, false)) {
+        if (!LongTermOrbits.isSupported()) {
             if (ALOGV) Log.v(TAG, "LTO is not supported by this device");
+            return START_NOT_STICKY;
+        }
+        if (!LocationSettings.isLocationModeEnabled(this)) {
+            if (ALOGV) Log.v(TAG, "Location mode not enabled in this device");
             return START_NOT_STICKY;
         }
 

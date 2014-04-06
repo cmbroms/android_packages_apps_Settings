@@ -50,6 +50,7 @@ import android.provider.Settings;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
+import android.text.BidiFormatter;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -78,7 +79,6 @@ import com.android.settings.deviceinfo.StorageMeasurement;
 import com.android.settings.Utils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -247,7 +247,6 @@ public class ManageApplications extends Fragment implements
             mRootView = inflater.inflate(mListType == LIST_TYPE_RUNNING
                     ? R.layout.manage_applications_running
                     : R.layout.manage_applications_apps, null);
-            mRootView.setLayoutDirection(mRootView.getResources().getConfiguration().getLayoutDirection());
             mLoadingContainer = mRootView.findViewById(R.id.loading_container);
             mLoadingContainer.setVisibility(View.VISIBLE);
             mListContainer = mRootView.findViewById(R.id.list_container);
@@ -388,20 +387,21 @@ public class ManageApplications extends Fragment implements
                 return;
             }
             if (mTotalStorage > 0) {
+                BidiFormatter bidiFormatter = BidiFormatter.getInstance();
                 mColorBar.setRatios((mTotalStorage-mFreeStorage-mAppStorage)/(float)mTotalStorage,
                         mAppStorage/(float)mTotalStorage, mFreeStorage/(float)mTotalStorage);
                 long usedStorage = mTotalStorage - mFreeStorage;
                 if (mLastUsedStorage != usedStorage) {
                     mLastUsedStorage = usedStorage;
-                    String sizeStr = Formatter.formatShortFileSize(
-                            mOwner.getActivity(), usedStorage);
+                    String sizeStr = bidiFormatter.unicodeWrap(
+                            Formatter.formatShortFileSize(mOwner.getActivity(), usedStorage));
                     mUsedStorageText.setText(mOwner.getActivity().getResources().getString(
                             R.string.service_foreground_processes, sizeStr));
                 }
                 if (mLastFreeStorage != mFreeStorage) {
                     mLastFreeStorage = mFreeStorage;
-                    String sizeStr = Formatter.formatShortFileSize(
-                            mOwner.getActivity(), mFreeStorage);
+                    String sizeStr = bidiFormatter.unicodeWrap(
+                            Formatter.formatShortFileSize(mOwner.getActivity(), mFreeStorage));
                     mFreeStorageText.setText(mOwner.getActivity().getResources().getString(
                             R.string.service_background_processes, sizeStr));
                 }
@@ -899,7 +899,6 @@ public class ManageApplications extends Fragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        container.setLayoutDirection(container.getResources().getConfiguration().getLayoutDirection());
         // initialize the inflater
         mInflater = inflater;
 
@@ -926,10 +925,6 @@ public class ManageApplications extends Fragment implements
         }
 
         if (savedInstanceState == null) {
-            //Reverse the tab list once if the language is RTL.
-            if(container.isLayoutRtl()){
-                Collections.reverse(mTabs);
-            }
             // First time init: make sure view pager is showing the correct tab.
             for (int i = 0; i < mTabs.size(); i++) {
                 TabInfo tab = mTabs.get(i);

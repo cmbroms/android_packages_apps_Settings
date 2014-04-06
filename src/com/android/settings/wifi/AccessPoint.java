@@ -16,6 +16,8 @@
 
 package com.android.settings.wifi;
 
+import com.android.settings.R;
+
 import android.content.Context;
 import android.net.NetworkInfo.DetailedState;
 import android.net.wifi.ScanResult;
@@ -28,8 +30,6 @@ import android.preference.Preference;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-
-import com.android.settings.R;
 
 class AccessPoint extends Preference {
     static final String TAG = "Settings.AccessPoint";
@@ -217,7 +217,8 @@ class AccessPoint extends Preference {
             signal.setImageDrawable(null);
         } else {
             signal.setImageLevel(getLevel());
-            signal.setImageResource(R.drawable.wifi_signal);
+            signal.setImageDrawable(getContext().getTheme().obtainStyledAttributes(
+                    new int[] {R.attr.wifi_signal}).getDrawable(0));
             signal.setImageState((security != SECURITY_NONE) ?
                     STATE_SECURED : STATE_NONE, true);
         }
@@ -359,7 +360,7 @@ class AccessPoint extends Preference {
                     summary.append(context.getString(R.string.wifi_disabled_network_failure));
                     break;
                 case WifiConfiguration.DISABLED_ASSOCIATION_REJECT:
-                    setSummary(context.getString(R.string.wifi_disabled_association_rejected));
+                    summary.append(context.getString(R.string.wifi_disabled_association_rejected));
                     break;
                 case WifiConfiguration.DISABLED_UNKNOWN_REASON:
                     summary.append(context.getString(R.string.wifi_disabled_generic));

@@ -72,7 +72,7 @@
             android:key="vibrate_when_ringing"
             android:title="@string/vibrate_when_ringing_title" />
 
-    <com.android.settings.IncreasingRingPreference
+    <com.android.settings.cyanogenmod.IncreasingRingPreference
             android:key="increasing_ring"
             android:title="@string/increasing_ring_title"
             android:dialogTitle="@string/increasing_ring_title"

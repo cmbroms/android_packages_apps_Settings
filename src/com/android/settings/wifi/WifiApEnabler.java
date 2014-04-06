@@ -61,8 +61,8 @@ public class WifiApEnabler {
                         WifiManager.EXTRA_WIFI_AP_STATE, WifiManager.WIFI_AP_STATE_FAILED));
             } else if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(action)) {
                 if (mWaitForWifiStateChange == true) {
-                     handleWifiStateChanged(intent.getIntExtra(
-                         WifiManager.EXTRA_WIFI_STATE, WifiManager.WIFI_STATE_UNKNOWN));
+                    handleWifiStateChanged(intent.getIntExtra(
+                            WifiManager.EXTRA_WIFI_STATE, WifiManager.WIFI_STATE_UNKNOWN));
                 }
             } else if (ConnectivityManager.ACTION_TETHER_STATE_CHANGED.equals(action)) {
                 ArrayList<String> available = intent.getStringArrayListExtra(

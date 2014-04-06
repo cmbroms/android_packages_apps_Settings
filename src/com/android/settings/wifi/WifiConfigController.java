@@ -51,16 +51,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.android.settings.ProxySelector;
 import com.android.settings.R;
 
 import java.net.InetAddress;
-import java.net.Inet6Address;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -70,7 +69,7 @@ import java.util.List;
  * share the logic for controlling buttons, text fields, etc.
  */
 public class WifiConfigController implements TextWatcher,
-        View.OnClickListener, AdapterView.OnItemSelectedListener {
+       AdapterView.OnItemSelectedListener, OnCheckedChangeListener {
     private final WifiConfigUiBase mConfigUi;
     private final View mView;
     private final AccessPoint mAccessPoint;
@@ -87,7 +86,6 @@ public class WifiConfigController implements TextWatcher,
     // e.g. AccessPoint.SECURITY_NONE
     private int mAccessPointSecurity;
     private TextView mPasswordView;
-    private CheckBox mShowPassword;
 
     private String unspecifiedCert = "unspecified";
     private static final int unspecifiedCertIndex = 0;
@@ -182,7 +180,7 @@ public class WifiConfigController implements TextWatcher,
         mProxySettingsSpinner = (Spinner) mView.findViewById(R.id.proxy_settings);
         mProxySettingsSpinner.setOnItemSelectedListener(this);
         mIbssView = (CheckBox) mView.findViewById(R.id.wifi_ibss_checkbox);
-        mIbssView.setOnClickListener(this);
+        mIbssView.setOnCheckedChangeListener(this);
         mIbssFreqSpinner = (Spinner) mView.findViewById(R.id.wifi_ibss_freq);
 
         if (mAccessPoint == null) { // new network
@@ -208,7 +206,8 @@ public class WifiConfigController implements TextWatcher,
             showIpConfigFields();
             showProxyFields();
             mView.findViewById(R.id.wifi_advanced_toggle).setVisibility(View.VISIBLE);
-            mView.findViewById(R.id.wifi_advanced_togglebox).setOnClickListener(this);
+            ((CheckBox)mView.findViewById(R.id.wifi_advanced_togglebox))
+                    .setOnCheckedChangeListener(this);
 
             if (mIbssSupported) {
                 mView.findViewById(R.id.wifi_ibss_toggle).setVisibility(View.VISIBLE);
@@ -283,6 +282,13 @@ public class WifiConfigController implements TextWatcher,
                 if (config.proxySettings == ProxySettings.STATIC) {
                     mProxySettingsSpinner.setSelection(PROXY_STATIC);
                     showAdvancedFields = true;
+                } else if (config.proxySettings == ProxySettings.PAC) {
+                    mProxySettingsSpinner.setVisibility(View.GONE);
+                    TextView textView = (TextView)mView.findViewById(R.id.proxy_pac_info);
+                    textView.setVisibility(View.VISIBLE);
+                    textView.setText(context.getString(R.string.proxy_url) +
+                            config.linkProperties.getHttpProxy().getPacFileUrl());
+                    showAdvancedFields = true;
                 } else {
                     mProxySettingsSpinner.setSelection(PROXY_NONE);
                 }
@@ -293,9 +299,10 @@ public class WifiConfigController implements TextWatcher,
                 showIpConfigFields();
                 showProxyFields();
                 mView.findViewById(R.id.wifi_advanced_toggle).setVisibility(View.VISIBLE);
-                mView.findViewById(R.id.wifi_advanced_togglebox).setOnClickListener(this);
+                ((CheckBox)mView.findViewById(R.id.wifi_advanced_togglebox))
+                    .setOnCheckedChangeListener(this);
                 if (showAdvancedFields) {
-                    ((CheckBox) mView.findViewById(R.id.wifi_advanced_togglebox)).setChecked(true);
+                    ((CheckBox)mView.findViewById(R.id.wifi_advanced_togglebox)).setChecked(true);
                     mView.findViewById(R.id.wifi_advanced_fields).setVisibility(View.VISIBLE);
                 }
             }
@@ -522,16 +529,6 @@ public class WifiConfigController implements TextWatcher,
         return true;
     }
 
-    private InetAddress numericToInet4Address(String addrString)
-            throws IllegalArgumentException {
-        // We need IPv4 for 'legacy' wireless networking static address assignments
-        InetAddress inetAddr = NetworkUtils.numericToInetAddress(addrString);
-        if (inetAddr instanceof Inet6Address) {
-            throw new IllegalArgumentException("Sorry, IPv4 only");
-        }
-        return inetAddr;
-    }
-
     private int validateIpConfigFields(LinkProperties linkProperties) {
         if (mIpAddressView == null) return 0;
 
@@ -540,7 +537,7 @@ public class WifiConfigController implements TextWatcher,
 
         InetAddress inetAddr = null;
         try {
-            inetAddr = numericToInet4Address(ipAddr);
+            inetAddr = NetworkUtils.numericToInetAddress(ipAddr);
         } catch (IllegalArgumentException e) {
             return R.string.wifi_ip_settings_invalid_ip_address;
         }
@@ -572,7 +569,7 @@ public class WifiConfigController implements TextWatcher,
         } else {
             InetAddress gatewayAddr = null;
             try {
-                gatewayAddr = numericToInet4Address(gateway);
+                gatewayAddr = NetworkUtils.numericToInetAddress(gateway);
             } catch (IllegalArgumentException e) {
                 return R.string.wifi_ip_settings_invalid_gateway;
             }
@@ -587,7 +584,7 @@ public class WifiConfigController implements TextWatcher,
             mDns1View.setText(mConfigUi.getContext().getString(R.string.wifi_dns1_hint));
         } else {
             try {
-                dnsAddr = numericToInet4Address(dns);
+                dnsAddr = NetworkUtils.numericToInetAddress(dns);
             } catch (IllegalArgumentException e) {
                 return R.string.wifi_ip_settings_invalid_dns;
             }
@@ -597,7 +594,7 @@ public class WifiConfigController implements TextWatcher,
         if (mDns2View.length() > 0) {
             dns = mDns2View.getText().toString();
             try {
-                dnsAddr = numericToInet4Address(dns);
+                dnsAddr = NetworkUtils.numericToInetAddress(dns);
             } catch (IllegalArgumentException e) {
                 return R.string.wifi_ip_settings_invalid_dns;
             }
@@ -623,13 +620,9 @@ public class WifiConfigController implements TextWatcher,
         if (mPasswordView == null) {
             mPasswordView = (TextView) mView.findViewById(R.id.password);
             mPasswordView.addTextChangedListener(this);
-            mShowPassword = (CheckBox) mView.findViewById(R.id.show_password);
-            mShowPassword.setOnClickListener(this);
-            mShowPassword.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    updatePasswordVisibility(isChecked);
-                }
-            });
+            ((CheckBox) mView.findViewById(R.id.show_password))
+                .setOnCheckedChangeListener(this);
+
             if (mAccessPoint != null && mAccessPoint.networkId != INVALID_NETWORK_ID) {
                 mPasswordView.setHint(R.string.wifi_unchanged);
             }
@@ -937,11 +930,18 @@ public class WifiConfigController implements TextWatcher,
     }
 
     @Override
-    public void onClick(View view) {
+    public void onCheckedChanged(CompoundButton view, boolean isChecked) {
         if (view.getId() == R.id.show_password) {
-            updatePasswordVisibility(((CheckBox) view).isChecked());
+            int pos = mPasswordView.getSelectionEnd();
+            mPasswordView.setInputType(
+                    InputType.TYPE_CLASS_TEXT | (isChecked ?
+                            InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD :
+                                InputType.TYPE_TEXT_VARIATION_PASSWORD));
+            if (pos >= 0) {
+                ((EditText)mPasswordView).setSelection(pos);
+            }
         } else if (view.getId() == R.id.wifi_advanced_togglebox) {
-            if (((CheckBox) view).isChecked()) {
+            if (isChecked) {
                 mView.findViewById(R.id.wifi_advanced_fields).setVisibility(View.VISIBLE);
             } else {
                 mView.findViewById(R.id.wifi_advanced_fields).setVisibility(View.GONE);

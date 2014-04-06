@@ -39,17 +39,18 @@
     <item type="dimen" name="setup_title_height">15%</item>
     <item type="dimen" name="setup_border_width">5%</item>
     <dimen name="setup_margin_bottom">0dip</dimen>
-    <dimen name="setup_title_size">25sp</dimen>
+    <dimen name="setup_title_size">25dp</dimen>
     <dimen name="setup_button_size">32dip</dimen>
     <dimen name="setup_item_margin">16dip</dimen>
 
     <dimen name="divider_height">3dip</dimen>
     <dimen name="divider_margin_top">6dip</dimen>
     <dimen name="divider_margin_bottom">7dip</dimen>
+    <dimen name="vert_divider_width">1dip</dimen>
 
     <!--  Size of icons in the top-level of settings  -->
     <dimen name="header_icon_width">28dp</dimen>
-    <dimen name="appwidget_min_width">260dip</dimen>
+    <dimen name="appwidget_min_width">280dip</dimen>
     <dimen name="appwidget_min_height">40dip</dimen>
 
     <dimen name="pager_tabs_padding">0dp</dimen>
@@ -68,5 +69,7 @@
 
     <!-- Minimum width for the popup for updating a user's photo. -->
     <dimen name="update_user_photo_popup_min_width">300dip</dimen>
+
+    <dimen name="captioning_preview_height">200dp</dimen>
 
 </resources>
