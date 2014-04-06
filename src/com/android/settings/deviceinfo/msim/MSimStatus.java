@@ -1,7 +1,8 @@
 /*
- * Copyright (c) 2011-13, The Linux Foundation. All rights reserved
- * Not a Contribution.
  * Copyright (C) 2008 The Android Open Source Project
+ * Copyright (c) 2011-13, The Linux Foundation. All rights reserved
+ *
+ * Not a Contribution.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,8 +54,6 @@ import com.android.internal.telephony.TelephonyProperties;
 import com.android.settings.R;
 import com.android.settings.SelectSubscription;
 import com.android.settings.Utils;
-
-import org.cyanogenmod.hardware.SerialNumber;
 
 import java.lang.ref.WeakReference;
 
@@ -162,9 +161,9 @@ public class MSimStatus extends PreferenceActivity {
         PreferenceScreen selectSub = (PreferenceScreen) findPreference(BUTTON_SELECT_SUB_KEY);
         if (selectSub != null) {
             Intent intent = selectSub.getIntent();
-            intent.putExtra(SelectSubscription.PACKAGE, getPackageName());
+            intent.putExtra(SelectSubscription.PACKAGE, "com.android.settings");
             intent.putExtra(SelectSubscription.TARGET_CLASS,
-                    MSimSubscriptionStatus.class.getName());
+                    "com.android.settings.deviceinfo.msim.MSimSubscriptionStatus");
         }
 
         mRes = getResources();
@@ -185,7 +184,7 @@ public class MSimStatus extends PreferenceActivity {
         setBtStatus();
         setIpAddressStatus();
 
-        String serial = getSerialNumber();
+        String serial = Build.SERIAL;
         if (serial != null && !serial.equals("")) {
             setSummaryText(KEY_SERIAL_NUMBER, serial);
         } else {
@@ -377,17 +376,5 @@ public class MSimStatus extends PreferenceActivity {
         int h = (int)((t / 3600));
 
         return h + ":" + pad(m) + ":" + pad(s);
-    }
-
-    private String getSerialNumber() {
-        try {
-            if (SerialNumber.isSupported()) {
-                return SerialNumber.getSerialNumber();
-            }
-        } catch (NoClassDefFoundError e) {
-            // Hardware abstraction framework not installed; fall through
-        }
-
-        return Build.SERIAL;
     }
 }

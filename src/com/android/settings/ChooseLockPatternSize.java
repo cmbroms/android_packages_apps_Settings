@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012-2013 The CyanogenMod Project
+ * Copyright (C) 2012 The CyanogenMod Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,12 +34,6 @@ public class ChooseLockPatternSize extends PreferenceActivity {
         return modIntent;
     }
 
-    @Override
-    protected boolean isValidFragment(String fragmentName) {
-        if (ChooseLockPatternSizeFragment.class.getName().equals(fragmentName)) return true;
-        return false;
-    }
-
     public static class ChooseLockPatternSizeFragment extends SettingsPreferenceFragment {
         private ChooseLockSettingsHelper mChooseLockSettingsHelper;
 
@@ -47,9 +41,6 @@ public class ChooseLockPatternSize extends PreferenceActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             mChooseLockSettingsHelper = new ChooseLockSettingsHelper(this.getActivity());
-            if (!(getActivity() instanceof ChooseLockPatternSize)) {
-                throw new SecurityException("Fragment contained in wrong activity");
-            }
             addPreferencesFromResource(R.xml.security_settings_pattern_size);
         }
 

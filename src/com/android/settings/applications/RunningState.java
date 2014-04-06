@@ -32,7 +32,6 @@ import android.content.pm.ServiceInfo;
 import android.content.pm.UserInfo;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.Drawable.ConstantState;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -672,12 +671,7 @@ public class RunningState {
                 return super.loadIcon(context, state);
             }
             if (mUser.mIcon != null) {
-                ConstantState constState = mUser.mIcon.getConstantState();
-                if (constState == null) {
-                    return mUser.mIcon;
-                } else {
-                    return constState.newDrawable();
-                }
+                return mUser.mIcon.getConstantState().newDrawable();
             }
             return context.getResources().getDrawable(
                     com.android.internal.R.drawable.ic_menu_cc);
@@ -837,8 +831,8 @@ public class RunningState {
                 UserInfo info = mUm.getUserInfo(newItem.mUserId);
                 userItem.mUser.mInfo = info;
                 if (info != null) {
-                    userItem.mUser.mIcon = UserUtils.getUserIcon(context, mUm,
-                            info, context.getResources());
+                    userItem.mUser.mIcon = UserUtils.getUserIcon(mUm, info,
+                            context.getResources());
                 }
                 String name = info != null ? info.name : null;
                 if (name == null) {

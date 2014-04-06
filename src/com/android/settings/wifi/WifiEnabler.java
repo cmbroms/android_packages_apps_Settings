@@ -110,7 +110,6 @@ public class WifiEnabler implements CompoundButton.OnCheckedChangeListener  {
             Toast.makeText(mContext, R.string.wifi_in_airplane_mode, Toast.LENGTH_SHORT).show();
             // Reset switch to off. No infinite check/listenenr loop.
             buttonView.setChecked(false);
-            return;
         }
 
         // Disable tethering if enabling Wifi
@@ -120,10 +119,11 @@ public class WifiEnabler implements CompoundButton.OnCheckedChangeListener  {
             mWifiManager.setWifiApEnabled(null, false);
         }
 
-        mSwitch.setEnabled(false);
-        if (!mWifiManager.setWifiEnabled(isChecked)) {
+        if (mWifiManager.setWifiEnabled(isChecked)) {
+            // Intent has been taken into account, disable until new state is active
+            mSwitch.setEnabled(false);
+        } else {
             // Error
-            mSwitch.setEnabled(true);
             Toast.makeText(mContext, R.string.wifi_error, Toast.LENGTH_SHORT).show();
         }
     }

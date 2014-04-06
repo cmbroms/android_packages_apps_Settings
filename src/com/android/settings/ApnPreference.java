@@ -29,16 +29,31 @@ public class ApnPreference extends Preference implements
         CompoundButton.OnCheckedChangeListener {
     final static String TAG = "ApnPreference";
 
+    /**
+     * @param context
+     * @param attrs
+     * @param defStyle
+     */
     public ApnPreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        init();
     }
 
+    /**
+     * @param context
+     * @param attrs
+     */
     public ApnPreference(Context context, AttributeSet attrs) {
-        this(context, attrs, R.attr.apnPreferenceStyle);
+        super(context, attrs);
+        init();
     }
 
+    /**
+     * @param context
+     */
     public ApnPreference(Context context) {
-        this(context, null);
+        super(context);
+        init();
     }
 
     private static String mSelectedKey = null;
@@ -72,6 +87,10 @@ public class ApnPreference extends Preference implements
         }
 
         return view;
+    }
+
+    private void init() {
+        setWidgetLayoutResource(R.layout.preference_profiles_widget);
     }
 
     public boolean isChecked() {

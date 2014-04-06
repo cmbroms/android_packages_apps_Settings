@@ -51,7 +51,6 @@
 
         <!-- Used for the media volume -->
         <LinearLayout
-                android:id="@+id/media_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="8dip"
@@ -222,7 +221,6 @@
 
         <!-- Used for the alarm volume -->
         <LinearLayout
-                android:id="@+id/alarm_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="8dip"

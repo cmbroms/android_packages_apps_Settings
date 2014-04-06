@@ -20,15 +20,14 @@ import android.app.QueuedWork;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.util.Log;
 
 /**
  * LocalBluetoothPreferences provides an interface to the preferences
  * related to Bluetooth.
  */
 final class LocalBluetoothPreferences {
-    private static final String TAG = "LocalBluetoothPreferences";
-    private static final boolean DEBUG = Utils.D;
+//    private static final String TAG = "LocalBluetoothPreferences";
+
     private static final String SHARED_PREFERENCES_NAME = "bluetooth_settings";
 
     // If a device was picked from the device picker or was in discoverable mode
@@ -62,7 +61,6 @@ final class LocalBluetoothPreferences {
             String deviceAddress) {
         LocalBluetoothManager manager = LocalBluetoothManager.getInstance(context);
         if (manager == null) {
-            if(DEBUG) Log.v(TAG, "manager == null - do not show dialog.");
             return false;
         }
 
@@ -74,7 +72,6 @@ final class LocalBluetoothPreferences {
         // If in appliance mode, do not show dialog in foreground.
         if ((context.getResources().getConfiguration().uiMode &
                 Configuration.UI_MODE_TYPE_APPLIANCE) == Configuration.UI_MODE_TYPE_APPLIANCE) {
-            if (DEBUG) Log.v(TAG, "in appliance mode - do not show dialog.");
             return false;
         }
 
@@ -112,7 +109,6 @@ final class LocalBluetoothPreferences {
                 }
             }
         }
-        if (DEBUG) Log.v(TAG, "Found no reason to show the dialog - do not show dialog.");
         return false;
     }
 

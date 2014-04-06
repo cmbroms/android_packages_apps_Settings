@@ -16,7 +16,6 @@
 
 package com.android.settings.applications;
 
-import android.text.BidiFormatter;
 import com.android.internal.util.MemInfoReader;
 import com.android.settings.R;
 
@@ -343,14 +342,11 @@ public class RunningProcessesView extends FrameLayout
                 mLastBackgroundProcessMemory = mState.mBackgroundProcessMemory;
                 mLastAvailMemory = availMem;
                 long freeMem = mLastAvailMemory + mLastBackgroundProcessMemory;
-                BidiFormatter bidiFormatter = BidiFormatter.getInstance();
-                String sizeStr = bidiFormatter.unicodeWrap(
-                        Formatter.formatShortFileSize(getContext(), freeMem));
+                String sizeStr = Formatter.formatShortFileSize(getContext(), freeMem);
                 mBackgroundProcessText.setText(getResources().getString(
                         R.string.service_background_processes, sizeStr));
-                sizeStr = bidiFormatter.unicodeWrap(
-                        Formatter.formatShortFileSize(getContext(),
-                                mMemInfoReader.getTotalSize() - freeMem));
+                sizeStr = Formatter.formatShortFileSize(getContext(),
+                        mMemInfoReader.getTotalSize() - freeMem);
                 mForegroundProcessText.setText(getResources().getString(
                         R.string.service_foreground_processes, sizeStr));
             }

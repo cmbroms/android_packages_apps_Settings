@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--  Copyright (C) 2007 The Android Open Source Project
+
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
      You may obtain a copy of the License at
+
           http://www.apache.org/licenses/LICENSE-2.0
+
      Unless required by applicable law or agreed to in writing, software
      distributed under the License is distributed on an "AS IS" BASIS,
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
      See the License for the specific language governing permissions and
      limitations under the License.
  -->
-<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+ <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="yes" msgid="4676390750360727396">"ھەئە"</string>
     <string name="no" msgid="6731231425810196216">"ياق"</string>
     <string name="create" msgid="3578857613172647409">"قۇر"</string>
@@ -52,7 +55,7 @@
     <string name="radioInfo_data_connecting" msgid="8404571440697917823">"باغلىنىۋاتىدۇ"</string>
     <string name="radioInfo_data_connected" msgid="7074301157399238697">"باغلاندى"</string>
     <string name="radioInfo_data_suspended" msgid="5315325487890334196">"ۋاقىتلىق توختىتىلدى"</string>
-    <string name="radioInfo_unknown" msgid="737385314432468266">"يوچۇن"</string>
+    <string name="radioInfo_unknown" msgid="737385314432468266">"نامەلۇم"</string>
     <string name="radioInfo_display_packets" msgid="8654359809877290639">"pkts"</string>
     <string name="radioInfo_display_bytes" msgid="4018206969492931883">"بايت"</string>
     <string name="radioInfo_display_dbm" msgid="3621221793699882781">"dBm"</string>
@@ -124,11 +127,10 @@
     <string name="bluetooth_disconnect_title" msgid="6026705382020027966">"ئۈزەمدۇ؟"</string>
     <string name="bluetooth_disconnect_all_profiles" msgid="9148530542956217908">"بۇ مەشغۇلات تۆۋەندىكى ئۈسكۈنىنىڭ باغلىنىشىنى ئۈزىدۇ: &lt;br&gt;&lt;b&gt;<xliff:g id="DEVICE_NAME">%1$s</xliff:g>&lt;/b&gt;"</string>
     <string name="bluetooth_disable_profile_title" msgid="5916643979709342557">"سەپلىمە ھۆججەتنى چەكلەمدۇ؟"</string>
-    <string name="bluetooth_disable_profile_message" msgid="2895844842011809904">"بۇ مەشغۇلات چەكلەيدۇ: &lt;br&gt;&lt;b&gt;<xliff:g id="PROFILE_NAME">%1$s</xliff:g>&lt;/b&gt;&lt;br&gt;&lt;br&gt;ئورنى:&lt;br&gt;&lt;b&gt;<xliff:g id="DEVICE_NAME">%2$s</xliff:g>&lt;/b&gt;"</string>
+    <string name="bluetooth_disable_profile_message" msgid="2895844842011809904">"بۇ مەشغۇلات چەكلەيدۇ: &lt;br&gt;&lt;b&gt;<xliff:g id="PROFILE_NAME">%1$s</xliff:g>&lt;/b&gt;&lt;br&gt;&lt;br&gt; ئورنى: &lt;br&gt;&lt;b&gt;<xliff:g id="DEVICE_NAME">%2$s</xliff:g>&lt;/b&gt;"</string>
     <string name="bluetooth_connected" msgid="6038755206916626419">"باغلاندى"</string>
     <string name="bluetooth_connected_no_headset" msgid="2866994875046035609">"باغلاندى (تېلېفون يوق)"</string>
     <string name="bluetooth_connected_no_a2dp" msgid="4576188601581440337">"باغلاندى (ۋاستە يوق)"</string>
-    <string name="bluetooth_connected_no_map" msgid="6504436917057479986">"باغلاندى (ئۇچۇر ھوقۇقى يوق)"</string>
     <string name="bluetooth_connected_no_headset_no_a2dp" msgid="9195757766755553810">"باغلاندى (تېلېفون ياكى ۋاستە يوق)"</string>
     <string name="bluetooth_disconnected" msgid="6557104142667339895">"ئۈزۈلدى"</string>
     <string name="bluetooth_disconnecting" msgid="8913264760027764974">"ئۈزۈۋاتىدۇ…"</string>
@@ -157,14 +159,11 @@
     <string name="bluetooth_turning_off" msgid="2337747302892025192">"كۆكچىشنى تاقاۋاتىدۇ…"</string>
     <string name="bluetooth_auto_connect" msgid="40711424456733571">"ئۆزلۈكىدىن باغلان"</string>
     <string name="bluetooth_connection_permission_request" msgid="4747918249032890077">"كۆكچىش باغلىنىش ئىلتىماسى"</string>
-    <string name="bluetooth_connection_notif_message" msgid="3687933246423942977">"بېسىلسا "<xliff:g id="DEVICE_NAME">%1$s</xliff:g>" غا باغلىنىدۇ."</string>
-    <string name="bluetooth_connection_dialog_text" msgid="8455427559949998023">""<xliff:g id="DEVICE_NAME">%1$s</xliff:g>" غا باغلىنامسىز؟"</string>
-    <string name="bluetooth_phonebook_request" msgid="3951420080540915279">"تېلېفون دەپتەر زىيارەت ئىلتىماسى"</string>
+    <string name="bluetooth_connection_notif_message" msgid="3687933246423942977">"بېسىلسا<xliff:g id="DEVICE_NAME">%1$s</xliff:g>غا باغلىنىدۇ"</string>
+    <string name="bluetooth_connection_dialog_text" msgid="8455427559949998023">"<xliff:g id="DEVICE_NAME">%1$s</xliff:g>غا باغلىنامسىز؟"</string>
+    <string name="bluetooth_phonebook_request" msgid="457033227379858269">"تېلېفون دەپتەر ئىلتىماسى"</string>
     <string name="bluetooth_pb_acceptance_dialog_text" msgid="6555508756987053866">"%1$s ئالاقەداشلىرىڭىز ۋە چاقىرىش خاتىرىڭىزنى زىيارەت قىلماقچى. %2$s زىيارەت ھوقۇقىنى بېرەمسىز؟"</string>
-    <string name="bluetooth_remember_choice" msgid="6198284561603824931">"قايتا سورىما"</string>
     <string name="bluetooth_pb_remember_choice" msgid="2901499974259177202">"قايتا سورىما"</string>
-    <string name="bluetooth_map_request" msgid="4595727689513143902">"ئۇچۇر زىيارەت ئىلتىماسى"</string>
-    <string name="bluetooth_map_acceptance_dialog_text" msgid="8712508202081143737">%1$s ئۇچۇرلىرىڭىزنى زىيارەت قىلماقچى. %2$s غا زىيارەت ھوقۇقىنى بېرەمسىز؟</string>
     <string name="date_and_time" msgid="4114084177056654663">"چېسلا ۋە ۋاقىت تەڭشىكى"</string>
     <string name="choose_timezone" msgid="1362834506479536274">"ۋاقىت رايونىنى تاللاڭ"</string>
     <string name="normal_date_format" msgid="7636406984925498359">"ئادەتتىكى (<xliff:g id="DATE">%s</xliff:g>)"</string>
@@ -175,7 +174,7 @@
     <string name="intent_sender_startactivity_text" msgid="5080516029580421895">"<xliff:g id="ACTIVITY">activity</xliff:g>نى باشلا"</string>
     <string name="intent_sender_resource_label" msgid="6963659726895482829">"<xliff:g id="RESOURCE">Resource</xliff:g>:"</string>
     <string name="intent_sender_account_label" msgid="465210404475603404">"ھېسابات:"</string>
-    <string name="proxy_settings_title" msgid="9049437837600320881">"ۋاكالەتچى"</string>
+    <string name="proxy_settings_title" msgid="5912878565897294401">"ۋاكالەتچى تەڭشەك"</string>
     <string name="proxy_clear_text" msgid="5555400754952012657">"تازىلا"</string>
     <string name="proxy_port_label" msgid="5655276502233453400">"ۋاكالەتچى ئېغىزى"</string>
     <string name="proxy_exclusionlist_label" msgid="7700491504623418701">"تۆۋەندىكىلەر ۋاكالەتچىدىن ئاتلايدۇ"</string>
@@ -192,7 +191,6 @@
     <string name="proxy_error_empty_host_set_port" msgid="2451694104858226781">"ئەگەر ئاساسىي ئاپپارات ئاتى بوش قالدۇرۇلسا ئۇنداقتا ئېغىز سۆز بۆلىكى چوقۇم بوش قالدۇرۇلۇشى لازىم."</string>
     <string name="proxy_error_invalid_port" msgid="2671425042711054494">"سىز كىرگۈزگەن ئېغىز ئىناۋەتسىز."</string>
     <string name="proxy_warning_limited_support" msgid="7229337138062837422">"بۇ توركۆرگۈ HTTP ۋاكالەتچى ئىشلىتىدۇ ئەمما باشقا ئەپلەر ئىشلەتمەسلىكى مۇمكىن."</string>
-    <string name="proxy_url" msgid="2523518669129974654">"PAC URL: "</string>
     <string name="radio_info_signal_location_label" msgid="16475158265551708">"ئورنى:"</string>
     <string name="radio_info_neighboring_location_label" msgid="2385625674055934880">"قوشنا CID:"</string>
     <string name="radio_info_cellinfo_label" msgid="1300937728020622362">"مەھەللە ئۇچۇرى:"</string>
@@ -303,15 +301,13 @@
     <string name="lock_after_timeout_summary" msgid="6128431871360905631">"<xliff:g id="TIMEOUT_STRING">%1$s</xliff:g> دىن كېيىن ئۇخلات"</string>
     <string name="show_owner_info_on_lockscreen_label" msgid="5074906168357568434">"قۇلۇپلانغان ئېكراندا ئىگىدار ئۇچۇرىنى كۆرسەت"</string>
     <string name="owner_info_settings_title" msgid="2723190010708381889">"ئىگىدار ئۇچۇرى"</string>
-    <string name="security_enable_widgets_title" msgid="2754833397070967846">"ئەپچەلەرنى قوزغات"</string>
-    <string name="security_enable_widgets_disabled_summary" msgid="1557090442377855233">"باشقۇرغۇچى چەكلىگەن"</string>
     <string name="owner_info_settings_summary" msgid="3800834657847339570"/>
     <string name="owner_info_settings_edit_text_hint" msgid="4608681417960923911">"قۇلۇپلانغان ئېكراندا كۆرۈنىدىغان خەتنى كىرگۈزۈڭ"</string>
     <string name="show_user_info_on_lockscreen_label" msgid="8408914624925608365">"قۇلۇپلانغان ئېكراندا ئىشلەتكۈچى ئۇچۇرىنى كۆرسەت"</string>
     <string name="user_info_settings_title" msgid="1195015434996724736">"ئىشلەتكۈچى ئۇچۇرى"</string>
     <string name="show_profile_info_on_lockscreen_label" msgid="2741208907263877990">"قۇلۇپلانغان ئېكراندا سەپلىمە ھۆججەت ئۇچۇرىنى كۆرسەت"</string>
     <string name="profile_info_settings_title" msgid="3518603215935346604">"سەپلىمە ھۆججەت ئۇچۇرى"</string>
-    <string name="location_settings_title" msgid="1369675479310751735">"ئورنى"</string>
+    <string name="location_settings_title" msgid="4483843407328665068">"ئورۇن زىيارەت"</string>
     <string name="security_settings_title" msgid="7945465324818485460">"بىخەتەرلىك"</string>
     <string name="security_settings_summary" msgid="967393342537986570">"ئورنۇم، ئېكران قۇلۇپى، SIM كارتا قۇلۇپى، ئىسپات ساقلىغۇچ قۇلۇپى تەڭشىكى"</string>
     <string name="cdma_security_settings_summary" msgid="6068799952798901542">"ئورنۇم، ئېكران قۇلۇپى، ئىسپات ساقلىغۇچ قۇلۇپى تەڭشىكى"</string>
@@ -334,8 +330,8 @@
     <string name="crypt_keeper_final_desc" product="tablet" msgid="4453629424172409792">"شىفىرلاش مەشغۇلاتنى ئارقىغا ياندۇرغىلى بولمايدۇ، ئەگەر بۇ جەرياننى ئاخىرلاشتۇرسىڭىز سانلىق مەلۇماتلىرىڭىز يوقۇلۇشى مۇمكىن. شىفىرلاش جەريانىغا بىر سائەت ياكى ئۇنىڭدىنمۇ كۆپ ۋاقىت كېتىشى مۇمكىن، بۇ جەرياندا تاختا كومپيۇتېر بىر قانچە قېتىم قايتا قوزغىلىدۇ."</string>
     <string name="crypt_keeper_final_desc" product="default" msgid="5682944380460921880">"شىفىرلاش مەشغۇلاتنى ئارقىغا ياندۇرغىلى بولمايدۇ، ئەگەر بۇ جەرياننى ئاخىرلاشتۇرسىڭىز سانلىق مەلۇماتلىرىڭىز يوقۇلۇشى مۇمكىن. شىفىرلاش جەريانىغا بىر سائەت ياكى ئۇنىڭدىنمۇ كۆپ ۋاقىت كېتىشى مۇمكىن، بۇ جەرياندا تېلېفون بىر قانچە قېتىم قايتا قوزغىلىدۇ."</string>
     <string name="crypt_keeper_setup_title" msgid="1783951453124244969">"شىفىرلاۋاتىدۇ"</string>
-    <string name="crypt_keeper_setup_description" product="tablet" msgid="6689952371032099350">"تاختا كومپيۇتېرىڭىزنى شىفىرلاۋاتىدۇ. %<xliff:g id="PERCENT">^1</xliff:g> تاماملاندى."</string>
-    <string name="crypt_keeper_setup_description" product="default" msgid="951918761585534875">"تېلېفونىڭىزنى شىفىرلاۋاتىدۇ. %<xliff:g id="PERCENT">^1</xliff:g> تاماملاندى."</string>
+    <string name="crypt_keeper_setup_description" product="tablet" msgid="6689952371032099350">"تاختا كومپيۇتېرىڭىزنى شىفىرلاۋاتىدۇ. <xliff:g id="PERCENT">^1</xliff:g>% تاماملاندى."</string>
+    <string name="crypt_keeper_setup_description" product="default" msgid="951918761585534875">"تېلېفونىڭىزنى شىفىرلاۋاتىدۇ. <xliff:g id="PERCENT">^1</xliff:g>% تاماملاندى."</string>
     <string name="crypt_keeper_cooldown" msgid="685210918307862395">"<xliff:g id="DELAY">^1</xliff:g> سېكۇنتتىن كېيىن قايتا سىناڭ."</string>
     <string name="crypt_keeper_enter_password" msgid="2223340178473871064">"ئىم كىرگۈزۈڭ"</string>
     <string name="crypt_keeper_failed_title" msgid="7133499413023075961">"شىفىرلىيالمىدى"</string>
@@ -436,7 +432,7 @@
     <string name="bluetooth_settings_summary" msgid="2091062709530570462">"باغلىنىشنى باشقۇرۇش، ئۈسكۈنە ئىسمى ۋە بايقاشچانلىقنى باشقۇرۇش"</string>
     <string name="bluetooth_pairing_request" msgid="6385750334766370310">"كۆكچىش جۈپلەش ئىلتىماسى"</string>
     <string name="bluetooth_enter_pin_msg" msgid="5698297871117529185">"<xliff:g id="BOLD_0">&lt;br&gt;&lt;b&gt;</xliff:g><xliff:g id="DEVICE_NAME">%1$s</xliff:g><xliff:g id="END_BOLD">&lt;/b&gt;&lt;br&gt;&lt;br&gt;</xliff:g> بىلەن جۈپلەشتە، بۇ ئۈسكۈنىگە زۆرۈر PIN نى كىرگۈزۈڭ:"</string>
-    <string name="bluetooth_enter_passkey_msg" msgid="2220143735340367939"><xliff:g id="BOLD_0">&lt;br&gt;&lt;b&gt;</xliff:g><xliff:g id="DEVICE_NAME">%1$s</xliff:g><xliff:g id="END_BOLD">&lt;/b&gt;&lt;br&gt;&lt;br&gt;</xliff:g> بىلەن جۈپلەشتە، ئۈسكۈنىگە زۆرۈر ئىم ئاچقۇچنى كىرگۈزۈڭ:</string>
+    <string name="bluetooth_enter_passkey_msg" msgid="2220143735340367939"><xliff:g id="BOLD_0">&lt;br&gt;&lt;b&gt;</xliff:g><xliff:g id="DEVICE_NAME">%1$s</xliff:g><xliff:g id="END_BOLD">&lt;/b&gt;&lt;br&gt;&lt;br&gt;</xliff:g> بىلەن جۈپلەشتە، ئۈسكۈنىگە زۆرۈر ئىم ئاچقۇچنى كىرگۈزۈڭ:"</string>
     <string name="bluetooth_enable_alphanumeric_pin" msgid="7222713483058171357">"PIN ھەرپ ياكى بەلگەدىن تەشكىل تاپىدۇ"</string>
     <string name="bluetooth_pin_values_hint" msgid="3815897557875873646">"ئادەتتە 0000 ياكى 1234"</string>
     <string name="bluetooth_enter_pin_other_device" msgid="4637977124526813470">"سىز باشقا بىر ئۈسكۈنىدە بۇ PIN نى كىرگۈزۈشىڭىز زۆرۈر بولۇشى مۇمكىن."</string>
@@ -450,7 +446,7 @@
     <string name="bluetooth_pairing_error_message" msgid="3748157733635947087">"<xliff:g id="DEVICE_NAME">%1$s</xliff:g> بىلەن جۈپلىيەلمەيدۇ."</string>
     <string name="bluetooth_pairing_pin_error_message" msgid="8337234855188925274">"<xliff:g id="DEVICE_NAME">%1$s</xliff:g> بىلەن جۈپلىيەلمەيدۇ چۈنكى PIN ياكى ئىم ئاچقۇچ خاتا."</string>
     <string name="bluetooth_pairing_device_down_error_message" msgid="7870998403045801381">"<xliff:g id="DEVICE_NAME">%1$s</xliff:g> بىلەن ئالاقە قىلالمايدۇ."</string>
-    <string name="bluetooth_pairing_rejected_error_message" msgid="1648157108520832454">"<xliff:g id="DEVICE_NAME">%1$s</xliff:g> جۈپلەشنى رەت قىلدى."</string>
+    <string name="bluetooth_pairing_rejected_error_message" msgid="1648157108520832454">" <xliff:g id="DEVICE_NAME">%1$s</xliff:g>جۈپلەشنى رەت قىلدى."</string>
     <string name="bluetooth_connecting_error_message" msgid="229861986106185022">"<xliff:g id="DEVICE_NAME">%1$s</xliff:g> غا باغلىنالمايدۇ"</string>
     <string name="bluetooth_preference_scan_title" msgid="2277464653118896016">"ئۈسكۈنە تەكشۈرۈۋاتىدۇ"</string>
     <string name="bluetooth_search_for_devices" msgid="5957007154213560390">"ئۈسكۈنە ئىزدەۋاتىدۇ"</string>
@@ -474,8 +470,7 @@
     <string name="bluetooth_profile_hid" msgid="3680729023366986480">"كىرگۈزۈش ئۈسكۈنىسى"</string>
     <string name="bluetooth_profile_pan" msgid="3391606497945147673">"ئىنتېرنېتنى زىيارەت ھوقۇقى"</string>
     <string name="bluetooth_profile_pan_nap" msgid="8429049285027482959">"ئىنتېرنېت باغلىنىش ھەمبەھىر"</string>
-    <string name="bluetooth_profile_map" msgid="5465271250454324383">"ئۇچۇر زىيارەت"</string>
-    <string name="bluetooth_disconnect_a2dp_profile" msgid="3524648279150937177">"<xliff:g id="DEVICE_NAME">%1$s</xliff:g> ۋاستە ئۈندىن ئۈزۈلىدۇ."</string>
+    <string name="bluetooth_disconnect_a2dp_profile" msgid="3524648279150937177">"<xliff:g id="DEVICE_NAME">%1$s</xliff:g>ۋاستە ئۈندىن ئۈزۈلىدۇ."</string>
     <string name="bluetooth_disconnect_headset_profile" msgid="8635908811168780720">"<xliff:g id="DEVICE_NAME">%1$s</xliff:g> تۇرۇپكىسىز ئۈندىن ئۈزۈلىدۇ."</string>
     <string name="bluetooth_disconnect_hid_profile" msgid="3282295189719352075">"<xliff:g id="DEVICE_NAME">%1$s</xliff:g> كىرگۈزۈش ئۈسكۈنىسىدىن ئۈزۈلىدۇ."</string>
     <string name="bluetooth_disconnect_pan_user_profile" msgid="8037627994382458698">"<xliff:g id="DEVICE_NAME">%1$s</xliff:g> نىڭ ئىنتېرنېت زىيارىتىنى ئۈزىدۇ."</string>
@@ -490,7 +485,6 @@
     <string name="bluetooth_a2dp_profile_summary_connected" msgid="963376081347721598">"ۋاسىتە ئاۋازىغا باغلاندى"</string>
     <string name="bluetooth_headset_profile_summary_connected" msgid="7661070206715520671">"تېلېفون ئاۋازىغا باغلاندى"</string>
     <string name="bluetooth_opp_profile_summary_connected" msgid="2611913495968309066">"ھۆججەت يوللاش مۇلازىمېتىرغا باغلاندى"</string>
-    <string name="bluetooth_map_profile_summary_connected" msgid="8191407438851351713">"خەرىتىگە باغلاندى"</string>
     <string name="bluetooth_opp_profile_summary_not_connected" msgid="1267091356089086285">"ھۆججەت يوللاش مۇلازىمېتىرغا باغلانمىدى"</string>
     <string name="bluetooth_hid_profile_summary_connected" msgid="3381760054215168689">"كىرگۈزۈش ئۈسكۈنىسىگە باغلاندى"</string>
     <string name="bluetooth_pan_user_profile_summary_connected" msgid="4602294638909590612">"ئىنتېرنېت زىيارەت ئۈسكۈنىسىگە باغلاندى"</string>
@@ -500,13 +494,12 @@
     <string name="bluetooth_opp_profile_summary_use_for" msgid="1255674547144769756">"ھۆججەت يوللاشقا ئىشلىتىدۇ"</string>
     <string name="bluetooth_hid_profile_summary_use_for" msgid="232727040453645139">"كىرگۈزۈشكە ئىشلىتىدۇ"</string>
     <string name="bluetooth_pan_profile_summary_use_for" msgid="5664884523822068653">"ئىنتېرنېت زىيارىتىگە ئىشلىتىدۇ"</string>
-    <string name="bluetooth_map_profile_summary_use_for" msgid="5154200119919927434">"خەرىتىگە ئىشلىتىدۇ"</string>
     <string name="bluetooth_dock_settings" msgid="3218335822716052885">"لەڭگەر تەڭشەك"</string>
     <string name="bluetooth_dock_settings_title" msgid="5543069893044375188">"قونداقنىڭ ئاۋازغا ئىشلىتىدۇ"</string>
     <string name="bluetooth_dock_settings_headset" msgid="1001821426078644650">"تۇرۇپكىسىز تېلېفون سۈپىتىدە ئىشلىتىدۇ"</string>
     <string name="bluetooth_dock_settings_a2dp" msgid="8791004998846630574">"مۇزىكا ۋە ۋاسىتە ئۈچۈن"</string>
     <string name="bluetooth_dock_settings_remember" msgid="5551459057010609115">"تەڭشەكنى ئەستە تۇت"</string>
-    <string name="wifi_display_settings_title" msgid="2925465988657380522">"Cast ئېكران"</string>
+    <string name="wifi_display_settings_title" msgid="564299108014609382">"سىمسىز كۆرسەتكۈچ"</string>
     <string name="wifi_display_settings_empty_list_wifi_display_off" msgid="1225626898926363100">"ئۈسكۈنە كۆرۈشتە، سىمسىز تورنى ئېچىڭ."</string>
     <string name="wifi_display_settings_empty_list_wifi_display_disabled" msgid="1336244693183075466">"سىمسىز تورنى كۆرسىتىش چەكلەنگەن چۈنكى Wi-FI تاقاق."</string>
     <string name="wifi_display_search_for_devices" msgid="5065526281193354502">"كۆرسىتىدىغان ئۈسكۈنە ئىزدەۋاتىدۇ"</string>
@@ -517,8 +510,6 @@
     <string name="wifi_display_status_connecting" msgid="5688608834000748607">"باغلىنىۋاتىدۇ"</string>
     <string name="wifi_display_status_connected" msgid="8364125226376985558">"باغلاندى"</string>
     <string name="wifi_display_status_available" msgid="1924167525172207067">"ئىشلىتىلىشچان"</string>
-    <string name="wifi_display_status_in_use" msgid="8556830875615434792">"ئىشلىتىلىۋاتىدۇ"</string>
-    <string name="wifi_display_status_not_available" msgid="5714978725794210102">"ئىشلەتكىلى بولمايدۇ"</string>
     <string name="wifi_display_details" msgid="7791118209992162698">"كۆرسىتىش تەڭشەكلەر"</string>
     <string name="wifi_display_disconnect_title" msgid="1543715924639003599">"ئۈزەمدۇ؟"</string>
     <string name="wifi_display_disconnect_text" msgid="4824860802264489088">"بۇ مەشغۇلات تۆۋەندىكى ئۈسكۈنىنىڭ باغلىنىشىنى ئۈزىدۇ: &lt;br&gt;&lt;b&gt;<xliff:g id="DEVICE_NAME">%1$s</xliff:g>&lt;/b&gt;"</string>
@@ -623,9 +614,9 @@
     <string name="wifi_wps_available_first_item" msgid="4422547079984583502">"WPS ئىشلەتكىلى بولىدۇ"</string>
     <string name="wifi_wps_available_second_item" msgid="8427520131718215301">"(WPS ئىشلەتكىلى بولىدۇ)"</string>
     <string name="wifi_secured_first_item" msgid="4072076186051083451">"<xliff:g id="WIFI_SECURITY_SHORT">%1$s</xliff:g> بىلەن قوغدالغان"</string>
-    <string name="wifi_secured_second_item" msgid="1326000076939056265">"، <xliff:g id="WIFI_SECURITY_SHORT">%1$s</xliff:g> بىلەن قوغدالغان"</string>
+    <string name="wifi_secured_second_item" msgid="1326000076939056265">"، <xliff:g id="WIFI_SECURITY_SHORT">%1$s</xliff:g>بىلەن قوغدالغان"</string>
     <string name="wifi_security_none" msgid="7985461072596594400">"يوق"</string>
-    <string name="wifi_scan_always_turnon_message" msgid="203123538572122989">"ئورۇن ئۇچۇرىنىڭ دەللىكىنى ئۈستۈرۈش ۋە باشقا مەقسەت ئۈچۈن، Wi-Fi تاقالغان تەقدىردىمۇ، <xliff:g id="APP_NAME">%1$s</xliff:g> تور تەكشۈرۈشنى ئاچماقچى.\n\nبۇنىڭغا يول قويۇپ ھەممە ئەپلەر تەكشۈرەلەيدىغان بولسۇنمۇ؟</string>
+    <string name="wifi_scan_always_turnon_message" msgid="203123538572122989">"ئورۇن ئۇچۇرىنىڭ دەللىكىنى ئۈستۈرۈش ۋە باشقا مەقسەت ئۈچۈن، Wi-Fi تاقالغان تەقدىردىمۇ، <xliff:g id="APP_NAME">%1$s</xliff:g> تور تەكشۈرۈشنى ئاچماقچى.\n\nبۇنىڭغا يول قويۇپ ھەممە ئەپلەر تەكشۈرەلەيدىغان بولسۇنمۇ؟"</string>
     <string name="wifi_scan_always_confirm_allow" msgid="5355973075896817232">"يول قوي"</string>
     <string name="wifi_scan_always_confirm_deny" msgid="4463982053823520710">"رەت قىل"</string>
     <string name="wifi_connect" msgid="1076622875777072845">"باغلان"</string>
@@ -672,19 +663,18 @@
     <string name="wifi_p2p_failed_rename_message" msgid="2562182284946936380">"ئۈسكۈنە ئاتىنى ئۆزگەرتەلمىدى"</string>
     <string name="wifi_p2p_disconnect_title" msgid="3216846049677448420">"ئۈزەمدۇ؟"</string>
     <string name="wifi_p2p_disconnect_message" msgid="8227342771610125771">"ئەگەر ئۈزسىڭىز، <xliff:g id="PEER_NAME">%1$s</xliff:g> بىلەن باغلىنىشىڭىز ئاخىرلىشىدۇ."</string>
-    <string name="wifi_p2p_disconnect_multiple_message" msgid="3283805371034883105">"ئەگەر ئۈزسىڭىز، <xliff:g id="PEER_NAME">%1$s</xliff:g> ۋە باشقا <xliff:g id="PEER_COUNT">%2$s</xliff:g> ئۈسكۈنە بىلەن باغلىنىشىڭىز ئاخىرلىشىدۇ."</string>
+    <string name="wifi_p2p_disconnect_multiple_message" msgid="3283805371034883105">"ئەگەر ئۈزسىڭىز، <xliff:g id="PEER_NAME">%1$s</xliff:g> ۋە <xliff:g id="PEER_COUNT">%2$s</xliff:g> باشقا ئۈسكۈنىلەر بىلەن باغلىنىشىڭىز ئاخىرلىشىدۇ."</string>
     <string name="wifi_p2p_cancel_connect_title" msgid="255267538099324413">"تەكلىپتىن ۋاز كەچ"</string>
     <string name="wifi_p2p_cancel_connect_message" msgid="7477756213423749402">"<xliff:g id="PEER_NAME">%1$s</xliff:g> غا باغلىنىش تەكلىپىدىن ۋاز كېچەمسىز؟"</string>
     <string name="wifi_p2p_delete_group_message" msgid="834559380069647086">"بۇ گۇرۇپپىنى ئۇنتۇمدۇ؟"</string>
     <string name="wifi_tether_checkbox_text" msgid="1847167643625779136">"ئەپچىل Wi-Fi قىزىق نۇقتىسى"</string>
     <string name="wifi_tether_starting" msgid="1322237938998639724">"قىزىق نۇقتىنى ئېچىۋاتىدۇ…"</string>
     <string name="wifi_tether_stopping" msgid="4835852171686388107">"قىزىق نۇقتىنى تاقاۋاتىدۇ…"</string>
-    <string name="wifi_tether_enabled_subtext" msgid="8948641212931906143">"ئەپچىل قىزىق نۇقتا <xliff:g id="NETWORK_SSID">%1$s</xliff:g> ئاكتىپ"</string>
+    <string name="wifi_tether_enabled_subtext" msgid="8948641212931906143">"<xliff:g id="NETWORK_SSID">%1$s</xliff:g>ئەپچىل قىزىق نۇقتا  ئاكتىپ"</string>
     <string name="wifi_tether_failed_subtext" msgid="1484941858530919002">"ئەپچىل Wi-Fi قىزىق نۇقتا خاتالىقى"</string>
     <string name="wifi_tether_configure_ap_text" msgid="7974681394041609308">"ئەپچىل Wi-Fi قىزىق نۇقتا تەڭشەك"</string>
-    <string name="wifi_tether_configure_subtext" msgid="7957547035983257748">"<xliff:g id="NETWORK_SSID">%1$s</xliff:g> <xliff:g id="NETWORK_SECURITY">%2$s</xliff:g> ئەپچىل Wi-Fi قىزىق نۇقتىسى"</string>
+    <string name="wifi_tether_configure_subtext" msgid="7957547035983257748">"<xliff:g id="NETWORK_SSID">%1$s</xliff:g><xliff:g id="NETWORK_SECURITY">%2$s</xliff:g> ئەپچىل Wi-Fi قىزىق نۇقتىسى"</string>
     <string name="wifi_tether_configure_ssid_default" msgid="8467525402622138547">"Android قىزىق نۇقتا"</string>
-    <string name="home_settings" msgid="212375129455718176">"باش بەت"</string>
     <string name="display_settings_title" msgid="1708697328627382561">"ئېكران"</string>
     <string name="sound_settings" msgid="5534671337768745343">"ئاۋاز"</string>
     <string name="ringtone_title" msgid="5379026328015343686">"تېلېفون قوڭغۇراق"</string>
@@ -784,12 +774,6 @@
     <string name="sim_lock_failed" msgid="5651596916127873626">"SIM كارتىنىڭ قۇلۇپلانغان ھالىتىنى ئۆزگەرتەلمەيدۇ.\nPIN توغرا بولماسلىقى مۇمكىن."</string>
     <string name="sim_enter_ok" msgid="6475946836899218919">"جەزملە"</string>
     <string name="sim_enter_cancel" msgid="6240422158517208036">"ۋاز كەچ"</string>
-    <string name="wrong_pin_code_pukked" msgid="4003655226832658066">"SIM كارتا PIN كودى توغرا ئەمەس، ھازىر مۇلازىمەت سودىگىرىڭىز بىلەن ئالاقە قىلىپ ئۈسكۈنىڭىزنىڭ قۇلۇپىنى ئېچىڭ."</string>
-  <plurals name="wrong_pin_code">
-    <item quantity="one" msgid="4840607930166101114">"SIM كارتا PIN كودى توغرا ئەمەس، سىزنىڭ %d قېتىم سىناش پۇرسىتىڭىز بار. ئەگەر يەنىلا مەغلۇپ بولسىڭىز مۇلازىمەت سودىگىرىڭىز بىلەن ئالاقە قىلىپ ئۈسكۈنىڭىزنىڭ قۇلۇپىنى ئېچىڭ."<xliff:g id="NUMBER"></xliff:g></item>
-    <item quantity="other" msgid="77103619544346451">"SIM كارتا PIN كودى توغرا ئەمەس، سىزنىڭ <xliff:g id="NUMBER">%d</xliff:g> قېتىم سىناش پۇرسىتىڭىز بار."</item>
-  </plurals>
-    <string name="pin_failed" msgid="1848423634948587645">"SIM كارتا PIN مەشغۇلاتى مەغلۇپ بولدى!"</string>
     <string name="device_info_settings" product="tablet" msgid="1119755927536987178">"تاختا كومپيۇتېر ھالىتى"</string>
     <string name="device_info_settings" product="default" msgid="475872867864762157">"تېلېفون ھالىتى"</string>
     <string name="system_update_settings_list_item_title" msgid="3342887311059985961">"سىستېما يېڭىلاش"</string>
@@ -842,7 +826,7 @@
     <string name="memory_downloads_usage" msgid="3755173051677533027">"چۈشۈرۈش"</string>
     <string name="memory_dcim_usage" msgid="558887013613822577">"رەسىملەر، سىنلار"</string>
     <string name="memory_music_usage" msgid="1363785144783011606">"ئۈن (نەغمە، قوڭغۇراق ئاۋازى، بىلوگ قاتارلىق.)"</string>
-    <string name="memory_media_misc_usage" msgid="235452944021647124">"ئارىلاشما تۈر "</string>
+    <string name="memory_media_misc_usage" msgid="235452944021647124">"ئارلاشما تۈر "</string>
     <string name="memory_media_cache_usage" msgid="6704293333141177910">"غەملەنگەن سانلىق مەلۇمات"</string>
     <string name="sd_eject" product="nosdcard" msgid="4988563376492400073">"ھەمبەھىرلەنگەن ساقلىغۇچنى ئېگەرسىزلە"</string>
     <string name="sd_eject" product="default" msgid="6915293408836853020">"SD كارتىنى ئېگەرسىزلە"</string>
@@ -934,8 +918,8 @@
     <string name="master_clear_desc" product="default" msgid="9165016501623540228">"تېلېفوننىڭ  "<b>"ئىچىدىكى ساقلىغۇچ"</b>" تىكى ھەممە سانلىق مەلۇماتلار ئۆچۈرۈلىدۇ، ئۇلار:"\n\n"<li>"Google ھېساباتىڭىز"</li>"\n"<li>"سىستېما ۋە ئەپلەرنىڭ سانلىق مەلۇماتى ۋە تەڭشىكى"</li>"\n"<li>"چۈشۈرگەن ئەپلەر"</li>"</string>
     <string name="master_clear_accounts" product="default" msgid="6412857499147999073">"\n\nنۆۋەتتە سىز تۆۋەندىكى ھېساباتقا تىزىمغا كىردىڭىز :\n"</string>
     <string name="master_clear_desc_also_erases_external" msgid="1903185203791274237"><li>"نەغمە"</li>\n<li>"سۈرەتلەر"</li>\n<li>"باشقا ئىشلەتكۈچى سانلىق مەلۇماتى"</li></string>
-    <string name="master_clear_desc_erase_external_storage" product="nosdcard" msgid="7744115866662613411">"\n\nنەغمە، رەسىملەر ۋە باشقا ئىشلەتكۈچى سانلىق مەلۇماتىنى تازىلاشتا، "<b>"USB ساقلىغۇچ"</b>" نى تازىلىشىڭىز كېرەك."</string>
-    <string name="master_clear_desc_erase_external_storage" product="default" msgid="4801026652617377093">"\n\nنەغمە، رەسىملەر ۋە باشقا ئىشلەتكۈچى سانلىق مەلۇماتىنى تازىلاشتا، "<b>"SD كارتا"</b>" نى تازىلىشىڭىز كېرەك."</string>
+    <string name="master_clear_desc_erase_external_storage" product="nosdcard" msgid="7744115866662613411">"\n\nنەغمە، رەسىملەر ۋە باشقا ئىشلەتكۈچى سانلىق مەلۇماتىنى تازىلاشتا، ""USB ساقلىغۇچ"" نى تازىلىشىڭىز كېرەك."<b></b></string>
+    <string name="master_clear_desc_erase_external_storage" product="default" msgid="4801026652617377093">"\n\nنەغمە، رەسىملەر ۋە باشقا ئىشلەتكۈچى سانلىق مەلۇماتىنى تازىلاشتا، ""SD كارتا"" نى تازىلىشىڭىز كېرەك."<b></b></string>
     <string name="erase_external_storage" product="nosdcard" msgid="969364037450286809">"بۇ USB ساقلىغۇچنى ئۆچۈرىدۇ"</string>
     <string name="erase_external_storage" product="default" msgid="1397239046334307625">"SD كارتىنى ئۆچۈر"</string>
     <string name="erase_external_storage_description" product="nosdcard" msgid="4728558173931599429">"ئىچىدىكى USB ساقلىغۇچتىكى نەغمە ياكى سۈرەتكە ئوخشاش ھەممە سانلىق مەلۇماتلارنى ئۆچۈرىدۇ"</string>
@@ -952,8 +936,8 @@
     <string name="media_format_title" product="default" msgid="4427528440306787972">"SD كارتىنى ئۆچۈر"</string>
     <string name="media_format_summary" product="nosdcard" msgid="776603298628082065">"USB ساقلىغۇچتىكى ھەممە سانلىق مەلۇماتلارنى ئۆچۈرىدۇ"</string>
     <string name="media_format_summary" product="default" msgid="3805714639375830120">"SD كارتىدىكى ھەممە سانلىق مەلۇماتلارنى ئۆچۈرىدۇ"</string>
-    <string name="media_format_desc" product="nosdcard" msgid="4557243156946319034">"USB ساقلىغۇچتىكى ھەممە سانلىق مەلۇماتلارنى ئۆچۈرەمدۇ؟ ساقلانغان "<b>"ھەممە"</b>" سانلىق مەلۇماتلار يوقايدۇ."</string>
-    <string name="media_format_desc" product="default" msgid="8764037252319942415">"SD كارتىدىكى ھەممە سانلىق مەلۇماتلارنى ئۆچۈرەمدۇ؟ ساقلانغان "<b>"ھەممە"</b>" سانلىق مەلۇماتلار يوقايدۇ."</string>
+    <string name="media_format_desc" product="nosdcard" msgid="4557243156946319034">"USB ساقلىغۇچتىكى ھەممە سانلىق مەلۇماتلارنى ئۆچۈرەمدۇ؟ ساقلانغان ""ھەممە"" سانلىق مەلۇماتلار يوقايدۇ."<b></b></string>
+    <string name="media_format_desc" product="default" msgid="8764037252319942415">"SD كارتىدىكى ھەممە سانلىق مەلۇماتلارنى ئۆچۈرەمدۇ؟ ساقلانغان ""ھەممە"" سانلىق مەلۇماتلار يوقايدۇ."<b></b></string>
     <string name="media_format_button_text" product="nosdcard" msgid="6293669371185352810">"بۇ USB ساقلىغۇچنى ئۆچۈرىدۇ"</string>
     <string name="media_format_button_text" product="default" msgid="6721544380069373626">"SD كارتىنى ئۆچۈر"</string>
     <string name="media_format_final_desc" product="nosdcard" msgid="699929778486375913">"USB ساقلىغۇچنى ئۆچۈرۈپ، ساقلانغان ھەممە ھۆججەتنى ئۆچۈرەمدۇ؟ بۇ مەشغۇلاتنى ئەسلىگە كەلتۈرەلمەيسىز!"</string>
@@ -990,31 +974,12 @@
     <string name="bluetooth_untether_blank" msgid="2871192409329334813">"<xliff:g id="DEVICE_NAME">%1$s</xliff:g> ھەمبەھىر ئۈزۈلىدۇ."</string>
     <string name="tethering_help_button_text" msgid="656117495547173630">"ياردەم"</string>
     <string name="network_settings_title" msgid="7967552516440151852">"كۆچمە تورلار"</string>
-    <string name="manage_mobile_plan_title" msgid="7630170375010107744">"كۆچمە تور پىلانى"</string>
-    <string name="sms_application_title" msgid="6134351177937015839">"كۆڭۈلدىكى قىسقا ئۇچۇر ئەپى"</string>
-    <string name="sms_change_default_dialog_title" msgid="1958688831875804286">"كۆڭۈلدىكى قىسقا ئۇچۇر ئەپىنى ئۆزگەرتەمدۇ؟"</string>
-    <string name="sms_change_default_dialog_text" msgid="1522783933230274787">"<xliff:g id="NEW_APP">%1$s</xliff:g> نى <xliff:g id="CURRENT_APP">%2$s</xliff:g> نىڭ ئورنىغا قىسقا ئۇچۇر ئەپى قىلىپ ئىشلىتەمسىز؟"</string>
-    <string name="sms_change_default_no_previous_dialog_text" msgid="602683880284921998">"<xliff:g id="NEW_APP">%s</xliff:g> نى قىسقا ئۇچۇر ئەپى قىلىپ ئىشلىتەمسىز؟"</string>
+    <string name="manage_mobile_plan_title" msgid="7588182101738043593">"كۆچمە تور پىلانىنى باشقۇرۇش"</string>
     <string name="mobile_unknown_sim_operator" msgid="9101230468757324260">"يوچۇن SIM مۇلازىمەت تەمىنلىگۈچى"</string>
     <string name="mobile_no_provisioning_url" msgid="2399426808423775711">"%1$s ئېنىق سەپلىمە تورتۇراسى يوق"</string>
     <string name="mobile_insert_sim_card" msgid="9052590985784056395">"SIM كارتا قىستۇرۇپ قايتا قوزغىتىڭ"</string>
     <string name="mobile_connect_to_internet" msgid="1733894125065249639">"ئىنتېرنېتقا باغلاڭ"</string>
     <string name="location_title" msgid="1029961368397484576">"ئورنۇم"</string>
-    <string name="location_mode_title" msgid="3982009713118421689">"ھالەت"</string>
-    <string name="location_mode_high_accuracy_title" msgid="8241802585110932849">"دەللىكى يۇقىرى"</string>
-    <string name="location_mode_battery_saving_title" msgid="711273645208158637">"توك سەرپىياتى تۆۋەن"</string>
-    <string name="location_mode_sensors_only_title" msgid="3040366132175435160">"ئۈسكۈنىلا"</string>
-    <string name="location_mode_location_off_title" msgid="2829713015012529465">"ئورۇن ئۇچۇرى تاقاق"</string>
-    <string name="location_category_recent_location_requests" msgid="1938721350424447421">"يېقىنقى ئورۇن ئۇچۇر ئىلتىماسى"</string>
-    <string name="location_no_recent_apps" msgid="2800907699722178041">"يېقىندا ھېچقانداق ئەپ ئورۇن ئۇچۇرىنى ئىلتىماس قىلمىدى"</string>
-    <string name="location_category_location_services" msgid="7437150886946685979">"ئورۇن مۇلازىمەتلىرى"</string>
-    <string name="location_high_battery_use" msgid="517199943258508020">"توك سەرپىياتى يۇقىرى"</string>
-    <string name="location_low_battery_use" msgid="8602232529541903596">"توك سەرپىياتى تۆۋەن"</string>
-    <string name="location_mode_screen_title" msgid="4528716772270246542">"ئورۇن ئۇچۇر ھالىتى"</string>
-    <string name="location_mode_high_accuracy_description" msgid="6418936349431602808">"كۆچمە تور، GPS ۋە Wi‑Fi ئىشلىتىپ ئورۇننى مۆلچەرلەيدۇ"</string>
-    <string name="location_mode_battery_saving_description" msgid="1728668969743485109">"كۆچمە تور ۋە Wi‑Fi ئىشلىتىپ ئورۇننى مۆلچەرلەيدۇ"</string>
-    <string name="location_mode_sensors_only_description" msgid="7178415350457794366">"GPS ئىشلىتىپ دەل ئورنىڭىزنى بەلگىلەيدۇ"</string>
-    <string name="location_loading_injected_setting" msgid="4238574500081976654">"ئىزدەۋاتىدۇ…"</string>
     <string name="location_network_based" msgid="9134175479520582215">"كۆچمە ياكى Wi-Fi تورى ئورنى"</string>
     <string name="location_neighborhood_level" msgid="5626515380188353712">"ئەپ Google ئورۇن مۇلازىمىتى ئارقىلىق تېخىمۇ تېز سۈرئەتتە تەخمىنىي ئورنىڭىزنى بىلەلەيدۇ. سىستېما ئاتسىز ئورۇن ئۇچۇرىنى توپلاپ Google غا يوللايدۇ."</string>
     <string name="location_neighborhood_level_wifi" msgid="4234820941954812210">"ئورۇننى Wi-Fi ئارقىلىق جەزملىدى"</string>
@@ -1062,13 +1027,13 @@
     <string name="lockpattern_change_lock_pin_label" msgid="266707138486731661">"قۇلۇپ ئاچىدىغان PIN نى ئۆزگەرت"</string>
     <string name="lockpattern_need_to_unlock" msgid="757935356911054465">"ساقلانغان ئەندىزە جەزملەش"</string>
     <string name="lockpattern_need_to_unlock_wrong" msgid="4694973540770105678">"قايتا سىناڭ:"</string>
-    <string name="lockpattern_recording_intro_header" msgid="308287052221942814">"قۇلۇپ ئاچىدىغان ئەندىزە سىزىڭ"</string>
+    <string name="lockpattern_recording_intro_header" msgid="2063630508212535241">"قۇلۇپ ئاچىدىغان ئەندىزە سىزىڭ:"</string>
     <string name="lockpattern_recording_intro_footer" msgid="1118579101409152113">"Menu نى بېسىپ ياردەمگە ئېرىشىڭ."</string>
-    <string name="lockpattern_recording_inprogress" msgid="6667844062721656773">"تاماملانغاندا بارمىقىڭىزنى ئاجرىتىڭ"</string>
-    <string name="lockpattern_recording_incorrect_too_short" msgid="1348234155120957561">"ئاز دېگەندە <xliff:g id="NUMBER">%d</xliff:g> نۇقتىغا باغلىنىدۇ. قايتا سىناڭ."</string>
-    <string name="lockpattern_pattern_entered_header" msgid="4316818983675591604">"ئەندىزە خاتىرىلەندى"</string>
-    <string name="lockpattern_need_to_confirm" msgid="8054853451639221265">"ئەندىزەنى قايتا سىزىپ جەزملەڭ"</string>
-    <string name="lockpattern_pattern_confirmed_header" msgid="8455614172231880211">"قۇلۇپ ئاچىدىغان يېڭى ئەندىزەڭىز"</string>
+    <string name="lockpattern_recording_inprogress" msgid="4622772178078818425">"تاماملانغاندا بارمىقىڭىزنى ئاجرىتىڭ."</string>
+    <string name="lockpattern_recording_incorrect_too_short" msgid="3103250430366718996">"ئاز دېگەندە <xliff:g id="NUMBER">%d</xliff:g> نۇقتىغا باغلىنىدۇ. قايتا سىناڭ:"</string>
+    <string name="lockpattern_pattern_entered_header" msgid="8378617839439987962">"ئەندىزە خاتىرىلەندى."</string>
+    <string name="lockpattern_need_to_confirm" msgid="5144676887162575050">"ئەندىزەنى قايتا سىزىپ جەزملەڭ:"</string>
+    <string name="lockpattern_pattern_confirmed_header" msgid="2223856038485537716">"قۇلۇپ ئاچىدىغان يېڭى ئەندىزەڭىز:"</string>
     <string name="lockpattern_confirm_button_text" msgid="1128204343957002841">"جەزملە"</string>
     <string name="lockpattern_restart_button_text" msgid="3337574403350953926">"قايتا سىزىڭ"</string>
     <string name="lockpattern_retry_button_text" msgid="1949847413862309134">"قايتا سىنا"</string>
@@ -1127,7 +1092,7 @@
     <string name="auto_launch_disable_text" msgid="7800385822185540166">"كۆڭۈلدىكىدەك تەڭشەش يوق."</string>
     <string name="clear_activities" msgid="7408923511535174430">"كۆڭۈلدىكى تەڭشەكنى تازىلا"</string>
     <string name="screen_compatibility_text" msgid="1616155457673106022">"بۇ ئەپ ئېكرانىڭىزغا لايىھەلەنمىگەن بولۇشى مۇمكىن. بۇ جايدا ئېكرانىڭىزغا قانداق ماسلىشىپ كۆرسىتىدىغانلىقىنى تەڭشىيەلەيسىز."</string>
-    <string name="ask_compatibility" msgid="7225195569089607846">"قوزغالغاندا سورا"</string>
+    <string name="ask_compatibility" msgid="7225195569089607846">"قوزغىلغاندا سورا"</string>
     <string name="enable_compatibility" msgid="5806819252068617811">"ئەپ ئۆلچەك"</string>
     <string name="unknown" msgid="1592123443519355854">"يوچۇن"</string>
     <string name="sort_order_alpha" msgid="1410278099123670628">"ئات بويىچە تەرتىپلە"</string>
@@ -1167,12 +1132,12 @@
     <string name="clear_failed_dlg_text" msgid="1092177570631523106">"ئەپنىڭ سانلىق مەلۇماتلىرىنى تازىلىيالمايدۇ."</string>
     <string name="security_settings_desc" product="tablet" msgid="1292421279262430109">"بۇ ئەپ تاختا كومپيۇتېرىڭىزدىكى تۆۋەندىكى مەزمۇننى زىيارەت قىلالايدۇ:"</string>
     <string name="security_settings_desc" product="default" msgid="61749028818785244">"بۇ ئەپ تېلېفونىڭىزدىكى تۆۋەندىكى مەزمۇننى زىيارەت قىلالايدۇ:"</string>
-    <string name="security_settings_desc_multi" product="tablet" msgid="7300932212437084403">"بۇ ئەپ تاختا كومپيۇتېرىڭىزدىكى تۆۋەندىكى مەزمۇنلارنى زىيارەت قىلالايدۇ. ئۈنۈمنى ئۆستۈرۈش ۋە ئەسلەك ئىشلىتىشنى ئازايتىش ئۈچۈن <xliff:g id="BASE_APP_NAME">%1$s</xliff:g> ئۇنىڭدىكى قىسمەن ھوقۇققا ئېرىشەلەيدۇ، چۈنكى ئۇ <xliff:g id="ADDITIONAL_APPS_LIST">%2$s</xliff:g> بىلەن ئوخشاش بىر جەرياندا ئىجرا قىلىنىدۇ:"</string>
-    <string name="security_settings_desc_multi" product="default" msgid="6610268420793984752">"بۇ ئەپ تېلېفونىڭىزدىكى تۆۋەندىكى مەزمۇنلارنى زىيارەت قىلالايدۇ. ئۈنۈمنى ئۆستۈرۈش ۋە ئەسلەك ئىشلىتىشنى ئازايتىش ئۈچۈن <xliff:g id="BASE_APP_NAME">%1$s</xliff:g> ئۇنىڭدىكى قىسمەن ھوقۇققا ئېرىشەلەيدۇ، چۈنكى ئۇ <xliff:g id="ADDITIONAL_APPS_LIST">%2$s</xliff:g> بىلەن ئوخشاش بىر جەرياندا ئىجرا قىلىنىدۇ:"</string>
+    <string name="security_settings_desc_multi" product="tablet" msgid="7300932212437084403">"بۇ ئەپ تاختا كومپيۇتېرىڭىزدىكى تۆۋەندىكى مەزمۇنلارنى زىيارەت قىلالايدۇ. ئۈنۈمنى ئۆستۈرۈش ۋە ئەسلەك ئىشلىتىشنى ئازايتىش ئۈچۈن %1$s ئۇنىڭدىكى قىسمەن ھوقۇققا ئېرىشەلەيدۇ، چۈنكى ئۇ %2$s بىلەن ئوخشاش بىر جەرياندا ئىجرا قىلىنىدۇ:"<xliff:g id="BASE_APP_NAME"></xliff:g><xliff:g id="ADDITIONAL_APPS_LIST"></xliff:g></string>
+    <string name="security_settings_desc_multi" product="default" msgid="6610268420793984752">"بۇ ئەپ تېلېفونىڭىزدىكى تۆۋەندىكى مەزمۇنلارنى زىيارەت قىلالايدۇ. ئۈنۈمنى ئۆستۈرۈش ۋە ئەسلەك ئىشلىتىشنى ئازايتىش ئۈچۈن %1$s ئۇنىڭدىكى قىسمەن ھوقۇققا ئېرىشەلەيدۇ، چۈنكى ئۇ %2$s بىلەن ئوخشاش بىر جەرياندا ئىجرا قىلىنىدۇ:"<xliff:g id="BASE_APP_NAME"></xliff:g><xliff:g id="ADDITIONAL_APPS_LIST"></xliff:g></string>
     <string name="join_two_items" msgid="1336880355987539064">"<xliff:g id="FIRST_ITEM">%1$s</xliff:g> ۋە <xliff:g id="SECOND_ITEM">%2$s</xliff:g>"</string>
     <string name="join_many_items_last" msgid="5925635036718502724">"<xliff:g id="ALL_BUT_LAST_ITEM">%1$s</xliff:g> ۋە <xliff:g id="LAST_ITEM_0">%2$s</xliff:g>"</string>
-    <string name="join_many_items_first" msgid="4333907712038448660">"<xliff:g id="FIRST_ITEM">%1$s</xliff:g>, <xliff:g id="ALL_BUT_FIRST_AND_LAST_ITEM">%2$s</xliff:g>"</string>
-    <string name="join_many_items_middle" msgid="7556692394478220814">"<xliff:g id="ADDED_ITEM">%1$s</xliff:g>, <xliff:g id="REST_OF_ITEMS">%2$s</xliff:g>"</string>
+    <string name="join_many_items_first" msgid="4333907712038448660">"<xliff:g id="FIRST_ITEM">%1$s</xliff:g>،<xliff:g id="ALL_BUT_FIRST_AND_LAST_ITEM">%2$s</xliff:g></string>
+    <string name="join_many_items_middle" msgid="7556692394478220814">"%1$s, %2$s"<xliff:g id="ADDED_ITEM"></xliff:g><xliff:g id="REST_OF_ITEMS"></xliff:g></string>
     <string name="security_settings_billing_desc" msgid="8061019011821282358">"بۇ ئەپ پۇلىڭىزنى سەرپ قىلىشى مۇمكىن:"</string>
     <string name="security_settings_premium_sms_desc" msgid="8734171334263713717">"ھەقلىق قىسقا ئۇچۇر يوللا"</string>
     <string name="computing_size" msgid="1599186977475211186">"ھېسابلاۋاتىدۇ…"</string>
@@ -1193,7 +1158,7 @@
     <string name="force_stop_dlg_title" msgid="977530651470711366">"مەجبۇرى توختىتامدۇ؟"</string>
     <string name="force_stop_dlg_text" msgid="7208364204467835578">"ئەپ مەجبۇرىي توختىتىلسا نورمالسىزلىق كەلتۈرۈپ چىقىرىشى مۇمكىن."</string>
     <string name="move_app_failed_dlg_title" msgid="1282561064082384192"/>
-    <string name="move_app_failed_dlg_text" msgid="3465267182923054022">"ئەپنى يۆتكىيەلمەيدۇ. <xliff:g id="REASON">%1$s</xliff:g>"</string>
+    <string name="move_app_failed_dlg_text" msgid="3465267182923054022">"<xliff:g id="REASON">%1$s</xliff:g>ئەپنى يۆتكىيەلمەيدۇ. "</string>
     <string name="app_install_location_title" msgid="2068975150026852168">"ئالدىن بەلگىلەنگەن ئورنىتىدىغان ئورۇن"</string>
     <string name="app_install_location_summary" msgid="5155453752692959098">"يېڭى ئەپ ئورناتقاندا ئىشلىتىدىغان ئالدىن بەلگىلەنگەن ئورۇننى ئۆزگەرتىدۇ"</string>
     <string name="app_disable_dlg_title" msgid="3916469657537695436">"ئىچىدىكى ئەپنى چەكلەمدۇ؟"</string>
@@ -1250,10 +1215,10 @@
     <string name="auto_caps_summary" msgid="6358102538315261466">"جۈملە بېشىدىكى بىرىنچى ھەرپ چوڭ"</string>
     <string name="auto_punctuate" msgid="4595367243950425833">"تىنىش بەلگىسىنى ئاپتوماتىك قوش"</string>
     <string name="hardkeyboard_category" msgid="5957168411305769899">"فىزىكىلىق ھەرپتاختا تەڭشىكى"</string>
-    <string name="auto_punctuate_summary" msgid="4372126865670574837">"بوشلۇق ئىككى قېتىم بېسىلسا "." چېكىت قىستۇرىدۇ"</string>
+    <string name="auto_punctuate_summary" msgid="4372126865670574837">"بوشلۇق ئىككى قېتىم بېسىلسا \".\" چېكىت قىستۇرىدۇ"</string>
     <string name="show_password" msgid="3001113966880559611">"ئىم كۆرۈنۈشچان"</string>
-    <string name="ime_security_warning" msgid="4135828934735934248">"بۇ كىرگۈزگۈچ ئىھتىمال سىزنىڭ كىرگۈزگەن بارلىق يېزىق، ئىم، ئىناۋەتلىك كارتا نومۇرى قاتارلىق شەخسى ئۇچۇرلىرىڭىزنى توپلىشى مۇمكىن. ئۇ <xliff:g id="IME_APPLICATION_NAME">%1$s</xliff:g> ئەپتىن كەلگەن. بۇ كىرگۈزگۈچنى ئىشلىتەمسىز؟"</string>
-    <string name="spellchecker_security_warning" msgid="9060897418527708922">"بۇ ئىملا تەكشۈرگۈچ ئىھتىمال سىزنىڭ كىرگۈزگەن بارلىق يېزىق، ئىم، ئىناۋەتلىك كارتا نومۇرى قاتارلىق شەخسى ئۇچۇرلىرىڭىزنى توپلىشى مۇمكىن. ئۇ <xliff:g id="SPELLCHECKER_APPLICATION_NAME">%1$s</xliff:g> ئەپتىن كەلگەن. بۇ ئىملا تەكشۈرگۈچنى ئىشلىتەمسىز؟"</string>
+    <string name="ime_security_warning" msgid="4135828934735934248">"بۇ كىرگۈزگۈچ ئىھتىمال سىزنىڭ كىرگۈزگەن بارلىق يېزىق، ئىم، ئىناۋەتلىك كارتا نومۇرى قاتارلىق شەخسى ئۇچۇرلىرىڭىزنى توپلىشى مۇمكىن. ئۇ %1$s ئەپتىن كەلگەن. بۇ كىرگۈزگۈچنى ئىشلىتەمسىز؟"<xliff:g id="IME_APPLICATION_NAME"></xliff:g></string>
+    <string name="spellchecker_security_warning" msgid="9060897418527708922">"بۇ ئىملا تەكشۈرگۈچ ئىھتىمال سىزنىڭ كىرگۈزگەن بارلىق يېزىق، ئىم، ئىناۋەتلىك كارتا نومۇرى قاتارلىق شەخسى ئۇچۇرلىرىڭىزنى توپلىشى مۇمكىن. ئۇ %1$s ئەپتىن كەلگەن. بۇ ئىملا تەكشۈرگۈچنى ئىشلىتەمسىز؟"<xliff:g id="SPELLCHECKER_APPLICATION_NAME"></xliff:g></string>
     <string name="spellchecker_quick_settings" msgid="246728645150092058">"تەڭشەكلەر"</string>
     <string name="spellchecker_language" msgid="6041050114690541437">"تىل"</string>
     <string name="failed_to_open_app_settings_toast" msgid="1251067459298072462">"<xliff:g id="SPELL_APPLICATION_NAME">%1$s</xliff:g> نىڭ تەڭشەكلىرىنى ئاچالمىدى"</string>
@@ -1267,7 +1232,9 @@
     <string name="keyboard_layout_dialog_switch_hint" msgid="3889961090676293795">"ئالماشتۇرۇشتا Control+بوشلۇق كۇنۇپكىسىنى بېسىڭ"</string>
     <string name="keyboard_layout_default_label" msgid="2952672513543482165">"كۆڭۈلدىكى"</string>
     <string name="keyboard_layout_picker_title" msgid="556081931972771610">"ھەرپتاختا ئورۇنلاشتۇرۇلۇشى"</string>
-    <string name="user_dict_settings_title" msgid="3427169369758733521">"شەخسىي لۇغەت"</string>
+    <string name="user_dict_settings_titlebar" msgid="765659257455000490">"ئىشلەتكۈچى لۇغىتى"</string>
+    <string name="user_dict_single_settings_title" msgid="524997218433540614">"شەخسىي لۇغەت"</string>
+    <string name="user_dict_multiple_settings_title" msgid="3735224433307996276">"شەخسىي لۇغەتلەر"</string>
     <string name="user_dict_settings_summary" msgid="7965571192902870454"/>
     <string name="user_dict_settings_add_menu_title" msgid="4056762757149923551">"قوش"</string>
     <string name="user_dict_settings_add_dialog_title" msgid="4702613990174126482">"لۇغەتكە قوش"</string>
@@ -1294,9 +1261,9 @@
     <string name="quick_launch_summary" msgid="8101133819188001190">"ئەپ قوزغىتىدىغان ھەرپتاختا قىسقا يول تەڭشىكى"</string>
     <string name="quick_launch_assign_application" msgid="6240064079456617501">"ئەپكە تاقسىملەنگەن"</string>
     <string name="quick_launch_no_shortcut" msgid="5998005833838278693">"تېز كۇنۇپكا يوق"</string>
-    <string name="quick_launch_shortcut" msgid="5090405067413522300">"ئىزدە + <xliff:g id="SHORTCUT_LETTER">%1$s</xliff:g>"</string>
+    <string name="quick_launch_shortcut" msgid="5090405067413522300">"ئىزدە + %1$s"<xliff:g id="SHORTCUT_LETTER"></xliff:g></string>
     <string name="quick_launch_clear_dialog_title" msgid="5546543501250320220">"تازىلا"</string>
-    <string name="quick_launch_clear_dialog_message" msgid="3921015601470260722">"<xliff:g id="SHORTCUT_LETTER">%1$s</xliff:g> (<xliff:g id="APPLICATION_NAME">%2$s</xliff:g>) قىسقا يولىڭىز تازىلىنىدۇ."</string>
+    <string name="quick_launch_clear_dialog_message" msgid="3921015601470260722">"<xliff:g id="SHORTCUT_LETTER">%1$s</xliff:g>(<xliff:g id="APPLICATION_NAME">%2$s</xliff:g>) قىسقا يولىڭىز تازىلىنىدۇ."</string>
     <string name="quick_launch_clear_ok_button" msgid="2634568926597586716">"جەزملە"</string>
     <string name="quick_launch_clear_cancel_button" msgid="1892854652197747064">"ۋاز كەچ"</string>
     <string name="quick_launch_display_mode_applications" msgid="1734058461846126775">"ئەپلەر"</string>
@@ -1304,7 +1271,7 @@
     <string name="input_methods_settings_title" msgid="6800066636850553887">"تېكىست كىرگۈزۈش"</string>
     <string name="input_method" msgid="5434026103176856164">"كىرگۈزگۈچ"</string>
     <string name="current_input_method" msgid="234072873286056438">"كۆڭۈلدىكى"</string>
-    <string name="input_method_selector" msgid="4311213129681430709">"كىرگۈزگۈچ تاللىغۇچ"</string>
+    <string name="input_method_selector" msgid="4311213129681430709">"كىرگۈچگۈچ تاللىغۇچ"</string>
     <string name="input_method_selector_show_automatically_title" msgid="1001612945471546158">"ئاپتوماتىك"</string>
     <string name="input_method_selector_always_show_title" msgid="3891824124222371634">"ھەمىشە كۆرسەت"</string>
     <string name="input_method_selector_always_hide_title" msgid="7699647095118680424">"ھەمىشە يوشۇر"</string>
@@ -1328,13 +1295,6 @@
     <string name="bugreport_in_power_summary" msgid="5764234382355067053">"توك مەنبە تىزىملىككە خاتالىق دوكلاتى يوللاش تاللانمىسى قوشىدۇ"</string>
     <string name="keep_screen_on" msgid="1146389631208760344">"ئويغاق ھالەتنى ساقلا"</string>
     <string name="keep_screen_on_summary" msgid="2173114350754293009">"توكلاۋاتقاندا ئېكراننى ھەرگىز ئۇخلاتما"</string>
-    <string name="bt_hci_snoop_log" msgid="3340699311158865670">"كۆكچىشنىڭ HCI ئۇچۇر توپلاش خاتىرىسىنى قوزغات"</string>
-    <string name="bt_hci_snoop_log_summary" msgid="730247028210113851">"بىر ھۆججەتتىكى ھەممە كۆكچىش HCI بوغچىسىنى تۇتىدۇ"</string>
-    <string name="select_runtime_title" msgid="649783802363155346">"ئىجرا مۇھىتىنى تاللاڭ"</string>
-    <string name="select_runtime_dialog_title" msgid="5314872813037493958">"ئىجرا مۇھىتىنى تاللاڭ"</string>
-    <string name="select_runtime_warning_message" msgid="1937574953265648165">"قايتا قوزغىتىپ ئىجرا مۇھىتىنى <xliff:g id="OLD">%1$s</xliff:g> دىن <xliff:g id="NEW">%2$s</xliff:g> غا ئۆزگەرتەمدۇ؟"</string>
-    <string name="wifi_display_certification" msgid="8611569543791307533">"سىمسىز كۆرسىتىش ئىجازەتنامىسى"</string>
-    <string name="wifi_display_certification_summary" msgid="1155182309166746973">"سىمسىز كۆرسىتىش ئىجازەتنامىسىنىڭ تاللانمىلىرىنى كۆرسىتىدۇ"</string>
     <string name="allow_mock_location" msgid="2787962564578664888">"تەقلىد ئورۇنغا يول قوي"</string>
     <string name="allow_mock_location_summary" msgid="317615105156345626">"تەقلىد ئورۇنغا يول قوي"</string>
     <string name="adb_warning_title" msgid="6234463310896563253">"USB سازلاشقا يول قويامدۇ؟"</string>
@@ -1352,20 +1312,15 @@
     <string name="enforce_read_external_summary" product="default" msgid="2750027486786530064">"ئەپ چوقۇم SD كارتىنى ئوقۇش ھوقۇقىنى ئىلتىماس قىلىشى زۆرۈر"</string>
     <string name="enforce_read_external_confirm_title" product="default" msgid="273220585729800783">"SD كارتىنى قوغدامدۇ؟"</string>
     <string name="enforce_read_external_confirm_message" product="default" msgid="3858482712337574407">"ئەگەر SD كارتا قوغدالسا، ئەپ چوقۇم مۇناسىپ ھوقۇقنى ئىلتىماس قىلغاندىلا ئاندىن سىرتقى ئۈسكۈنىدىكى سانلىق مەلۇماتنى ئوقۇيالايدۇ.\n\nبەزى ئەپلەرنى ئۇنىڭ ئىجادكارلىرى يېڭىلىمىغۇچە ئىشلەتكىلى بولماسلىقى مۇمكىن."</string>
-    <string name="enable_terminal_title" msgid="95572094356054120">"يەرلىك تېرمىنال"</string>
-    <string name="enable_terminal_summary" msgid="67667852659359206">"تېرمىنال ئەپنى قوزغىتىپ يەرلىك ئورۇندا shell زىيارەت قىلىشقا قولايلىق يارىتىدۇ"</string>
     <string name="gadget_picker_title" msgid="98374951396755811">"ئەپچە تاللاڭ"</string>
     <string name="widget_picker_title" msgid="9130684134213467557">"ئەپچە تاللاڭ"</string>
     <string name="allow_bind_app_widget_activity_allow_bind_title" msgid="2538303018392590627">"ئەپنىڭ ئەپچە قۇرۇپ زىيارەت قىلىشىغا يول قويامدۇ؟"</string>
     <string name="allow_bind_app_widget_activity_allow_bind" msgid="1584388129273282080">"ئەپچە قۇرغاندىن كېيىن، <xliff:g id="WIDGET_HOST_NAME">%1$s</xliff:g> كۆرسىتىدىغان ھەممە سانلىق مەلۇماتنى زىيارەت قىلالايدۇ."</string>
     <string name="allow_bind_app_widget_activity_always_allow_bind" msgid="7037503685859688034">"بۇ <xliff:g id="WIDGET_HOST_NAME">%1$s</xliff:g> نىڭ ئەپچە قۇرۇپ ئۇنىڭ سانلىق مەلۇماتىنى زىيارەت قىلىشىغا ھەمىشە يول قويىدۇ."</string>
-    <string name="battery_history_days" msgid="7110262897769622564">"<xliff:g id="DAYS">%1$d</xliff:g> كۈن <xliff:g id="HOURS">%2$d</xliff:g> سائەت <xliff:g id="MINUTES">%3$d</xliff:g> مىنۇت <xliff:g id="SECONDS">%4$d</xliff:g> سېكۇنت"</string>
+    <string name="battery_history_days" msgid="7110262897769622564">"<xliff:g id="DAYS">%1$d</xliff:g>كۈن <xliff:g id="HOURS">%2$d</xliff:g>سائەت  <xliff:g id="MINUTES">%3$d</xliff:g>مىنۇت <xliff:g id="SECONDS">%4$d</xliff:g> سېكۇنت"</string>
     <string name="battery_history_hours" msgid="7525170329826274999">"<xliff:g id="HOURS">%1$d</xliff:g> سائەت <xliff:g id="MINUTES">%2$d</xliff:g> مىنۇت <xliff:g id="SECONDS">%3$d</xliff:g> سېكۇنت"</string>
     <string name="battery_history_minutes" msgid="1467775596084148610">"<xliff:g id="MINUTES">%1$d</xliff:g> مىنۇت <xliff:g id="SECONDS">%2$d</xliff:g> سېكۇنت"</string>
     <string name="battery_history_seconds" msgid="4283492130945761685">"<xliff:g id="SECONDS">%1$d</xliff:g> سېكۇنت"</string>
-    <string name="battery_history_days_no_seconds" msgid="703063770554334710">"<xliff:g id="DAYS">%1$d</xliff:g> كۈن <xliff:g id="HOURS">%2$d</xliff:g> سائەت <xliff:g id="MINUTES">%3$d</xliff:g> مىنۇت"</string>
-    <string name="battery_history_hours_no_seconds" msgid="663342892615646712">"<xliff:g id="HOURS">%1$d</xliff:g> سائەت <xliff:g id="MINUTES">%2$d</xliff:g> مىنۇت"</string>
-    <string name="battery_history_minutes_no_seconds" msgid="7780294302606853082">"<xliff:g id="MINUTES">%1$d</xliff:g> مىنۇت"</string>
     <string name="usage_stats_label" msgid="5890846333487083609">"ئىشلىتىش سىتاتىستىكىسى"</string>
     <string name="testing_usage_stats" msgid="7823048598893937339">"ئىشلىتىش سىتاتىستىكىسى"</string>
     <string name="display_order_text" msgid="8592776965827565271">"تەرتىپلەش ئۇسۇلى:"</string>
@@ -1376,9 +1331,8 @@
     <string name="accessibility_settings_title" msgid="2130492524656204459">"قوشۇمچە ئىقتىدار تەڭشىكى"</string>
     <string name="accessibility_services_title" msgid="2592221829284342237">"مۇلازىمەتلەر"</string>
     <string name="accessibility_system_title" msgid="7187919089874130484">"سىستېما"</string>
-    <string name="accessibility_captioning_title" msgid="7589266662024836291">ماۋزۇ</string>
     <string name="accessibility_screen_magnification_title" msgid="7001782548715744981">"قول ئىشارەتنى چوڭايتىش"</string>
-    <string name="accessibility_screen_magnification_summary" msgid="2380627654189671754">"بۇ ئىقتىدار قوزغىتىلسا، ئېكراننى ئۈچ قېتىم چېكىپ يىراقلىتالايسىز. يېقىنلىتىشتا،"\n\n"تەكشى يۆتكەپ: ئېكراندا ئىككى ياكى ئۇنىڭدىن ئارتۇق بارماقنى سۈرىسىز."\n"يىراق-يېقىنلىق دەرىجىسىنى تەڭشەشتە: ئىككى ياكى تېخىمۇ كۆپ بارماقنى ئېچىپ ياپىسىز."\n"شۇنىڭ بىلەن بىللە، ئۈچ قېتىم چېكىپ ھەمدە بېسىپ تۇرۇش ئۇسۇلى ئارقىلىق بارماق تېگىپ تۇرغان جايدىكى مەزمۇننى يېقىنلىتالايسىز. بۇ خىل يېقىنلىتىش ھالىتىدە، بارمىقىڭىزنى سۈرۈپ ئېكراندىكى ھەر قايسى بۆلەكلەرنى كۆرەلەيسىز. بارمىقىڭىزنى قويۇپ بەرسىڭىزلا ئىلگىرىكى ھالەتكە قايتىدۇ."\n\n"دىققەت: ئېكراننى ئۈچ قېتىم چېكىپ ئېكراننى يېقىنلىتىش ئۇسۇلى ھەرپتاختا ۋە يولباشچى بالداقتىن باشقا ھەممە ئەھۋالغا ماس كېلىدۇ."<ul><li></li><li></li></ul></string>
+    <string name="accessibility_screen_magnification_summary" msgid="2380627654189671754">"بۇ ئىقتىدار قوزغىتىلسا، ئېكراننى ئۈچ قېتىم چېكىپ يىراقلىتالايسىز. يېقىنلىتىشتا،"\n\n"<ul><li>"تەكشى يۆتكەپ: ئېكراندا ئىككى ياكى ئۇنىڭدىن ئارتۇق بارماقنى سۈرىسىز."</li>"\n"<li>"يىراق-يېقىنلىق دەرىجىسىنى تەڭشەشتە: ئىككى ياكى تېخىمۇ كۆپ بارماقنى ئېچىپ ياپىسىز."</li></ul>"\n"شۇنىڭ بىلەن بىللە، ئۈچ قېتىم چېكىپ ھەمدە بېسىپ تۇرۇش ئۇسۇلى ئارقىلىق بارماق تېگىپ تۇرغان جايدىكى مەزمۇننى يېقىنلىتالايسىز. بۇ خىل يېقىنلىتىش ھالىتىدە، بارمىقىڭىزنى سۈرۈپ ئېكراندىكى ھەر قايسى بۆلەكلەرنى كۆرەلەيسىز. بارمىقىڭىزنى قويۇپ بەرسىڭىزلا ئىلگىرىكى ھالەتكە قايتىدۇ."\n\n"دىققەت: ئېكراننى ئۈچ قېتىم چېكىپ ئېكراننى يېقىنلىتىش ئۇسۇلى ھەرپتاختا ۋە يولباشچى بالداقتىن باشقا ھەممە ئەھۋالغا ماس كېلىدۇ."</string>
     <string name="accessibility_global_gesture_preference_title" msgid="6752037184140789970">"قوشۇمچە ئىقتىدار قىسقا يولى"</string>
     <string name="accessibility_global_gesture_preference_summary_on" msgid="6180927399052022181">"ئوچۇق"</string>
     <string name="accessibility_global_gesture_preference_summary_off" msgid="8102103337813609849">"تاقاق"</string>
@@ -1393,31 +1347,6 @@
     <string name="accessibility_menu_item_settings" msgid="3344942964710773365">"تەڭشەكلەر"</string>
     <string name="accessibility_feature_state_on" msgid="2864292320042673806">"ئوچۇق"</string>
     <string name="accessibility_feature_state_off" msgid="4172584906487070211">"تاقاق"</string>
-    <string name="captioning_preview_title" msgid="1234015253497016890">"ئالدىن كۆزەت"</string>
-    <string name="captioning_standard_options_title" msgid="3284211791180335844">"ئۆلچەملىك تاللانمىلار"</string>
-    <string name="captioning_locale" msgid="4559155661018823503">"تىل"</string>
-    <string name="captioning_text_size" msgid="6737002449104466028">"تېكىست چوڭلۇقى"</string>
-    <string name="captioning_preset" msgid="8939737196538429044">"كىنو خەت ئۇسلۇبى"</string>
-    <string name="captioning_custom_options_title" msgid="5067500939930322405">"ئىختىيارى تاللانمىلار"</string>
-    <string name="captioning_background_color" msgid="9053011212948992570">"تەگلىك رەڭگى"</string>
-    <string name="captioning_background_opacity" msgid="6029993616419971202">"تەگلىك غۇۋالىقى"</string>
-    <string name="captioning_foreground_color" msgid="85623486537640059">"تېكست رەڭگى"</string>
-    <string name="captioning_edge_color" msgid="3670094753735263238">"گىرۋەك رەڭگى"</string>
-    <string name="captioning_edge_type" msgid="5997247394951682154">"گىرۋەك تىپى"</string>
-    <string name="captioning_typeface" msgid="1826169240566563259">"خەت نۇسخا تۈركۈمى"</string>
-    <string name="captioning_preview_text" msgid="4067935959797375065">"كىنو خەتنىڭ كۆرۈنۈش ئۆرنىكى"</string>
-    <string name="captioning_preview_characters" msgid="7105909138497851769">"Aa"</string>
-    <string name="locale_default" msgid="2593883646136326969">"كۆڭۈلدىكى"</string>
-    <string name="color_none" msgid="3475640044925814795">"يوق"</string>
-    <string name="color_white" msgid="8045195170201590239">"ئاق"</string>
-    <string name="color_gray" msgid="9192312087142726313">"كۈلرەڭ"</string>
-    <string name="color_black" msgid="7517353520909872561">"قارا"</string>
-    <string name="color_red" msgid="4949354900304125428">"قىزىل"</string>
-    <string name="color_green" msgid="5537717328428845841">"يېشىل"</string>
-    <string name="color_blue" msgid="7731984529016953223">"كۆك"</string>
-    <string name="color_cyan" msgid="7033027180641173211">"توق يېشىل"</string>
-    <string name="color_yellow" msgid="9112680561610873529">"سېرىق"</string>
-    <string name="color_magenta" msgid="5059212823607815549">"ئاچ قىزىل"</string>
     <string name="enable_service_title" msgid="3061307612673835592">"<xliff:g id="SERVICE">%1$s</xliff:g> نى ئىشلىتەمدۇ؟"</string>
     <string name="capabilities_list_title" msgid="86713361724771971">"<xliff:g id="SERVICE">%1$s</xliff:g> ئېھتىياجى:"</string>
     <string name="capability_title_receiveAccessibilityEvents" msgid="1869032063969970755">"مەشغۇلاتلىرىڭىزنى كۆزىتىدۇ"</string>
@@ -1429,35 +1358,6 @@
     <string name="accessibility_service_no_apps_message" msgid="7751662416377046539">"ئاۋازلىق ئەسكەرتىش ئاۋاز ئارقىلىق ئىنكاس قايتۇرۇپ ئەما ۋە كۆرۈش سېزىمى تۆۋەنلەرگە ياردەم قىلىدۇ. ئاندىرويىد بازىرى ئارقىلىق بۇ ھەقسىز مۇلازىمەتنى ئورنىتامسىز؟"</string>
     <string name="accessibility_service_default_description" msgid="1072730037861494125">"چۈشەندۈرۈش تەمىنلەنمىگەن."</string>
     <string name="settings_button" msgid="3006713718908152930">"تەڭشەكلەر"</string>
-    <string name="print_settings" msgid="4742428530112487843">"بېسىش"</string>
-    <string name="print_settings_title" msgid="3685449667822217816">"بېسىش مۇلازىمەتلىرى"</string>
-    <string name="print_service_security_warning_title" msgid="2338435517408144841">"<xliff:g id="SERVICE">%1$s</xliff:g> نى ئىشلىتەمدۇ؟"</string>
-    <string name="print_service_security_warning_summary" msgid="7567131958613064363">"پۈتۈكىڭىزنى بىر ياكى بىر قانچە مۇلازىمەت پىرىنتېرغا يوللاۋاتقان بولۇشى مۇمكىن."</string>
-    <string name="print_no_services_installed" msgid="8443039625463872294">"ھېچقانداق مۇلازىمەت ئورنىتىلمىغان"</string>
-    <string name="print_no_printers_found" msgid="989018646884973683">"پرىنتېر تېپىلمىدى"</string>
-    <string name="print_menu_item_settings" msgid="6591330373682227082">"تەڭشەكلەر"</string>
-    <string name="print_menu_item_add_printers" msgid="2890738028215834012">"پىرىنتېر قوش"</string>
-    <string name="print_feature_state_on" msgid="8098901852502441048">"ئوچۇق"</string>
-    <string name="print_feature_state_off" msgid="7294876968403966040">"تاقاق"</string>
-    <string name="print_menu_item_add_service" msgid="3811645167869797802">"مۇلازىمەت قوش"</string>
-    <string name="print_menu_item_add_printer" msgid="8251218970577291032">"پرىنتېر قوش"</string>
-    <string name="print_menu_item_search" msgid="7025589328240514553">"ئىزدە"</string>
-    <string name="print_searching_for_printers" msgid="4680248496457576358">"پرىنتېرلارنى ئىزدەۋاتىدۇ"</string>
-    <string name="print_service_disabled" msgid="7739452396114245222">"مۇلازىمەت چەكلەندى"</string>
-    <string name="print_print_jobs" msgid="3582094777756968793">"بېسىپ چىقىرىش ۋەزىپىلىرى"</string>
-    <string name="print_print_job" msgid="7563741676053287211">"بېسىپ چىقىرىش ۋەزىپىسى"</string>
-    <string name="print_restart" msgid="8373999687329384202">"قايتا قوزغات"</string>
-    <string name="print_cancel" msgid="3621199386568672235">"ۋاز كەچ"</string>
-    <string name="print_job_summary" msgid="8472427347192930694">"<xliff:g id="PRINTER">%1$s</xliff:g>\n<xliff:g id="TIME">%2$s</xliff:g>"</string>
-    <string name="print_printing_state_title_template" msgid="5736107667714582025">"بېسىۋاتقىنى <xliff:g id="PRINT_JOB_NAME">%s</xliff:g>"</string>
-    <string name="print_failed_state_title_template" msgid="1436099128973357969">"پىرىنتېر <xliff:g id="PRINT_JOB_NAME">%1$s</xliff:g> نى بېسىۋاتقاندا خاتالىق كۆرۈلدى"</string>
-    <string name="print_blocked_state_title_template" msgid="9065391617425962424">"پىرىنتېر <xliff:g id="PRINT_JOB_NAME">%1$s</xliff:g> نى بېسىشنى توستى"</string>
-    <string name="print_search_box_shown_utterance" msgid="7730361832020726951">"ئىزدەش قۇتىسى كۆرۈندى"</string>
-    <string name="print_search_box_hidden_utterance" msgid="7980832833405818400">"ئىزدەش قۇتىسى يوشۇرۇلدى"</string>
-  <plurals name="print_search_result_count_utterance">
-    <item quantity="one" msgid="1322401991353603285">"تاپقان پىرىنتېر <xliff:g id="COUNT">%1$s</xliff:g>"</item>
-    <item quantity="other" msgid="460211409510874128">"تاپقان پىرىنتېر <xliff:g id="COUNT">%1$s</xliff:g>"</item>
-  </plurals>
     <string name="power_usage_summary_title" msgid="7190304207330319919">"توكدان"</string>
     <string name="power_usage_summary" msgid="7237084831082848168">"توك سەرپىيات ئەھۋالى"</string>
     <string name="power_usage_not_available" msgid="3214000535532434353">"توكدان ئىشلىتىش ئەھۋالىنى ئىشلەتكىلى بولمايدۇ"</string>
@@ -1495,10 +1395,8 @@
     <string name="usage_type_wifi_running" msgid="3134357198266380400">"Wi-Fi ئىجرا قىلىنىۋاتىدۇ"</string>
     <string name="usage_type_phone" product="tablet" msgid="262638572890253393">"تاختا كومپيۇتېر"</string>
     <string name="usage_type_phone" product="default" msgid="9108247984998041853">"تېلېفون"</string>
-    <string name="usage_type_data_send" msgid="3875198715268918671">"يوللىغان كۆچمە سانلىق مەلۇمات"</string>
-    <string name="usage_type_data_recv" msgid="6694951443404021754">"قوبۇللىغان كۆچمە سانلىق مەلۇمات"</string>
-    <string name="usage_type_data_wifi_send" msgid="7178327382353096029">"يوللىغان Wi‑Fi سانلىق مەلۇمات"</string>
-    <string name="usage_type_data_wifi_recv" msgid="7822328607564241372">"قوبۇللىغان Wi‑Fi سانلىق مەلۇمات"</string>
+    <string name="usage_type_data_send" msgid="2857401966985425427">"سانلىق مەلۇمات يوللاندى"</string>
+    <string name="usage_type_data_recv" msgid="7251090882025234185">"سانلىق مەلۇمات قوبۇللاندى"</string>
     <string name="usage_type_audio" msgid="6957269406840886290">"ئۈن"</string>
     <string name="usage_type_video" msgid="4295357792078579944">"سىن"</string>
     <string name="usage_type_on_time" msgid="3351200096173733159">"ئىجرا قىلىنغان ۋاقىت"</string>
@@ -1523,7 +1421,7 @@
     <string name="battery_sugg_bluetooth_headset" msgid="4071352514714259230">"باشقا بىر كۆكچىش ئۈسكۈنىسىگە باغلىنىشنى سىنا"</string>
     <string name="battery_desc_apps" msgid="8530418792605735226">"ئەپ خوراتقان توك"</string>
     <string name="battery_sugg_apps_info" msgid="6907588126789841231">"ئەپنى توختات ياكى ئۆچۈر"</string>
-    <string name="battery_sugg_apps_gps" msgid="5959067516281866135">"توك تېجەش ھالىتىنى تاللاڭ"</string>
+    <string name="battery_sugg_apps_gps" msgid="7287643439298561315">"GPS نى قولدا تىزگىنلەپ، ئەپنىڭ ئۇنى ئىشلىتىشىنىڭ ئالدىنى ئالىدۇ"</string>
     <string name="battery_sugg_apps_settings" msgid="3974902365643634514">"بۇ ئەپتە توك سەرپىياتىنى تۆۋەنلىتىدىغان تەڭشەك بولۇشى مۇمكىن"</string>
     <string name="battery_desc_users" msgid="7682989161885027823">"ئىشلەتكۈچى خوراتقان توك"</string>
     <string name="menu_stats_unplugged" msgid="8296577130840261624">"توك مەنبەسىنى ئۈزگەندىن كېيىن <xliff:g id="UNPLUGGED">%1$s</xliff:g>"</string>
@@ -1532,29 +1430,6 @@
     <string name="menu_stats_refresh" msgid="1676215433344981075">"يېڭىلا"</string>
     <string name="process_kernel_label" msgid="3916858646836739323">"Android OS"</string>
     <string name="process_mediaserver_label" msgid="6500382062945689285">"ۋاسىتە مۇلازىمېتىر"</string>
-    <string name="process_stats_summary_title" msgid="1144688045609771677">"جەريان سىتاتىستىكىسى"</string>
-    <string name="process_stats_summary" msgid="109387941605607762">"ئىجرا قىلىنىۋاتقان جەريانغا ئائىت تېخنىكىلىق سىتاتىستىكا ئۇچۇرى"</string>
-    <string name="app_memory_use" msgid="7849258480392171939">"ئەسلەك ئىشلىتىشى"</string>
-    <string name="process_stats_total_duration" msgid="1869761515101180444">"<xliff:g id="TYPE">%1$s</xliff:g> ئەپنىڭ <xliff:g id="TIME">%2$s</xliff:g> دىكى سىتاتىستىكىسى"</string>
-    <string name="process_stats_type_background" msgid="3934992858120683459">"تەگلىك"</string>
-    <string name="process_stats_type_foreground" msgid="7713118254089580536">"ئالدى سۇپا"</string>
-    <string name="process_stats_type_cached" msgid="6314925846944806511">"غەملەنگەن"</string>
-    <string name="process_stats_memory_status" msgid="4251599550196193093">"ئۈسكۈنە ئەسلەكنىڭ نۆۋەتتىكى ئەھۋالى <xliff:g id="MEMSTATE">%1$s</xliff:g>"</string>
-    <string name="process_stats_avg_ram_use" msgid="6972943528929394396">"RAM نىڭ ئوتتۇرىچە ئىشلىتىلىشى"</string>
-    <string name="process_stats_max_ram_use" msgid="3273876448926689261">"RAM نىڭ ئەڭ يۇقىرى ئىشلىتىلىشى"</string>
-    <string name="process_stats_run_time" msgid="6520628955709369115">"ئىجرا ۋاقتى"</string>
-    <string name="services_subtitle" msgid="4296402367067266425">"مۇلازىمەتلەر"</string>
-    <string name="menu_proc_stats_duration" msgid="2323483592994720196">"داۋاملىشىش ۋاقتى"</string>
-    <string name="menu_duration_3h" msgid="4714866438374738385">"3 سائەت"</string>
-    <string name="menu_duration_6h" msgid="1940846763432184132">"6 سائەت"</string>
-    <string name="menu_duration_12h" msgid="7890465404584356294">"12 سائەت"</string>
-    <string name="menu_duration_1d" msgid="3393631127622285458">«1 كۈن»</string>
-    <string name="menu_show_system" msgid="8864603400415567635">"سىستېما كۆرسەت"</string>
-    <string name="menu_use_uss" msgid="467765290771543089">"USS ئىشلەت"</string>
-    <string name="menu_proc_stats_type" msgid="4700209061072120948">"سىتاتىستىكا تىپى"</string>
-    <string name="menu_proc_stats_type_background" msgid="2236161340134898852">"تەگلىك"</string>
-    <string name="menu_proc_stats_type_foreground" msgid="2286182659954958586">"ئالدى سۇپا"</string>
-    <string name="menu_proc_stats_type_cached" msgid="5084272779786820693">"غەملەنگەن"</string>
     <string name="voice_input_output_settings" msgid="1336135218350444783">"تاۋۇش كىرگۈزۈش ۋە چىقىرىش"</string>
     <string name="voice_input_output_settings_title" msgid="2442850635048676991">"تاۋۇش كىرگۈزۈش ۋە چىقىرىش تەڭشىكى"</string>
     <string name="voice_search_settings_title" msgid="2775469246913196536">"تاۋۇش ئىزدەش"</string>
@@ -1562,7 +1437,7 @@
     <string name="voice_category" msgid="1430370497125803904">"تاۋۇش"</string>
     <string name="recognizer_title" msgid="3231385184559054457">"ئاۋاز تونۇش سىستېمىسى"</string>
     <string name="recognizer_settings_title" msgid="432493301215113154">"تاۋۇش ئىزدەش"</string>
-    <string name="recognizer_settings_summary" msgid="4472287934134546902">""<xliff:g id="RECOGNIZER_NAME">%s</xliff:g>" نىڭ تەڭشىكى"</string>
+    <string name="recognizer_settings_summary" msgid="4472287934134546902">"<xliff:g id="RECOGNIZER_NAME">%s</xliff:g>نىڭ تەڭشىكى"</string>
     <string name="tts_settings" msgid="8186971894801348327">"تېكىستتىن تاۋۇشقا تەڭشىكى"</string>
     <string name="tts_settings_title" msgid="1237820681016639683">"تېكىستتىن تاۋۇشقا چىقىرىش"</string>
     <string name="use_default_tts_settings_title" msgid="1577063839539732930">"ھەمىشە تەڭشىكىمنى ئىشلەت"</string>
@@ -1575,7 +1450,6 @@
     <string name="tts_default_pitch_title" msgid="6135942113172488671">"تاۋۇشنىڭ كۈچلۈكلۈكى"</string>
     <string name="tts_default_pitch_summary" msgid="1328298665182885277">"تېكىستنى ئوقۇغاندىن كېيىنكى ئىنتوناتسىيە"</string>
     <string name="tts_default_lang_title" msgid="8018087612299820556">"تىل"</string>
-    <string name="tts_lang_not_selected" msgid="7395787019276734765">"تىل تاللانمىدى"</string>
     <string name="tts_default_lang_summary" msgid="5219362163902707785">"تېكىستنى تاۋۇشقا ئايلاندۇرۇشقا ئىشلىتىدىغان تىل تەڭشىكى"</string>
     <string name="tts_play_example_title" msgid="7094780383253097230">"مىسالنى ئاڭلاڭ"</string>
     <string name="tts_play_example_summary" msgid="8029071615047894486">"قىسقا ئاۋاز بىرىكتۈرۈش مىسالىنى قويۇش"</string>
@@ -1588,16 +1462,10 @@
     <string name="tts_engine_error_reselect" msgid="2415399149293842112">"باشقا موتۇر تاللاڭ"</string>
     <string name="tts_engine_security_warning" msgid="8786238102020223650">"بۇ تاۋۇش بىرىكتۈرۈش موتورى بەلكىم سىزنىڭ كىرگۈزگەن بارلىق تاۋۇش، ئىم، ئىناۋەتلىك كارتا نومۇرى قاتارلىق شەخسى ئۇچۇرلىرىڭىزنى توپلىشى مۇمكىن. ئۇنى <xliff:g id="TTS_PLUGIN_ENGINE_NAME">%s</xliff:g> موتۇر تەمىنلىگەن. بۇ تاۋۇش بىرىكتۈرۈش موتورىنى ئىشلىتەمسىز؟"</string>
     <string name="tts_engine_network_required" msgid="1190837151485314743">"بۇ تىلنىڭ تېكىستنى تاۋۇشقا ئايلاندۇرۇش ئىقتىدارى تورغا ئۇلانغاندىلا ئاندىن ئىشلەيدۇ."</string>
-    <string name="tts_default_sample_string" msgid="4040835213373086322">"بۇ تاۋۇش بىرىكتۈرۈشتىن بىر مىسال"</string>
-    <string name="tts_status_title" msgid="7268566550242584413">"كۆڭۈلدىكى تىل ھالىتى"</string>
-    <string name="tts_status_ok" msgid="1309762510278029765">"<xliff:g id="LOCALE">%1$s</xliff:g> نى تولۇق قوللايدۇ"</string>
-    <string name="tts_status_requires_network" msgid="6042500821503226892">"تورغا باغلانغاندىلا ئاندىن <xliff:g id="LOCALE">%1$s</xliff:g> نى قوللايدۇ"</string>
-    <string name="tts_status_not_supported" msgid="4491154212762472495">"<xliff:g id="LOCALE">%1$s</xliff:g> نى قوللىمايدۇ"</string>
-    <string name="tts_status_checking" msgid="4983413982985913047">"تەكشۈرۈۋاتىدۇ…"</string>
     <string name="tts_engines_section" msgid="7515470972378742429">"موتۇرلار"</string>
-    <string name="tts_engine_name_settings" msgid="4974538563074395920">"<xliff:g id="TTS_PLUGIN_ENGINE_NAME">%s</xliff:g> تەڭشەكلەر"</string>
-    <string name="tts_engine_name_is_enabled_summary" msgid="4909484006804022115">"<xliff:g id="TTS_PLUGIN_ENGINE_NAME">%s</xliff:g> قوزغىتىلدى"</string>
-    <string name="tts_engine_name_is_disabled_summary" msgid="7644198182255168200">"<xliff:g id="TTS_PLUGIN_ENGINE_NAME">%s</xliff:g> چەكلەندى"</string>
+    <string name="tts_engine_name_settings" msgid="4974538563074395920">" تەڭشەكلەر"<xliff:g id="TTS_PLUGIN_ENGINE_NAME">%s</xliff:g></string>
+    <string name="tts_engine_name_is_enabled_summary" msgid="4909484006804022115">" قوزغىتىلدى"<xliff:g id="TTS_PLUGIN_ENGINE_NAME">%s</xliff:g></string>
+    <string name="tts_engine_name_is_disabled_summary" msgid="7644198182255168200">" چەكلەندى"<xliff:g id="TTS_PLUGIN_ENGINE_NAME">%s</xliff:g></string>
     <string name="tts_engine_settings_section" msgid="2346105138448751893">"موتۇر تەڭشىكى"</string>
     <string name="tts_engine_settings_title" msgid="3499112142425680334">"<xliff:g id="TTS_ENGINE_NAME">%s</xliff:g> نىڭ تەڭشىكى"</string>
     <string name="pico_languages_and_voices" msgid="4611320375917773238">"تىل ۋە تاۋۇش"</string>
@@ -1620,7 +1488,7 @@
     <string name="gadget_state_turning_off" msgid="2395546048102176157">"تاقاۋاتىدۇ…"</string>
     <string name="gadget_wifi" msgid="4712584536500629417">"Wi‑Fi"</string>
     <string name="gadget_bluetooth" msgid="8998572807378694410">"كۆكچىش"</string>
-    <string name="gadget_location" msgid="2974757497945178165">"ئورنى"</string>
+    <string name="gadget_gps" msgid="1558173602059236567">"GPS"</string>
     <string name="gadget_sync" msgid="858895763714222152">"قەدەمداش"</string>
     <string name="gadget_brightness_template" msgid="930541920933123603">"يورۇقلۇقى <xliff:g id="ID_1">%1$s</xliff:g>"</string>
     <string name="gadget_brightness_state_auto" msgid="6667967252426515446">"ئاپتوماتىك"</string>
@@ -1716,7 +1584,7 @@
     <string name="wifi_setup_status_eap_not_supported" msgid="5335338851032315905">"EAP نى قوللىمايدۇ."</string>
     <string name="wifi_setup_eap_not_supported" msgid="1955087534276570962">"تەڭشەش جەريانىدا EAP Wi-Fi باغلىنىشىنى سەپلىگىلى بولمايدۇ. تەڭشەش تاماملانغاندا، تەڭشەكلەر›سىمسىز تور ۋە توردىن تەڭشىيەلەيسىز."</string>
     <string name="wifi_setup_description_connecting" msgid="2793554932006756795">"باغلىنىشقا بىر قانچە مىنۇت كېتىشى مۇمكىن…"</string>
-    <string name="wifi_setup_description_connected" msgid="736032046548460779">""كېيىنكى" چېكىلسە تەڭشەشنى داۋاملاشتۇرىدۇ.\n\n"قايت" چېكىلسە باشقا Wi-Fi تورىغا باغلىنىدۇ."<b></b><b></b></string>
+    <string name="wifi_setup_description_connected" msgid="736032046548460779">""<b>"كېيىنكى"</b>" چېكىلسە تەڭشەشنى داۋاملاشتۇرىدۇ.\n\n"<b>"قايت"</b>" چېكىلسە باشقا Wi-Fi تورىغا باغلىنىدۇ."</string>
     <string name="accessibility_sync_enabled" msgid="558480439730263116">"قەدەمداش قوزغىتىلدى"</string>
     <string name="accessibility_sync_disabled" msgid="1741194106479011384">"قەدەمداش چەكلەندى"</string>
     <string name="accessibility_sync_error" msgid="8703299118794272041">"قەدەمداش خاتالىقى…"</string>
@@ -1739,15 +1607,15 @@
     <string name="settings_backup_summary" msgid="7916877705938054035">"تەڭشىكىمنى زاپاسلا"</string>
     <string name="sync_menu_sync_now" msgid="6154608350395805683">"دەرھال قەدەمداشلا"</string>
     <string name="sync_menu_sync_cancel" msgid="8292379009626966949">"قەدەمداشتىن ۋاز كەچ"</string>
-    <string name="sync_one_time_sync" msgid="6766593624598183090">"چېكىلسە دەرھال قەدەمداشلايدۇ <xliff:g id="LAST_SYNC_TIME">%1$s</xliff:g>"</string>
+    <string name="sync_one_time_sync" msgid="6766593624598183090">"<xliff:g id="LAST_SYNC_TIME">%1$s</xliff:g>چېكىلسە دەرھال قەدەمداشلايدۇ "</string>
     <string name="sync_gmail" msgid="714886122098006477">"Gmail"</string>
     <string name="sync_calendar" msgid="9056527206714733735">"يىلنامە"</string>
     <string name="sync_contacts" msgid="9174914394377828043">"ئالاقەداشلار"</string>
-    <string name="sync_plug" msgid="3905078969081888738">"گۇگىل قەدەمداشقا مەرھابا!"" "\n" گۇگىلنىڭ سانلىق مەلۇمات قەدەمداشلاش قورالى خالىغان جايدىن سىزنىڭ ئالاقىداشلار، ئۇچرىشىش شۇنداقلا تېخىمۇ كۆپ ئۇچۇرنى زىيارەت قىلىشىڭىزغا يول قويىدۇ."<font fgcolor="#ffffffff"></font></string>
+    <string name="sync_plug" msgid="3905078969081888738">"<font fgcolor="#ffffffff">"گۇگىل قەدەمداشقا مەرھابا!"</font>""\n" گۇگىلنىڭ سانلىق مەلۇمات قەدەمداشلاش قورالى خالىغان جايدىن سىزنىڭ ئالاقىداشلار، ئۇچرىشىش شۇنداقلا تېخىمۇ كۆپ ئۇچۇرنى زىيارەت قىلىشىڭىزغا يول قويىدۇ."</string>
     <string name="header_application_sync_settings" msgid="6205903695598000286">"ئەپ قەدەمداش تەڭشەك"</string>
     <string name="header_data_and_synchronization" msgid="5165024023936509896">"سانلىق مەلۇمات ۋە قەدەمداش"</string>
     <string name="preference_change_password_title" msgid="8955581790270130056">"ئىم ئۆزگەرت"</string>
-    <string name="header_account_settings" msgid="5382475087121880626">"ھېسابات تەڭشەكلەر"</string>
+    <string name="header_account_settings" msgid="5382475087121880626">"ھېسابات تەڭشىكى"</string>
     <string name="remove_account_label" msgid="5921986026504804119">"ھېساباتنى چىقىرىۋەت"</string>
     <string name="header_add_an_account" msgid="756108499532023798">"بىر ھېسابات قوش"</string>
     <string name="finish_button_label" msgid="481587707657751116">"تامام"</string>
@@ -1759,7 +1627,8 @@
     <string name="provider_label" msgid="7724593781904508866">"مۇشتەرى ئەۋەت"</string>
     <string name="cant_sync_dialog_title" msgid="8923508322291625282">"قولدا قەدەمداشلىيالمايدۇ"</string>
     <string name="cant_sync_dialog_message" msgid="1938380442159016449">"نۆۋەتتە بۇ تۈرنى قەدەمداشلاش چەكلەندى. مايىللىق تەڭشىكىڭىزنى ئۆزگەرتىشتە، ۋاقتىنچە تەگلىك سانلىق مەلۇمات ۋە ئۆزلۈكىدىن قەدەمداشلاشنى قوزغىتىڭ."</string>
-    <string name="wimax_settings" msgid="2655139497028469039">"4G"</string>
+    <string name="wimax_settings" msgid="1574837328738396794">"4G تەڭشىكى"</string>
+    <string name="wimax_settings_summary" msgid="3207355006084135453">"4G تورى ۋە مودىم تەڭشىكى ۋە باشقۇرۇش"</string>
     <string name="status_wimax_mac_address" msgid="8390791848661413416">"4G MAC ئادرېسى"</string>
     <string name="enter_password" msgid="4131758584074246224">"ساقلىغۇچ شىفىرنى يېشىش ئۈچۈن ئىم كىرگۈزۈڭ"</string>
     <string name="try_again" msgid="4272075051293936921">"قايتا سىناڭ."</string>
@@ -1794,14 +1663,13 @@
     <string name="show_hw_screen_updates_summary" msgid="1115593565980196197">"ئەگەر GPU دا سىزمىچىلىق قىلغاندا كۆرسىتىدىغان ئېكراندىكى كۆرۈنۈشنى چاقنىتىدۇ"</string>
     <string name="show_hw_layers_updates" msgid="5645728765605699821">"قاتتىق دېتال قەۋىتى يېڭىلانمىلىرىنى كۆرسەت"</string>
     <string name="show_hw_layers_updates_summary" msgid="5296917233236661465">"قاتتىق دېتال قەۋىتى يېڭىلىنىۋاتقاندا يېشىل رەڭدە كۆرۈنىدۇ"</string>
-    <string name="debug_hw_overdraw" msgid="2968692419951565417">"زىيادە GPU سىزىشنى سازلا"</string>
+    <string name="show_hw_overdraw" msgid="1136884304711318251">"زىيادە GPU سىزىشنى كۆرسەت"</string>
+    <string name="show_hw_overdraw_summary" msgid="4295714000923082647">"ئەلادىن ناچارغىچە: كۆك، يېشىل، سۇس قېزىل، قىزىل"</string>
     <string name="disable_overlays" msgid="2074488440505934665">"HW قەۋەتنى چەكلە"</string>
     <string name="disable_overlays_summary" msgid="3578941133710758592">"ھەمىشە GPU ئارقىلىق ئېكراننى بىرلەشتۈرىدۇ"</string>
     <string name="enable_opengl_traces_title" msgid="6790444011053219871">"OpenGL ئىزلاشنى قوزغات"</string>
     <string name="debug_layout" msgid="5981361776594526155">"جايلاشتۇرۇش چىگراسىنى كۆرسەت"</string>
     <string name="debug_layout_summary" msgid="2001775315258637682">"كەسمە چېگراسى ۋە ئارىلىقى قاتارلىقلارنى كۆرسىتىدۇ."</string>
-    <string name="force_rtl_layout_all_locales" msgid="2259906643093138978">"مەجبۇرىي ئوڭدىن سولغا جايلاشتۇرۇش يۆنىلىشى"</string>
-    <string name="force_rtl_layout_all_locales_summary" msgid="9192797796616132534">"ھەممە تىلنىڭ ئېكران جايلاشتۇرۇش يۆنىلىشىنى مەجبۇرىي ھالدا ئوڭدىن سولغا ئۆزگەرتىدۇ"</string>
     <string name="show_cpu_usage" msgid="2389212910758076024">"CPU ئىشلىتىلىشىنى كۆرسەت"</string>
     <string name="show_cpu_usage_summary" msgid="2113341923988958266">"ئېكران دەستىلىنىش قەۋىتى نۆۋەتتىكى CPU ئىشلىتىلىش ئەھۋالىنى كۆرسىتىدۇ"</string>
     <string name="force_hw_ui" msgid="6426383462520888732">"مەجبۇرىي GPU رەڭلەش"</string>
@@ -1881,9 +1749,9 @@
     <string name="data_usage_uninstalled_apps" msgid="614263770923231598">"چىقىرىۋېتىلگەن ئەپلەر"</string>
     <string name="data_usage_uninstalled_apps_users" msgid="7986294489899813194">"چىقىرىۋەتكەن ئەپ ۋە ئىشلەتكۈچىلەر"</string>
     <string name="data_usage_received_sent" msgid="5039699009276621757">"<xliff:g id="RECEIVED">%1$s</xliff:g> قوبۇللاندى، <xliff:g id="SENT">%2$s</xliff:g> يوللاندى"</string>
-    <string name="data_usage_total_during_range" msgid="4091294280619255237">"<xliff:g id="RANGE">%2$s</xliff:g>: تەخمىنەن <xliff:g id="TOTAL">%1$s</xliff:g> ئىشلىتىلگەن."</string>
-    <string name="data_usage_total_during_range_mobile" product="tablet" msgid="5961720793603268572">"<xliff:g id="RANGE">%2$s</xliff:g>: تەخمىنەن <xliff:g id="TOTAL">%1$s</xliff:g> ئىشلىتىلگەن، تاختا كومپيۇتېرىڭىزدا ھېسابلاپ ئېرىشكەن. تېلېفون سودىگىرىڭىزنىڭ سانلىق مەلۇمات ئىشلىتىشنى ھېسابلاش ئۇسۇلى پەرقلىق بولۇشى مۇمكىن."</string>
-    <string name="data_usage_total_during_range_mobile" product="default" msgid="1625833170144610767">"<xliff:g id="RANGE">%2$s</xliff:g>: تەخمىنەن <xliff:g id="TOTAL">%1$s</xliff:g> ئىشلىتىلگەن، تېلېفونىڭىزدا ھېسابلاپ ئېرىشكەن. تېلېفون سودىگىرىڭىزنىڭ سانلىق مەلۇمات ئىشلىتىشنى ھېسابلاش ئۇسۇلى پەرقلىق بولۇشى مۇمكىن."</string>
+    <string name="data_usage_total_during_range" msgid="4091294280619255237">"<xliff:g id="TOTAL">%2$s</xliff:g>: تەخمىنەن <xliff:g id="RANGE">%1$s</xliff:g> ئىشلىتىلگەن."</string>
+    <string name="data_usage_total_during_range_mobile" product="tablet" msgid="5961720793603268572">"<xliff:g id="TOTAL">%2$s</xliff:g>: تەخمىنەن <xliff:g id="RANGE">%1$s</xliff:g> ئىشلىتىلگەن، تاختا كومپيۇتېرىڭىزدا ھېسابلاپ ئېرىشكەن. تېلېفون سودىگىرىڭىزنىڭ سانلىق مەلۇمات ئىشلىتىشنى ھېسابلاش ئۇسۇلى پەرقلىق بولۇشى مۇمكىن."</string>
+    <string name="data_usage_total_during_range_mobile" product="default" msgid="1625833170144610767">"<xliff:g id="TOTAL">%2$s</xliff:g>: تەخمىنەن<xliff:g id="RANGE">%1$s</xliff:g>  ئىشلىتىلگەن، تېلېفونىڭىزدا ھېسابلاپ ئېرىشكەن. تېلېفون سودىگىرىڭىزنىڭ سانلىق مەلۇمات ئىشلىتىشنى ھېسابلاش ئۇسۇلى پەرقلىق بولۇشى مۇمكىن."</string>
     <string name="data_usage_metered_title" msgid="6204750602856383278">"كۆچمە قىزىق نۇقتا"</string>
     <string name="data_usage_metered_body" msgid="4959032833706695848">"كۆچمە قىزىق نۇقتىغا تەۋە Wi-Fi تورىنى تاللاڭ. مۇشۇنداق بولغاندا ئەپ ئارقا سۇپىدا بۇ تورلارنى ئىشلىتىشنى چەكلىگىلى بولىدۇ. ئەپ بۇ تورلارنى ئىشلىتىپ چوڭراق ھۆججەتلەرنى چۈشۈرگەندە ئاگاھلاندۇرۇش كۆرسىتىشى مۇمكىن."</string>
     <string name="data_usage_metered_mobile" msgid="5423305619126978393">"كۆچمە تورلار"</string>
@@ -1945,12 +1813,6 @@
     <string name="selinux_status_disabled" msgid="924551035552323327">"چەكلەنگەن"</string>
     <string name="selinux_status_permissive" msgid="6004965534713398778">"ئىجازەت"</string>
     <string name="selinux_status_enforcing" msgid="2252703756208463329">"ئىجرا قىلىنىۋاتىدۇ"</string>
-    <string name="ssl_ca_cert_warning" msgid="2045866713601984673">"تور نازارەت قىلىنغان بولۇشى مۇمكىن"</string>
-    <string name="done_button" msgid="1991471253042622230">"تاماملاندى"</string>
-    <string name="ssl_ca_cert_dialog_title" msgid="5339377665264149395">"تور نازارەت قىلىش"</string>
-    <string name="ssl_ca_cert_info_message" msgid="4583879256548819713">"بۇ ئۈسكۈنىنى باشقۇرغۇچى:\n<xliff:g id="MANAGING_DOMAIN">%s</xliff:g>\n\nباشقۇرغۇچى سىزنىڭ تورخەت، ئەپ ۋە بىخەتەر تور زىيارەتلىرىڭىزنى ئۆز ئىچىگە ئالغان تور پائالىيەتلىرىڭىزنى نازارەت قىلالايدۇ.\n\nتېخىمۇ كۆپ ئۇچۇرغا ئېرىشمەكچى بولسىڭىز باشقۇرغۇچى بىلەن ئالاقىلىشىڭ"</string>
-    <string name="ssl_ca_cert_warning_message" msgid="8216218659139190498">"ئۈچىنچى تەرەپ سىزنىڭ تورخەت، ئەپ ۋە بىخەتەر تور زىيارەتلىرىڭىزنى ئۆز ئىچىگە ئالغان تور پائالىيەتلىرىڭىزنى نازارەت قىلالايدۇ.\n\nئۈسكۈنىڭىزگە ئىشەنچلىك گۇۋاھنامە ئورناتقان بولسىڭىز بۇ خىل ئەھۋال كۆرۈلۈشى مۇمكىن."</string>
-    <string name="ssl_ca_cert_settings_button" msgid="8760495070836213605">"ئىشەنچلىك گۇۋاھنامىلەرنى تەكشۈر"</string>
     <string name="user_settings_title" msgid="6151874007858148344">"ئىشلەتكۈچىلەر"</string>
     <string name="user_list_title" msgid="7937158411137563543">"ئىشلەتكۈچى ۋە سەپلىمە ھۆججەتلەر"</string>
     <string name="user_add_user_menu" msgid="3154537325132012954">"ئىشلەتكۈچى ياكى سەپلىمە ھۆججەت قوش"</string>
@@ -1996,27 +1858,16 @@
     <string name="application_restrictions" msgid="8207332020898004394">"ئەپ ۋە مەزمۇنغا يول قوي"</string>
     <string name="apps_with_restrictions_header" msgid="3660449891478534440">چەكلىمىلىك ئەپلەر</string>
     <string name="apps_with_restrictions_settings_button" msgid="3841347287916635821">ئەپنىڭ تەڭشىكىنى ياي</string>
-    <string name="home_app_uninstall_button" msgid="6808453012607962899">"بۇ ئەپنى ئۆچۈر"</string>
-    <string name="only_one_home_message" msgid="3538846733750242759">"باشقا باش ئېكران ئەپ ئورنىتىشتىن ئىلگىرى باش ئېكران تەڭشەكلىرى يوشۇرۇن ھالەتتە تۇرىدۇ."</string>
     <string name="global_change_warning" product="tablet" msgid="8045013389464294039">"بۇ تەڭشەك تاختا كومپيۇتېردىكى ھەممە ئىشلەتكۈچىلەرگە تەسىر كۆرسىتىدۇ."</string>
     <string name="global_change_warning" product="default" msgid="2461264421590324675">"بۇ تەڭشەك تېلېفوندىكى ھەممە ئىشلەتكۈچىلەرگە تەسىر كۆرسىتىدۇ."</string>
     <string name="global_locale_change_title" msgid="5956281361384221451">"تىل ئۆزگەرت"</string>
     <string name="global_font_change_title" msgid="1887126466191012035">"خەت نۇسخا چوڭلۇقى ئۆزگەرت"</string>
-    <string name="nfc_payment_settings_title" msgid="1807298287380821613">"چېكىش ۋە چىقىم"</string>
-    <string name="nfc_payment_no_apps" msgid="2481080809791416010">"چېكىپلا پۇل چىقىم قىلغىلى بولىدۇ"</string>
-    <string name="nfc_payment_learn_more" msgid="5583407773744324447">"تەپسىلات بىلدۈرگۈسى"</string>
-    <string name="nfc_payment_menu_item_add_service" msgid="2885947408068969081">"ئەپ ئىزدە"</string>
-    <string name="nfc_payment_set_default_label" msgid="7315817259485674542">"مايىللىقىڭىزغا تەڭشەمدۇ؟"</string>
-    <string name="nfc_payment_set_default" msgid="8961120988148253016">"چېكىپلا پۇل چىقىم قىلغاندا ھەمىشە <xliff:g id="APP">%1$s</xliff:g> نى ئىشلىتەمدۇ؟"</string>
-    <string name="nfc_payment_set_default_instead_of" msgid="3803693771001226795">"چېكىپلا پۇل چىقىم قىلغاندا <xliff:g id="APP_1">%2$s</xliff:g> نى ئىشلەتمەي ھەمىشە <xliff:g id="APP_0">%1$s</xliff:g> نى ئىشلىتەمدۇ؟"</string>
-    <string name="restriction_settings_title" msgid="4233515503765879736">"چەكلىمەلەر"</string>
-    <string name="restriction_menu_reset" msgid="2067644523489568173">"چەكلىمەلەرنى چىقىرىۋەت"</string>
-    <string name="restriction_menu_change_pin" msgid="740081584044302775">"PIN ئۆزگەرت"</string>
     <string name="app_notifications_switch_label" msgid="9124072219553687583">"ئۇقتۇرۇشنى كۆرسەت"</string>
     <string name="help_label" msgid="1107174367904110532">"ياردەم"</string>
     <string name="user_account_title" msgid="1127193807312271167">"مەزمۇن ھېساباتى"</string>
     <string name="user_picture_title" msgid="7297782792000291692">"سۈرەت ID"</string>
     <string name="cell_broadcast_settings" msgid="8415582011920085222">"كۆچمە ئاڭلىتىشلار"</string>
+    <string name="cell_broadcast_settings_summary" msgid="3301339398950905913">"كۆرسىتىدىغان جىددىي ئاگاھلاندۇرۇشلارنىڭ تىپىنى تاللاڭ."</string>
     <string name="user_restrictions_title" msgid="7745810037152772035">"ئەپ ۋە مەزمۇن چەكلىمىسى"</string>
     <string name="user_rename" msgid="8523499513614655279">"ئات ئۆزگەرت"</string>
     <string name="app_restrictions_custom_label" msgid="6160672982086584261">"ئەپ چەكلىمە تەڭشىكى"</string>
@@ -2030,7 +1881,7 @@
     <string name="restriction_nfc_enable_title" msgid="5888100955212267941">"NFC"</string>
     <string name="restriction_nfc_enable_summary" product="tablet" msgid="3891097373396149915">"تاختا كومپيۇتېر باشقا ئۈسكۈنىلەر بىلەن ئۇچراشقاندا سانلىق مەلۇمات ئالماشتۇرۇشقا يول قويىدۇ"</string>
     <string name="restriction_nfc_enable_summary" product="default" msgid="825331120501418592">"تېلېفون باشقا ئۈسكۈنىلەر بىلەن ئۇچراشقاندا سانلىق مەلۇمات ئالماشتۇرۇشقا يول قويىدۇ"</string>
-    <string name="restriction_location_enable_title" msgid="5020268888245775164">"ئورنى"</string>
+    <string name="restriction_location_enable_title" msgid="8134436816263688497">"ئورۇن زىيارەت"</string>
     <string name="restriction_location_enable_summary" msgid="3489765572281788755">"ئەپنىڭ ئورۇن ئۇچۇرىڭىزنى ئىشلىتىشىگە يول قويىدۇ"</string>
     <string name="wizard_back" msgid="5567007959434765743">"قايت"</string>
     <string name="wizard_next" msgid="3606212602795100640">"كېيىنكى"</string>
@@ -2038,4 +1889,5 @@
     <string name="user_image_take_photo" msgid="1280274310152803669">"رەسىم تارت"</string>
     <string name="user_image_choose_photo" msgid="7940990613897477057">"رەسىم يىغقۇچتىن سۈرەت تاللاڭ"</string>
     <string name="regulatory_info_text" msgid="5623087902354026557"/>
+    <string name="label_global_roaming_settings">خەلقئارا كەزمە تەڭشەكلەر</string>
 </resources>

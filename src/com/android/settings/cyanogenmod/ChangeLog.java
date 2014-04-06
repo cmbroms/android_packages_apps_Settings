@@ -16,41 +16,49 @@
 
 package com.android.settings.cyanogenmod;
 
-import android.app.Fragment;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ScrollView;
-import android.widget.TextView;
-
 import com.android.settings.R;
 
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Config;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Toast;
+import android.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ScrollView;
+import android.widget.TextView;
+import android.view.ViewGroup;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import com.android.internal.app.AlertActivity;
+import com.android.internal.app.AlertController;
+
 public class ChangeLog extends Fragment {
+
     private static final String CHANGELOG_PATH = "/system/etc/CHANGELOG-CM.txt";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
         InputStreamReader inputReader = null;
-        String text = null;
-
+        StringBuilder data = null;
         try {
-            StringBuilder data = new StringBuilder();
+            data = new StringBuilder(2048);
             char tmp[] = new char[2048];
             int numRead;
-
             inputReader = new FileReader(CHANGELOG_PATH);
             while ((numRead = inputReader.read(tmp)) >= 0) {
                 data.append(tmp, 0, numRead);
             }
-            text = data.toString();
         } catch (IOException e) {
-            text = getString(R.string.changelog_error);
+            data.append(this.getString(R.string.changelog_error));
         } finally {
             try {
                 if (inputReader != null) {
@@ -60,8 +68,8 @@ public class ChangeLog extends Fragment {
             }
         }
 
-        final TextView textView = new TextView(getActivity());
-        textView.setText(text);
+        TextView textView = new TextView(getActivity());
+        textView.setText(data.toString());
 
         final ScrollView scrollView = new ScrollView(getActivity());
         scrollView.addView(textView);

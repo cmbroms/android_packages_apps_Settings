@@ -28,6 +28,8 @@ import android.view.View;
 
 public class UserDictionaryAddWordActivity extends Activity {
 
+    private static final String STATE_KEY_IS_OPEN = "isOpen";
+
     public static final String MODE_EDIT_ACTION = "com.android.settings.USER_DICTIONARY_EDIT";
     public static final String MODE_INSERT_ACTION = "com.android.settings.USER_DICTIONARY_INSERT";
 

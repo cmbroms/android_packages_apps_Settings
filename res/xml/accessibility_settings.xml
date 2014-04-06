@@ -28,12 +28,7 @@
             android:title="@string/accessibility_system_title">
 
         <PreferenceScreen
-            android:fragment="com.android.settings.accessibility.ToggleCaptioningPreferenceFragment"
-            android:key="captioning_preference_screen"
-            android:title="@string/accessibility_captioning_title" />
-
-        <PreferenceScreen
-            android:fragment="com.android.settings.accessibility.ToggleScreenMagnificationPreferenceFragment"
+            android:fragment="com.android.settings.AccessibilitySettings$ToggleScreenMagnificationPreferenceFragment"
             android:key="screen_magnification_preference_screen"
             android:title="@string/accessibility_screen_magnification_title"/>
 
@@ -63,7 +58,7 @@
                 android:persistent="false"/>
 
         <PreferenceScreen
-                android:fragment="com.android.settings.accessibility.ToggleGlobalGesturePreferenceFragment"
+                android:fragment="com.android.settings.AccessibilitySettings$ToggleGlobalGesturePreferenceFragment"
                 android:key="enable_global_gesture_preference_screen"
                 android:title="@string/accessibility_global_gesture_preference_title"/>
 

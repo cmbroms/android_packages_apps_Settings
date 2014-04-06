@@ -57,8 +57,6 @@ public class UserDictionaryAddWordContents {
     private String mLocale;
     private final String mOldWord;
     private final String mOldShortcut;
-    private String mSavedWord;
-    private String mSavedShortcut;
 
     /* package */ UserDictionaryAddWordContents(final View view, final Bundle args) {
         mWordEditText = (EditText)view.findViewById(R.id.user_dictionary_add_word_text);
@@ -66,9 +64,7 @@ public class UserDictionaryAddWordContents {
         final String word = args.getString(EXTRA_WORD);
         if (null != word) {
             mWordEditText.setText(word);
-            // Use getText in case the edit text modified the text we set. This happens when
-            // it's too long to be edited.
-            mWordEditText.setSelection(mWordEditText.getText().length());
+            mWordEditText.setSelection(word.length());
         }
         final String shortcut = args.getString(EXTRA_SHORTCUT);
         if (null != shortcut && null != mShortcutEditText) {
@@ -78,16 +74,6 @@ public class UserDictionaryAddWordContents {
         mOldWord = args.getString(EXTRA_WORD);
         mOldShortcut = args.getString(EXTRA_SHORTCUT);
         updateLocale(args.getString(EXTRA_LOCALE));
-    }
-
-    /* package */ UserDictionaryAddWordContents(final View view,
-            final UserDictionaryAddWordContents oldInstanceToBeEdited) {
-        mWordEditText = (EditText)view.findViewById(R.id.user_dictionary_add_word_text);
-        mShortcutEditText = (EditText)view.findViewById(R.id.user_dictionary_add_shortcut);
-        mMode = MODE_EDIT;
-        mOldWord = oldInstanceToBeEdited.mSavedWord;
-        mOldShortcut = oldInstanceToBeEdited.mSavedShortcut;
-        updateLocale(mLocale);
     }
 
     // locale may be null, this means default locale
@@ -140,8 +126,6 @@ public class UserDictionaryAddWordContents {
             // If the word is somehow empty, don't insert it.
             return UserDictionaryAddWordActivity.CODE_CANCEL;
         }
-        mSavedWord = newWord;
-        mSavedShortcut = newShortcut;
         // If there is no shortcut, and the word already exists in the database, then we
         // should not insert, because either A. the word exists with no shortcut, in which
         // case the exact same thing we want to insert is already there, or B. the word
@@ -252,9 +236,5 @@ public class UserDictionaryAddWordContents {
         }
         localesList.add(new LocaleRenderer(activity, null)); // meaning: select another locale
         return localesList;
-    }
-
-    public String getCurrentUserDictionaryLocale() {
-        return mLocale;
     }
 }

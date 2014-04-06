@@ -34,10 +34,6 @@ import com.android.settings.R;
  */
 public final class DevicePickerFragment extends DeviceListPreferenceFragment {
 
-    public DevicePickerFragment() {
-        super(null /* Not tied to any user restrictions. */);
-    }
-
     private boolean mNeedAuth;
     private String mLaunchPackage;
     private String mLaunchClass;

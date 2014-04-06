@@ -26,9 +26,6 @@ import android.provider.Settings;
 
 import com.android.settings.R;
 import com.android.settings.SettingsPreferenceFragment;
-import com.android.settings.hardware.DisplayColor;
-import com.android.settings.hardware.DisplayGamma;
-import com.android.settings.hardware.VibratorIntensity;
 
 public class MoreDeviceSettings extends SettingsPreferenceFragment {
     private static final String TAG = "MoreDeviceSettings";

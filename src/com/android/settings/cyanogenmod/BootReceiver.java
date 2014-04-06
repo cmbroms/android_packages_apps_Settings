@@ -25,13 +25,9 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.android.settings.DisplaySettings;
+import com.android.settings.LocationSettings;
 import com.android.settings.R;
 import com.android.settings.Utils;
-import com.android.settings.cyanogenmod.ButtonSettings;
-import com.android.settings.hardware.DisplayColor;
-import com.android.settings.hardware.DisplayGamma;
-import com.android.settings.hardware.VibratorIntensity;
-import com.android.settings.location.LocationSettings;
 
 import java.util.Arrays;
 import java.util.List;
@@ -78,7 +74,6 @@ public class BootReceiver extends BroadcastReceiver {
         VibratorIntensity.restore(ctx);
         DisplaySettings.restore(ctx);
         LocationSettings.restore(ctx);
-        ButtonSettings.restoreKeyDisabler(ctx);
     }
 
     private void initFreqCapFiles(Context ctx)
@@ -159,8 +154,7 @@ public class BootReceiver extends BroadcastReceiver {
     private void configureKSM(Context ctx) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 
-        boolean ksmDefault = (SystemProperties.get("ro.ksm.default", "0") != "0");
-        boolean ksm = prefs.getBoolean(MemoryManagement.KSM_PREF, ksmDefault);
+        boolean ksm = prefs.getBoolean(MemoryManagement.KSM_PREF, false);
 
         Utils.fileWriteOneLine(MemoryManagement.KSM_RUN_FILE, ksm ? "1" : "0");
         Log.d(TAG, "KSM settings restored.");

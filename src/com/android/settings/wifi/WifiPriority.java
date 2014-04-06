@@ -25,7 +25,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.settings.R;
@@ -168,15 +167,6 @@ public class WifiPriority extends ListFragment {
             }
 
             WifiConfiguration network = (WifiConfiguration)getItem(position);
-
-            final ImageView icon = (ImageView) v.findViewById(R.id.icon);
-            if (network.getAuthType() != WifiConfiguration.KeyMgmt.NONE) {
-                icon.setImageDrawable(getActivity().getResources().getDrawable(
-                        R.drawable.wifi_signal_lock_dark));
-            } else {
-                icon.setImageDrawable(getActivity().getResources().getDrawable(
-                        R.drawable.wifi_signal_dark));
-            }
 
             final TextView name = (TextView) v.findViewById(R.id.name);
             // wpa_suplicant returns the SSID between double quotes. Remove them if are present.

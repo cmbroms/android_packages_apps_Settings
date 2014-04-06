@@ -16,7 +16,6 @@
 
 package com.android.settings;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -96,15 +95,9 @@ public class HelpUtils {
 
             // Set the intent to the help menu item, show the help menu item in the overflow
             // menu, and make it visible.
-            ComponentName component = intent.resolveActivity(context.getPackageManager());
-            if (component != null) {
-                helpMenuItem.setIntent(intent);
-                helpMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-                helpMenuItem.setVisible(true);
-            } else {
-                helpMenuItem.setVisible(false);
-                return false;
-            }
+            helpMenuItem.setIntent(intent);
+            helpMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+            helpMenuItem.setVisible(true);
 
             // return that the help menu item is visible (i.e., true)
             return true;
@@ -116,7 +109,7 @@ public class HelpUtils {
      * of the app's package as gotten via the context.
      * @return the uri with added query parameters
      */
-    public static Uri uriWithAddedParameters(Context context, Uri baseUri) {
+    private static Uri uriWithAddedParameters(Context context, Uri baseUri) {
         Uri.Builder builder = baseUri.buildUpon();
 
         // Add in the preferred language

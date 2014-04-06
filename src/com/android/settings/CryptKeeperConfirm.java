@@ -53,7 +53,6 @@ public class CryptKeeperConfirm extends Fragment {
                     | StatusBarManager.DISABLE_NOTIFICATION_ALERTS
                     | StatusBarManager.DISABLE_SYSTEM_INFO
                     | StatusBarManager.DISABLE_HOME
-                    | StatusBarManager.DISABLE_SEARCH
                     | StatusBarManager.DISABLE_RECENT
                     | StatusBarManager.DISABLE_BACK);
 

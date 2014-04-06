@@ -22,7 +22,7 @@
         android:gravity="center"
         android:padding="4dip">
 
-    <com.android.settings.widget.CubicSplinePreviewView
+    <com.android.settings.cyanogenmod.CubicSplinePreviewView
             android:id="@+id/brightness_preview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

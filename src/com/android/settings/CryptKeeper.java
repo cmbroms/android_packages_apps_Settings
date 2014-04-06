@@ -43,7 +43,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
@@ -110,7 +109,6 @@ public class CryptKeeper extends Activity implements TextView.OnEditorActionList
     private boolean mEncryptionGoneBad;
     /** A flag to indicate when the back event should be ignored */
     private boolean mIgnoreBack = false;
-    private boolean mTryAgain = false;
     private int mCooldown;
     PowerManager.WakeLock mWakeLock;
     private EditText mPasswordEntry;
@@ -122,12 +120,9 @@ public class CryptKeeper extends Activity implements TextView.OnEditorActionList
      */
     private static class NonConfigurationInstanceState {
         final PowerManager.WakeLock wakelock;
-        final StatusBarManager statusbar;
 
-        NonConfigurationInstanceState(PowerManager.WakeLock _wakelock,
-                StatusBarManager _statusbar) {
+        NonConfigurationInstanceState(PowerManager.WakeLock _wakelock) {
             wakelock = _wakelock;
-            statusbar = _statusbar;
         }
     }
 
@@ -176,7 +171,6 @@ public class CryptKeeper extends Activity implements TextView.OnEditorActionList
                 mCooldown = COOL_DOWN_INTERVAL;
                 cooldown();
             } else {
-                mTryAgain = true;
                 final TextView status = (TextView) findViewById(R.id.status);
                 status.setText(R.string.try_again);
                 // Reenable the password entry
@@ -245,7 +239,6 @@ public class CryptKeeper extends Activity implements TextView.OnEditorActionList
             | StatusBarManager.DISABLE_NOTIFICATION_ALERTS
             | StatusBarManager.DISABLE_SYSTEM_INFO
             | StatusBarManager.DISABLE_HOME
-            | StatusBarManager.DISABLE_SEARCH
             | StatusBarManager.DISABLE_RECENT;
 
     /** @return whether or not this Activity was started for debugging the UI only. */
@@ -316,6 +309,11 @@ public class CryptKeeper extends Activity implements TextView.OnEditorActionList
             return;
         }
 
+        // Disable the status bar, but do NOT disable back because the user needs a way to go
+        // from keyboard settings and back to the password screen.
+        mStatusBar = (StatusBarManager) getSystemService(Context.STATUS_BAR_SERVICE);
+        mStatusBar.disable(sWidgetsToDisable);
+
         setAirplaneModeIfNecessary();
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         // Check for (and recover) retained instance data
@@ -323,17 +321,8 @@ public class CryptKeeper extends Activity implements TextView.OnEditorActionList
         if (lastInstance instanceof NonConfigurationInstanceState) {
             NonConfigurationInstanceState retained = (NonConfigurationInstanceState) lastInstance;
             mWakeLock = retained.wakelock;
-            mStatusBar = retained.statusbar;
             Log.d(TAG, "Restoring wakelock from NonConfigurationInstanceState");
         }
-
-        if (mStatusBar == null) {
-            // Disable the status bar, but do NOT disable back because the user needs a way to go
-            // from keyboard settings and back to the password screen.
-            mStatusBar = (StatusBarManager) getSystemService(Context.STATUS_BAR_SERVICE);
-        }
-        mStatusBar.disable(sWidgetsToDisable);
-
     }
 
     /**
@@ -363,11 +352,6 @@ public class CryptKeeper extends Activity implements TextView.OnEditorActionList
             setContentView(R.layout.crypt_keeper_progress);
             encryptionProgressInit();
         } else if (mValidationComplete || isDebugView(FORCE_VIEW_PASSWORD)) {
-            if (mTryAgain || mCooldown > 0) {
-                mCooldown = 0;
-                mTryAgain = false;
-                setBackFunctionality(true);
-            }
             setContentView(R.layout.crypt_keeper_password_entry);
             passwordEntryInit();
         } else if (!mValidationRequested) {
@@ -392,11 +376,9 @@ public class CryptKeeper extends Activity implements TextView.OnEditorActionList
      */
     @Override
     public Object onRetainNonConfigurationInstance() {
-        NonConfigurationInstanceState state = new NonConfigurationInstanceState(mWakeLock,
-                mStatusBar);
+        NonConfigurationInstanceState state = new NonConfigurationInstanceState(mWakeLock);
         Log.d(TAG, "Handing wakelock off to NonConfigurationInstanceState");
         mWakeLock = null;
-        mStatusBar = null;
         return state;
     }
 
@@ -574,9 +556,6 @@ public class CryptKeeper extends Activity implements TextView.OnEditorActionList
         // Notify the user in 120 seconds that we are waiting for him to enter the password.
         mHandler.removeMessages(MESSAGE_NOTIFY);
         mHandler.sendEmptyMessageDelayed(MESSAGE_NOTIFY, 120 * 1000);
-
-        // Dismiss keyguard while this screen is showing.
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
     }
 
     /**
@@ -652,7 +631,6 @@ public class CryptKeeper extends Activity implements TextView.OnEditorActionList
             // we either be re-enabled if the password was wrong or after the cooldown period.
             mPasswordEntry.setEnabled(false);
             setBackFunctionality(false);
-            mTryAgain = false;
 
             Log.d(TAG, "Attempting to send command to decrypt");
             new DecryptTask().execute(password);
@@ -792,13 +770,5 @@ public class CryptKeeper extends Activity implements TextView.OnEditorActionList
     @Override
     public void afterTextChanged(Editable s) {
         return;
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        if (mTryAgain || mCooldown > 0) {
-            boolean isEnableBackKey = !hasFocus;
-            setBackFunctionality(isEnableBackKey);
-        }
     }
 }

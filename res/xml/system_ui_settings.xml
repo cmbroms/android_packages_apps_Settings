@@ -26,7 +26,7 @@
 
     <PreferenceScreen
         android:key="quick_settings_panel"
-        android:fragment="com.android.settings.quicksettings.QuickSettings"
+        android:fragment="com.android.settings.cyanogenmod.QuickSettings"
         android:title="@string/quick_settings_panel_title" />
 
     <PreferenceScreen
@@ -34,38 +34,17 @@
         android:fragment="com.android.settings.cyanogenmod.NotificationDrawer"
         android:title="@string/notification_drawer_title" />
 
-    <PreferenceCategory
-            android:key="expanded_desktop_category"
-            android:title="@string/power_menu_expanded_desktop" >
+    <ListPreference
+        android:key="expanded_desktop"
+        android:title="@string/power_menu_expanded_desktop"
+        android:entries="@array/expanded_desktop_entries"
+        android:entryValues="@array/expanded_desktop_values"
+        android:persistent="false" />
 
-        <ListPreference
-                android:key="expanded_desktop"
-                android:title="@string/expanded_desktop_style"
-                android:entries="@array/expanded_desktop_entries"
-                android:entryValues="@array/expanded_desktop_values"
-                android:persistent="false" />
-
-        <CheckBoxPreference
-                android:key="expanded_desktop_no_navbar"
-                android:title="@string/power_menu_expanded_desktop"
-                android:persistent="true" />
-
-        <com.android.settings.cyanogenmod.SystemSettingCheckBoxPreference
-                android:key="expanded_desktop_system_bars_visibility"
-                android:title="@string/expanded_desktop_system_bars_visibility"
-                android:summary="@string/expanded_desktop_system_bars_visibility_summary"
-                android:defaultValue="false" />
-
-    </PreferenceCategory>
-
-    <!-- Device Specific Touchscreen gestures. Avoid duplicating CMHW functionality, please -->
-    <Preference
-        android:key="touch_screen_gesture_settings">
-        <intent
-            android:action="com.cyanogenmod.action.LAUNCH_TOUCHSCREEN_GESTURE_SETTINGS"
-            android:targetPackage="com.cyanogenmod.settings.device"
-            android:targetClass="com.cyanogenmod.settings.device.TouchscreenGestureSettings" />
-    </Preference>
+    <CheckBoxPreference
+        android:key="expanded_desktop_no_navbar"
+        android:title="@string/power_menu_expanded_desktop"
+        android:persistent="false" />
 
     <PreferenceCategory
         android:key="navigation_bar"
@@ -81,12 +60,19 @@
             android:fragment="com.android.settings.cyanogenmod.NavRing"
             android:title="@string/navigation_ring_title" />
 
-        <com.android.settings.cyanogenmod.SystemSettingCheckBoxPreference
-            android:key="navigation_bar_left"
-            android:title="@string/navigation_bar_left_title"
-            android:summary="@string/navigation_bar_left_summary"
-            android:defaultValue="false" />
+        <PreferenceScreen
+            android:key="pie_control"
+            android:fragment="com.android.settings.cyanogenmod.PieControl"
+            android:title="@string/pie_control_title" />
 
     </PreferenceCategory>
 
+    <!-- Device Specific Touchscreen gestures -->
+    <Preference
+        android:key="touch_screen_gesture_settings">
+        <intent
+            android:action="com.cyanogenmod.action.LAUNCH_TOUCHSCREEN_GESTURE_SETTINGS"
+            android:targetPackage="com.cyanogenmod.settings.device"
+            android:targetClass="com.cyanogenmod.settings.device.TouchscreenGestureSettings" />
+    </Preference>
 </PreferenceScreen>

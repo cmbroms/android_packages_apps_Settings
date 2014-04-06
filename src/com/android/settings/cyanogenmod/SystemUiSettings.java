@@ -23,7 +23,6 @@ import android.os.RemoteException;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 import android.provider.Settings;
 import android.util.Log;
@@ -39,14 +38,13 @@ public class SystemUiSettings extends SettingsPreferenceFragment  implements
 
     private static final String KEY_EXPANDED_DESKTOP = "expanded_desktop";
     private static final String KEY_EXPANDED_DESKTOP_NO_NAVBAR = "expanded_desktop_no_navbar";
-    private static final String CATEGORY_EXPANDED_DESKTOP = "expanded_desktop_category";
     private static final String CATEGORY_NAVBAR = "navigation_bar";
+    private static final String KEY_PIE_CONTROL = "pie_control";
     private static final String KEY_SCREEN_GESTURE_SETTINGS = "touch_screen_gesture_settings";
-    private static final String KEY_NAVIGATION_BAR_LEFT = "navigation_bar_left";
 
+    private PreferenceScreen mPieControl;
     private ListPreference mExpandedDesktopPref;
     private CheckBoxPreference mExpandedDesktopNoNavbarPref;
-    private CheckBoxPreference mNavigationBarLeftPref;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,16 +52,13 @@ public class SystemUiSettings extends SettingsPreferenceFragment  implements
 
         addPreferencesFromResource(R.xml.system_ui_settings);
         PreferenceScreen prefScreen = getPreferenceScreen();
-        PreferenceCategory expandedCategory =
-                (PreferenceCategory) findPreference(CATEGORY_EXPANDED_DESKTOP);
+
+        mPieControl = (PreferenceScreen) findPreference(KEY_PIE_CONTROL);
 
         // Expanded desktop
         mExpandedDesktopPref = (ListPreference) findPreference(KEY_EXPANDED_DESKTOP);
         mExpandedDesktopNoNavbarPref =
                 (CheckBoxPreference) findPreference(KEY_EXPANDED_DESKTOP_NO_NAVBAR);
-
-        // Navigation bar left
-        mNavigationBarLeftPref = (CheckBoxPreference) findPreference(KEY_NAVIGATION_BAR_LEFT);
 
         Utils.updatePreferenceToSpecificActivityFromMetaDataOrRemove(getActivity(),
                 getPreferenceScreen(), KEY_SCREEN_GESTURE_SETTINGS);
@@ -72,35 +67,34 @@ public class SystemUiSettings extends SettingsPreferenceFragment  implements
                 Settings.System.EXPANDED_DESKTOP_STYLE, 0);
 
         try {
-            // Only show the navigation bar category on devices that has a navigation bar
-            // unless we are forcing it via development settings
-            boolean forceNavbar = android.provider.Settings.System.getInt(getContentResolver(),
-                    android.provider.Settings.System.DEV_FORCE_SHOW_NAVBAR, 0) == 1;
-            boolean hasNavBar = WindowManagerGlobal.getWindowManagerService().hasNavigationBar()
-                    || forceNavbar;
+            boolean hasNavBar = WindowManagerGlobal.getWindowManagerService().hasNavigationBar();
 
+            // Hide no-op "Status bar visible" mode on devices without navigation bar
             if (hasNavBar) {
                 mExpandedDesktopPref.setOnPreferenceChangeListener(this);
                 mExpandedDesktopPref.setValue(String.valueOf(expandedDesktopValue));
                 updateExpandedDesktop(expandedDesktopValue);
-                expandedCategory.removePreference(mExpandedDesktopNoNavbarPref);
-
-                if (!Utils.isPhone(getActivity())) {
-                    PreferenceCategory navCategory =
-                            (PreferenceCategory) findPreference(CATEGORY_NAVBAR);
-                    navCategory.removePreference(mNavigationBarLeftPref);
-                }
+                prefScreen.removePreference(mExpandedDesktopNoNavbarPref);
             } else {
-                // Hide no-op "Status bar visible" expanded desktop mode
                 mExpandedDesktopNoNavbarPref.setOnPreferenceChangeListener(this);
                 mExpandedDesktopNoNavbarPref.setChecked(expandedDesktopValue > 0);
-                expandedCategory.removePreference(mExpandedDesktopPref);
-                // Hide navigation bar category
+                prefScreen.removePreference(mExpandedDesktopPref);
+            }
+
+            // Hide navigation bar category on devices without navigation bar
+            if (!hasNavBar) {
                 prefScreen.removePreference(findPreference(CATEGORY_NAVBAR));
+                mPieControl = null;
             }
         } catch (RemoteException e) {
             Log.e(TAG, "Error getting navigation bar status");
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updatePieControlSummary();
     }
 
     public boolean onPreferenceChange(Preference preference, Object objValue) {
@@ -115,6 +109,19 @@ public class SystemUiSettings extends SettingsPreferenceFragment  implements
         }
 
         return false;
+    }
+
+    private void updatePieControlSummary() {
+        if (mPieControl != null) {
+            boolean enabled = Settings.System.getInt(getContentResolver(),
+                Settings.System.PIE_CONTROLS, 0) != 0;
+
+            if (enabled) {
+                mPieControl.setSummary(R.string.pie_control_enabled);
+            } else {
+                mPieControl.setSummary(R.string.pie_control_disabled);
+            }
+        }
     }
 
     private void updateExpandedDesktop(int value) {

@@ -18,27 +18,16 @@ package com.android.settings;
 
 import android.app.LauncherActivity;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.os.Bundle;
-import android.os.SystemProperties;
-import android.telephony.MSimTelephonyManager;
 import android.view.View;
 import android.widget.ListView;
-
-import com.android.settings.Settings.TetherSettingsActivity;
-
-import java.util.List;
 
 public class CreateShortcut extends LauncherActivity {
 
     @Override
     protected Intent getTargetIntent() {
         Intent targetIntent = new Intent(Intent.ACTION_MAIN, null);
-        if (MSimTelephonyManager.getDefault().isMultiSimEnabled()) {
-            targetIntent.addCategory("codeaurora.intent.filter.settings.multisim.SHORTCUT");
-        } else {
-            targetIntent.addCategory("com.android.settings.SHORTCUT");
-        }
+        targetIntent.addCategory("com.android.settings.SHORTCUT");
         targetIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         return targetIntent;
     }
@@ -59,23 +48,5 @@ public class CreateShortcut extends LauncherActivity {
     @Override
     protected boolean onEvaluateShowIcons() {
         return false;
-    }
-
-    /**
-     * Perform query on package manager for list items.  The default
-     * implementation queries for activities.
-     */
-    protected List<ResolveInfo> onQueryPackageManager(Intent queryIntent) {
-        List<ResolveInfo> activities = super.onQueryPackageManager(queryIntent);
-        if (activities == null) return null;
-        for (int i = activities.size() - 1; i >= 0; i--) {
-            ResolveInfo info = activities.get(i);
-            if (info.activityInfo.name.endsWith(TetherSettingsActivity.class.getSimpleName())) {
-                if (!TetherSettings.showInShortcuts(this)) {
-                    activities.remove(i);
-                }
-            }
-        }
-        return activities;
     }
 }

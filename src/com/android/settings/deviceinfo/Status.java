@@ -52,8 +52,6 @@ import com.android.internal.telephony.PhoneStateIntentReceiver;
 import com.android.settings.R;
 import com.android.settings.Utils;
 
-import org.cyanogenmod.hardware.SerialNumber;
-
 import java.lang.ref.WeakReference;
 
 /**
@@ -305,7 +303,7 @@ public class Status extends PreferenceActivity {
         setBtStatus();
         setIpAddressStatus();
 
-        String serial = getSerialNumber();
+        String serial = Build.SERIAL;
         if (serial != null && !serial.equals("")) {
             setSummaryText(KEY_SERIAL_NUMBER, serial);
         } else {
@@ -397,20 +395,6 @@ public class Status extends PreferenceActivity {
              }
     }
 
-    private String getServiceStateString(int state) {
-        switch (state) {
-            case ServiceState.STATE_IN_SERVICE:
-                return mRes.getString(R.string.radioInfo_service_in);
-            case ServiceState.STATE_OUT_OF_SERVICE:
-            case ServiceState.STATE_EMERGENCY_ONLY:
-                return mRes.getString(R.string.radioInfo_service_out);
-            case ServiceState.STATE_POWER_OFF:
-                return mRes.getString(R.string.radioInfo_service_off);
-            default:
-                return mRes.getString(R.string.radioInfo_unknown);
-        }
-    }
-
     private void updateNetworkType() {
         // Whether EDGE, UMTS, etc...
         String networktype = null;
@@ -443,13 +427,32 @@ public class Status extends PreferenceActivity {
     }
 
     private void updateServiceState(ServiceState serviceState) {
-        int voiceState = serviceState.getState();
-        String voiceDisplay = getServiceStateString(voiceState);
+        int state = serviceState.getState();
 
-        int dataState = serviceState.getDataRegState();
-        String dataDisplay = getServiceStateString(dataState);
+        // getState() returns only voiceRegState. In eHRPD only and other similar
+        // data only cases, voice state may be OOS and data state may be IN_SERVICE
+        // Hence, checking data state also in case voice state is OOS.
+        if ((state == ServiceState.STATE_OUT_OF_SERVICE)
+                && (serviceState.getDataRegState() == ServiceState.STATE_IN_SERVICE)) {
+            state = ServiceState.STATE_IN_SERVICE;
+        }
 
-        setSummaryText(KEY_SERVICE_STATE, "Voice: " + voiceDisplay + " / Data: " + dataDisplay);
+        String display = mRes.getString(R.string.radioInfo_unknown);
+
+        switch (state) {
+            case ServiceState.STATE_IN_SERVICE:
+                display = mRes.getString(R.string.radioInfo_service_in);
+                break;
+            case ServiceState.STATE_OUT_OF_SERVICE:
+            case ServiceState.STATE_EMERGENCY_ONLY:
+                display = mRes.getString(R.string.radioInfo_service_out);
+                break;
+            case ServiceState.STATE_POWER_OFF:
+                display = mRes.getString(R.string.radioInfo_service_off);
+                break;
+        }
+
+        setSummaryText(KEY_SERVICE_STATE, display);
 
         if (serviceState.getRoaming()) {
             setSummaryText(KEY_ROAMING_STATE, mRes.getString(R.string.radioInfo_roaming_in));
@@ -570,17 +573,5 @@ public class Status extends PreferenceActivity {
         int h = (int)((t / 3600));
 
         return h + ":" + pad(m) + ":" + pad(s);
-    }
-
-    private String getSerialNumber() {
-        try {
-            if (SerialNumber.isSupported()) {
-                return SerialNumber.getSerialNumber();
-            }
-        } catch (NoClassDefFoundError e) {
-            // Hardware abstraction framework not installed; fall through
-        }
-
-        return Build.SERIAL;
     }
 }

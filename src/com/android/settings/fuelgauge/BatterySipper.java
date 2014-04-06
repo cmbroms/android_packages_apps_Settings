@@ -30,11 +30,7 @@ import android.os.BatteryStats.Uid;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * Contains information about package name, icon image, power usage about an
- * application or a system service.
- */
-public class BatterySipper implements Comparable<BatterySipper> {
+class BatterySipper implements Comparable<BatterySipper> {
     final Context mContext;
     /* Cache cleared when PowerUsageSummary is destroyed */
     static final HashMap<String,UidToDetail> sUidCache = new HashMap<String,UidToDetail>();
@@ -53,14 +49,11 @@ public class BatterySipper implements Comparable<BatterySipper> {
     long wifiRunningTime;
     long cpuFgTime;
     long wakeLockTime;
-    long mobileRxBytes;
-    long mobileTxBytes;
-    long wifiRxBytes;
-    long wifiTxBytes;
+    long tcpBytesReceived;
+    long tcpBytesSent;
     double percent;
     double noCoveragePercent;
     String defaultPackageName;
-    String[] mPackages;
 
     static class UidToDetail {
         String name;
@@ -95,36 +88,13 @@ public class BatterySipper implements Comparable<BatterySipper> {
         return values;
     }
 
-    public Drawable getIcon() {
+    Drawable getIcon() {
         return icon;
     }
 
-    /**
-     * Gets the application name
-     */
-    public String getLabel() {
-        return name;
-    }
-
-    @Override
     public int compareTo(BatterySipper other) {
         // Return the flipped value because we want the items in descending order
         return Double.compare(other.getSortValue(), getSortValue());
-    }
-
-    /**
-     * Gets a list of packages associated with the current user
-     */
-    public String[] getPackages() {
-        return mPackages;
-    }
-
-    public int getUid() {
-        // Bail out if the current sipper is not an App sipper.
-        if (uidObj == null) {
-            return 0;
-        }
-        return uidObj.getUid();
     }
 
     void getQuickNameIconForUid(Uid uidObj) {
@@ -132,12 +102,10 @@ public class BatterySipper implements Comparable<BatterySipper> {
         final String uidString = Integer.toString(uid);
         if (sUidCache.containsKey(uidString)) {
             UidToDetail utd = sUidCache.get(uidString);
-            if (utd != null) {
-                defaultPackageName = utd.packageName;
-                name = utd.name;
-                icon = utd.icon;
-                return;
-            }
+            defaultPackageName = utd.packageName;
+            name = utd.name;
+            icon = utd.icon;
+            return;
         }
         PackageManager pm = mContext.getPackageManager();
         String[] packages = pm.getPackagesForUid(uid);
@@ -155,36 +123,27 @@ public class BatterySipper implements Comparable<BatterySipper> {
         } else {
             //name = packages[0];
         }
-        if (mHandler != null) {
-            synchronized (mRequestQueue) {
-                mRequestQueue.add(this);
-            }
+        synchronized (mRequestQueue) {
+            mRequestQueue.add(this);
         }
-    }
-
-    public static void clearUidCache() {
-        sUidCache.clear();
     }
 
     /**
-     * Loads the app label and icon image and stores into the cache.
+     * Sets name and icon
+     * @param uid Uid of the application
      */
-    public void loadNameAndIcon() {
-        // Bail out if the current sipper is not an App sipper.
-        if (uidObj == null) {
-            return;
-        }
+    void getNameIcon() {
         PackageManager pm = mContext.getPackageManager();
         final int uid = uidObj.getUid();
         final Drawable defaultActivityIcon = pm.getDefaultActivityIcon();
-        mPackages = pm.getPackagesForUid(uid);
-        if (mPackages == null) {
+        String[] packages = pm.getPackagesForUid(uid);
+        if (packages == null) {
             name = Integer.toString(uid);
             return;
         }
 
-        String[] packageLabels = new String[mPackages.length];
-        System.arraycopy(mPackages, 0, packageLabels, 0, mPackages.length);
+        String[] packageLabels = new String[packages.length];
+        System.arraycopy(packages, 0, packageLabels, 0, packages.length);
 
         int preferredIndex = -1;
         // Convert package names to user-facing labels where possible
@@ -198,7 +157,7 @@ public class BatterySipper implements Comparable<BatterySipper> {
                     packageLabels[i] = label.toString();
                 }
                 if (ai.icon != 0) {
-                    defaultPackageName = mPackages[i];
+                    defaultPackageName = packages[i];
                     icon = ai.loadIcon(pm);
                     break;
                 }
@@ -211,7 +170,7 @@ public class BatterySipper implements Comparable<BatterySipper> {
             name = packageLabels[0];
         } else {
             // Look for an official name for this UID.
-            for (String pkgName : mPackages) {
+            for (String pkgName : packages) {
                 try {
                     final PackageInfo pi = pm.getPackageInfo(pkgName, 0);
                     if (pi.sharedUserLabel != 0) {
@@ -236,9 +195,6 @@ public class BatterySipper implements Comparable<BatterySipper> {
         utd.icon = icon;
         utd.packageName = defaultPackageName;
         sUidCache.put(uidString, utd);
-        if (mHandler != null) {
-            mHandler.sendMessage(
-                    mHandler.obtainMessage(BatteryStatsHelper.MSG_UPDATE_NAME_ICON, this));
-        }
+        mHandler.sendMessage(mHandler.obtainMessage(PowerUsageSummary.MSG_UPDATE_NAME_ICON, this));
     }
 }

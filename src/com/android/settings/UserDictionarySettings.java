@@ -16,29 +16,37 @@
 
 package com.android.settings;
 
-import com.android.settings.inputmethod.UserDictionaryAddWordContents;
-import com.android.settings.inputmethod.UserDictionarySettingsUtils;
-
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ListFragment;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.UserDictionary;
+import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AlphabetIndexer;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SectionIndexer;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+
+import com.android.settings.inputmethod.UserDictionaryAddWordContents;
 
 import java.util.Locale;
 
@@ -74,7 +82,6 @@ public class UserDictionarySettings extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().getActionBar().setTitle(R.string.user_dict_settings_title);
     }
 
     @Override
@@ -116,9 +123,7 @@ public class UserDictionarySettings extends ListFragment {
         listView.setEmptyView(emptyView);
 
         setHasOptionsMenu(true);
-        // Show the language as a subtitle of the action bar
-        getActivity().getActionBar().setSubtitle(
-                UserDictionarySettingsUtils.getLocaleDisplayName(getActivity(), mLocale));
+
     }
 
     private Cursor createCursor(final String locale) {
@@ -165,7 +170,7 @@ public class UserDictionarySettings extends ListFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         MenuItem actionItem =
                 menu.add(0, OPTIONS_MENU_ADD, 0, R.string.user_dict_settings_add_menu_title)
-                .setIcon(R.drawable.ic_menu_add_dark);
+                .setIcon(R.drawable.ic_menu_add);
         actionItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM |
                 MenuItem.SHOW_AS_ACTION_WITH_TEXT);
     }
@@ -236,9 +241,8 @@ public class UserDictionarySettings extends ListFragment {
 
         private AlphabetIndexer mIndexer;
 
-        private final ViewBinder mViewBinder = new ViewBinder() {
+        private ViewBinder mViewBinder = new ViewBinder() {
 
-            @Override
             public boolean setViewValue(View v, Cursor c, int columnIndex) {
                 if (columnIndex == INDEX_SHORTCUT) {
                     final String shortcut = c.getString(INDEX_SHORTCUT);
@@ -269,17 +273,14 @@ public class UserDictionarySettings extends ListFragment {
             setViewBinder(mViewBinder);
         }
 
-        @Override
         public int getPositionForSection(int section) {
             return null == mIndexer ? 0 : mIndexer.getPositionForSection(section);
         }
 
-        @Override
         public int getSectionForPosition(int position) {
             return null == mIndexer ? 0 : mIndexer.getSectionForPosition(position);
         }
 
-        @Override
         public Object[] getSections() {
             return null == mIndexer ? null : mIndexer.getSections();
         }

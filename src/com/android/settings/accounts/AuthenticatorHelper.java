@@ -23,7 +23,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -46,16 +45,6 @@ public class AuthenticatorHelper {
         return mEnabledAccountTypes.toArray(new String[mEnabledAccountTypes.size()]);
     }
 
-    public void preloadDrawableForType(final Context context, final String accountType) {
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                getDrawableForType(context, accountType);
-                return null;
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void[]) null);
-    }
-
     /**
      * Gets an icon associated with a particular account type. If none found, return null.
      * @param accountType the type of account
@@ -63,19 +52,15 @@ public class AuthenticatorHelper {
      */
     public Drawable getDrawableForType(Context context, final String accountType) {
         Drawable icon = null;
-        synchronized (mAccTypeIconCache) {
-            if (mAccTypeIconCache.containsKey(accountType)) {
-                return mAccTypeIconCache.get(accountType);
-            }
+        if (mAccTypeIconCache.containsKey(accountType)) {
+            return mAccTypeIconCache.get(accountType);
         }
         if (mTypeToAuthDescription.containsKey(accountType)) {
             try {
                 AuthenticatorDescription desc = mTypeToAuthDescription.get(accountType);
                 Context authContext = context.createPackageContext(desc.packageName, 0);
                 icon = authContext.getResources().getDrawable(desc.iconId);
-                synchronized (mAccTypeIconCache) {
-                    mAccTypeIconCache.put(accountType, icon);
-                }
+                mAccTypeIconCache.put(accountType, icon);
             } catch (PackageManager.NameNotFoundException e) {
             } catch (Resources.NotFoundException e) {
             }

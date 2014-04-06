@@ -17,11 +17,10 @@
 package com.android.settings;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SELinux;
@@ -35,15 +34,13 @@ import android.telephony.MSimTelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.settings.deviceinfo.msim.MSimStatus;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DeviceInfoSettings extends RestrictedSettingsFragment {
+public class DeviceInfoSettings extends SettingsPreferenceFragment {
 
     private static final String LOG_TAG = "DeviceInfoSettings";
 
@@ -83,19 +80,11 @@ public class DeviceInfoSettings extends RestrictedSettingsFragment {
     int mDevHitCountdown;
     Toast mDevHitToast;
 
-    public DeviceInfoSettings() {
-        super(null /* Don't PIN protect the entire screen */);
-    }
-
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
 
         addPreferencesFromResource(R.xml.device_info_settings);
-
-        // We only call ensurePinRestrictedPreference() when mDevHitCountdown == 0.
-        // This will keep us from entering developer mode without a PIN.
-        protectByRestrictions(KEY_BUILD_NUMBER);
 
         setStringSummary(KEY_FIRMWARE_VERSION, Build.VERSION.RELEASE);
         findPreference(KEY_FIRMWARE_VERSION).setEnabled(true);
@@ -106,7 +95,7 @@ public class DeviceInfoSettings extends RestrictedSettingsFragment {
         setStringSummary(KEY_BUILD_NUMBER, Build.DISPLAY);
         findPreference(KEY_BUILD_NUMBER).setEnabled(true);
         findPreference(KEY_KERNEL_VERSION).setSummary(getFormattedKernelVersion());
-        setValueSummary(KEY_MOD_VERSION, "ro.cm.display.version");
+        setValueSummary(KEY_MOD_VERSION, "ro.cm.version");
         findPreference(KEY_MOD_VERSION).setEnabled(true);
         setValueSummary(KEY_MOD_BUILD_DATE, "ro.build.date");
 
@@ -117,10 +106,11 @@ public class DeviceInfoSettings extends RestrictedSettingsFragment {
             String status = getResources().getString(R.string.selinux_status_permissive);
             setStringSummary(KEY_SELINUX_STATUS, status);
         }
+        findPreference(KEY_SELINUX_STATUS).setEnabled(true);
 
         if (MSimTelephonyManager.getDefault().isMultiSimEnabled()) {
             findPreference(KEY_STATUS).getIntent().setClassName(
-                    getActivity().getPackageName(), MSimStatus.class.getName());
+                    "com.android.settings","com.android.settings.deviceinfo.msim.MSimStatus");
         }
 
         // Remove selinux information if property is not present
@@ -158,7 +148,8 @@ public class DeviceInfoSettings extends RestrictedSettingsFragment {
                 PROPERTY_EQUIPMENT_ID);
 
         // Remove Baseband version if wifi-only device
-        if (Utils.isWifiOnly(getActivity())) {
+        if (Utils.isWifiOnly(getActivity())
+                || (MSimTelephonyManager.getDefault().isMultiSimEnabled())) {
             getPreferenceScreen().removePreference(findPreference(KEY_BASEBAND_VERSION));
         }
 
@@ -232,11 +223,6 @@ public class DeviceInfoSettings extends RestrictedSettingsFragment {
             if (UserHandle.myUserId() != UserHandle.USER_OWNER) return true;
 
             if (mDevHitCountdown > 0) {
-                if (mDevHitCountdown == 1) {
-                    if (super.ensurePinRestrictedPreference(preference)) {
-                        return true;
-                    }
-                }
                 mDevHitCountdown--;
                 if (mDevHitCountdown == 0) {
                     getActivity().getSharedPreferences(DevelopmentSettings.PREF_FILE,
@@ -271,13 +257,62 @@ public class DeviceInfoSettings extends RestrictedSettingsFragment {
             mHits[mHits.length-1] = SystemClock.uptimeMillis();
             if (mHits[0] >= (SystemClock.uptimeMillis()-500)) {
                 Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.putExtra("is_cm", true);
+                intent.putExtra("is_cid", true);
                 intent.setClassName("android",
                         com.android.internal.app.PlatLogoActivity.class.getName());
                 try {
                     startActivity(intent);
                 } catch (Exception e) {
                     Log.e(LOG_TAG, "Unable to start activity " + intent.toString());
+                }
+            }
+        } else if (preference.getKey().equals(KEY_SELINUX_STATUS)) {
+            System.arraycopy(mHits, 1, mHits, 0, mHits.length-1);
+            mHits[mHits.length-1] = SystemClock.uptimeMillis();
+            if (mHits[0] >= (SystemClock.uptimeMillis()-500)) {
+                if (SELinux.isSELinuxEnabled()) {
+                    if (!SELinux.isSELinuxEnforced()) {
+                        /* Display the warning dialog */
+                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                        alertDialog.setTitle(R.string.selinux_enable_title);
+                        alertDialog.setMessage(getResources()
+                            .getString(R.string.selinux_enable_warning));
+                        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE,
+                            getResources().getString(com.android.internal.R.string.ok),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    SELinux.setSELinuxEnforce(true);
+                                    String status = getResources()
+                                        .getString(R.string.selinux_status_enforcing);
+                                    setStringSummary(KEY_SELINUX_STATUS, status);
+                                }
+                            });
+                        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
+                            getResources().getString(com.android.internal.R.string.cancel),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            });
+                        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                            public void onCancel(DialogInterface dialog) {
+                            }
+                        });
+                        alertDialog.show();
+
+                    } else {
+                        SELinux.setSELinuxEnforce(false);
+                    }
+                }
+
+                if (!SELinux.isSELinuxEnabled()) {
+                    String status = getResources().getString(R.string.selinux_status_disabled);
+                    setStringSummary(KEY_SELINUX_STATUS, status);
+                } else if (!SELinux.isSELinuxEnforced()) {
+                    String status = getResources().getString(R.string.selinux_status_permissive);
+                    setStringSummary(KEY_SELINUX_STATUS, status);
+                } else if (SELinux.isSELinuxEnforced()) {
+                    String status = getResources().getString(R.string.selinux_status_enforcing);
+                    setStringSummary(KEY_SELINUX_STATUS, status);
                 }
             }
         }
@@ -440,29 +475,5 @@ public class DeviceInfoSettings extends RestrictedSettingsFragment {
         } catch (IOException e) {}
 
         return result;
-    }
-
-    private boolean removePreferenceIfPackageNotInstalled(Preference preference) {
-        String intentUri=((PreferenceScreen) preference).getIntent().toUri(1);
-        Pattern pattern = Pattern.compile("component=([^/]+)/");
-        Matcher matcher = pattern.matcher(intentUri);
-
-        String packageName=matcher.find()?matcher.group(1):null;
-        if(packageName != null) {
-            try {
-                PackageInfo pi = getPackageManager().getPackageInfo(packageName,
-                        PackageManager.GET_ACTIVITIES);
-                if (!pi.applicationInfo.enabled) {
-                    Log.e(LOG_TAG,"package "+packageName+" is disabled, hiding preference.");
-                    getPreferenceScreen().removePreference(preference);
-                    return true;
-                }
-            } catch (NameNotFoundException e) {
-                Log.e(LOG_TAG,"package "+packageName+" not installed, hiding preference.");
-                getPreferenceScreen().removePreference(preference);
-                return true;
-            }
-        }
-        return false;
     }
 }
