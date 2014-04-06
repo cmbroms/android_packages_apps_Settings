@@ -1742,6 +1742,7 @@
         />
 
         <!-- CyanogenMod activities Start -->
+        <activity android:name=".cyanogenmod.SystemUiSettings"/>
         <activity android:name="Settings$SystemSettingsActivity"
                 android:label="@string/system_settings_title"
                 android:taskAffinity=""
@@ -2081,6 +2082,13 @@
             android:exported="false"
             android:name=".cyanogenmod.LtoService">
         </service>
+
+        <!-- Disable MultiSIM settings if not available. -->
+        <receiver android:name=".deviceinfo.msim.DisableMSimReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
     </application>
 </manifest>
