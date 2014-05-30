@@ -1228,7 +1228,7 @@
         <!-- Runs in the phone process since it needs access to the Phone object -->
         <activity android:name=".deviceinfo.msim.MSimStatus"
                 android:label="@string/device_status_activity_title"
-                android:theme="@style/Theme.DialogWhenLarge"
+                android:theme="@style/Theme.Holo.DialogWhenLarge"
                 android:process="com.android.phone">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
