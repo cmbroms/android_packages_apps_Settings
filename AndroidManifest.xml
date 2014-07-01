@@ -1805,6 +1805,7 @@
         <activity android:name="Settings$ProfilesSettingsActivity"
                 android:label="@string/profile_settings"
                 android:taskAffinity=""
+                android:uiOptions="splitActionBarWhenNarrow"
                 android:excludeFromRecents="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -2161,5 +2162,11 @@
         </service>
 
         <service android:name=".search.SearchPopulator"/>
+
+        <receiver android:name=".search.LocaleChangedReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.LOCALE_CHANGED" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>
