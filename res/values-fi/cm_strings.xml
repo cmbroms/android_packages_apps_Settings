@@ -33,7 +33,7 @@
   <string name="increasing_ring_volume_notice">Huomaa:\nJos asetat alun äänenvoimakkuuden kovemmaksi kuin alkuperäisen äänenvoimakkuuden, soittoääni soi alkuperäisellä äänenvoimakkuudella.</string>
   <string name="increasing_ring_interval_title">Nousuväli</string>
   <string name="increasing_ring_interval_eachring">Jokaisella toistolla</string>
-  <string name="increasing_ring_interval_half_second">0.5 sekuntia</string>
+  <string name="increasing_ring_interval_half_second">0,5 sekuntia</string>
   <string name="increasing_ring_interval_1second">1 sekunti</string>
   <string name="increasing_ring_interval_2seconds">2 sekuntia</string>
   <string name="increasing_ring_interval_3seconds">3 sekuntia</string>
@@ -216,6 +216,7 @@
   <string name="lockscreen_maximize_widgets_summary">Suurenna widgetit, kun näyttö avataan</string>
   <string name="lockscreen_enable_camera_title">Kamerawidget</string>
   <string name="safe_headset_volume_title">Turvallinen kuulokkeiden äänenvoimakkuus</string>
+  <string name="safe_headset_volume_restore_title">Pienennä kuulokkeiden äänenvoimakkuutta kytkettäessä</string>
   <string name="cyanogenmod_waiver_title">Vastuuvapautus</string>
   <string name="cyanogenmod_waiver_body">Tämän asetuksen muuttaminen saattaa rikkoa valtiosi lakeja.\n\nJos valitset \'OK\', olet lukenut tämän varoituksen ja luovut kaikista korvausvaatimuksista ja vapautat CyanogenModin ja siihen osallistuvat henkilöt kaikesta vastuusta.</string>
   <string name="quick_settings_panel_title">Pika-asetuspaneeli</string>
@@ -291,6 +292,10 @@
   <string name="cm_sound_mode_vibrate">Värinä</string>
   <string name="cm_sound_mode_sound">Äänet</string>
   <string name="cm_sound_mode_soundVibrate">Äänet &amp; Värinä</string>
+  <string name="pref_location_mode_title">Sijaintitilat</string>
+  <string name="cm_location_mode_battery_saving">Virransäästö</string>
+  <string name="cm_location_mode_device_only">Vain laite</string>
+  <string name="cm_location_mode_high_accuracy">Korkea tarkkuus</string>
   <string name="tiles_reset_title">Nollaa</string>
   <string name="tiles_reset_message">Palauta oletuksena olleet tiilet ja järjestys?</string>
   <string name="auto_brightness_setup_title">Automaattinen kirkkaus</string>
@@ -959,7 +964,6 @@ Lisää asetuksia on saaavilla painamalla riviä pitkään. Valitsemalla \'Muokk
   <string name="set_priority_sub_error">Virhe asettaessa ensisijaista tilausta. Tilaus ei ole aktiivinen.</string>
   <string name="prompt">Kehote</string>
   <string name="prompt_user">Kehota käyttäjää</string>
-  <string name="sar_info">Enimmäis SAR</string>
   <string name="maximum_head_level">Pää: %1$s W/kg</string>
   <string name="maximum_body_level">Vartalo: %1$s W/kg</string>
   <string name="tune_away_title">TuneAway</string>
@@ -980,4 +984,20 @@ Lisää asetuksia on saaavilla painamalla riviä pitkään. Valitsemalla \'Muokk
   <string name="wifi_ap_clients_title">Yhdistetyt laitteet</string>
   <string name="wifi_ap_client_ap_disabled">Tukiasema on poistettu käytöstä</string>
   <string name="wifi_ap_client_none_connected">Laitteita ei yhdistetty</string>
+  <string name="profile_menu_delete_title">Poista</string>
+  <string name="profile_menu_triggers_title">Muokkaa käynnistimiä</string>
+  <string name="profile_action_none">Ei toimintoa</string>
+  <string name="profile_action_disabled">Poista käytöstä</string>
+  <string name="profile_action_enable">Ota käyttöön</string>
+  <string name="profile_tabs_wifi">Wi-Fi</string>
+  <string name="profile_tabs_bluetooth">Bluetooth</string>
+  <string name="profile_tabs_nfc">NFC</string>
+  <string name="profile_setup_setup_triggers_title">Vaihe 1: Lisää käynnistimiä</string>
+  <string name="profile_setup_setup_triggers_title_config">Muokkaa käynnistimiä: <xliff:g id="profile_name">%1$s</xliff:g></string>
+  <string name="profile_setup_actions_title">Vaihe 2: Aseta toiminnot</string>
+  <string name="profile_setup_actions_title_config">Määritä toiminnot</string>
+  <string name="no_bluetooth_triggers">Bluetooth-käynnistimiä ei saatavilla</string>
+  <string name="no_wifi_triggers">Wi-Fi-käynnistimiä ei saatavilla</string>
+  <string name="profile_setup_setup_triggers_description">Valitse käynnistimet jotka aktivoivat tämän profiilin</string>
+  <string name="profile_setup_actions_description">Määritä nyt mitä tapahtuu kun profiili on aktivoitu</string>
 </resources>

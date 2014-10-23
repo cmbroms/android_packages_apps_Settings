@@ -216,6 +216,7 @@
   <string name="lockscreen_maximize_widgets_summary">Na obrazovce zámku zobrazit widgety maximalizované a ovládání zámku minimalizované</string>
   <string name="lockscreen_enable_camera_title">Widget fotoaparátu</string>
   <string name="safe_headset_volume_title">Bezpečná hlasitost sluchátek</string>
+  <string name="safe_headset_volume_restore_title">Snížení hlasitosti při připojení sluchátek</string>
   <string name="cyanogenmod_waiver_title">Zřeknutí se</string>
   <string name="cyanogenmod_waiver_body">Změnou tohoto nastavení může dojít k porušení práva dané země.\n\nPotvrzením tlačítka \u201aOK\u2018 níže přijímáte toto varování a zprošťujete povinnost jakéhokoliv odškodnění v případě újmy.</string>
   <string name="quick_settings_panel_title">Panel rychlého nastavení</string>
@@ -291,6 +292,10 @@
   <string name="cm_sound_mode_vibrate">Vibrace</string>
   <string name="cm_sound_mode_sound">Zvuk</string>
   <string name="cm_sound_mode_soundVibrate">Zvuk a vibrace</string>
+  <string name="pref_location_mode_title">Poloha</string>
+  <string name="cm_location_mode_battery_saving">Úspora baterie</string>
+  <string name="cm_location_mode_device_only">Pouze zařízení</string>
+  <string name="cm_location_mode_high_accuracy">Vysoká přesnost</string>
   <string name="tiles_reset_title">Obnovit</string>
   <string name="tiles_reset_message">Obnovit nastavení a rozmístění dlaždic do výchozího nastavení?</string>
   <string name="auto_brightness_setup_title">Automatické podsvícení</string>
@@ -973,7 +978,6 @@ z <xliff:g id="old" example="libdvm.so">%1$s</xliff:g> na <xliff:g id="new" exam
   <string name="set_priority_sub_error">Chyba při nastavení priority poskytovatele. Poskytovatel není aktivní.</string>
   <string name="prompt">Ukázat</string>
   <string name="prompt_user">Vyzvat uživatele</string>
-  <string name="sar_info">Maximální SAR</string>
   <string name="maximum_head_level">Hlava: %1$s W/kg</string>
   <string name="maximum_body_level">Tělo: %1$s W/kg</string>
   <string name="tune_away_title">TuneAway</string>
@@ -994,4 +998,20 @@ z <xliff:g id="old" example="libdvm.so">%1$s</xliff:g> na <xliff:g id="new" exam
   <string name="wifi_ap_clients_title">Připojená zařízení</string>
   <string name="wifi_ap_client_ap_disabled">Hotspot Wi-Fi zakázán</string>
   <string name="wifi_ap_client_none_connected">Nepřipojeno žádné zařízení</string>
+  <string name="profile_menu_delete_title">Smazat</string>
+  <string name="profile_menu_triggers_title">Upravit vynucené změny</string>
+  <string name="profile_action_none">Žádná akce</string>
+  <string name="profile_action_disabled">Zakázat</string>
+  <string name="profile_action_enable">Povolit</string>
+  <string name="profile_tabs_wifi">Wi-Fi</string>
+  <string name="profile_tabs_bluetooth">Bluetooth</string>
+  <string name="profile_tabs_nfc">NFC</string>
+  <string name="profile_setup_setup_triggers_title">Krok 1: přidat vynucenou změnu</string>
+  <string name="profile_setup_setup_triggers_title_config">Úprava vynucené změny: <xliff:g id="profile_name">%1$s</xliff:g></string>
+  <string name="profile_setup_actions_title">Krok 2: nastavit akce</string>
+  <string name="profile_setup_actions_title_config">Přenastavit akce</string>
+  <string name="no_bluetooth_triggers">Pro Bluetooth nejsou dostupné aktivační změny</string>
+  <string name="no_wifi_triggers">Pro Wi-Fi nejsou dostupné aktivační změny</string>
+  <string name="profile_setup_setup_triggers_description">Vyberte události, které aktivují tento profil</string>
+  <string name="profile_setup_actions_description">Nyní proveďte nastavení toho, co se má stát, při aktivaci profilu</string>
 </resources>

@@ -216,6 +216,7 @@
   <string name="lockscreen_maximize_widgets_summary">Expandir los widgets al encender la pantalla</string>
   <string name="lockscreen_enable_camera_title">Widget de cámara</string>
   <string name="safe_headset_volume_title">Volumen seguro</string>
+  <string name="safe_headset_volume_restore_title">Reducir el volumen al conectar los auriculares</string>
   <string name="cyanogenmod_waiver_title">Renuncia</string>
   <string name="cyanogenmod_waiver_body">Cambiar este ajuste puede ir en contra de la leyes de tu estado o país.\n\nPulsando \u00ABAceptar\u00BB, reconoces esta advertencia y eximes de cualquier responsabilidad legal a CyanogenMod y sus colaboradores, renunciando así a cualquier reclamación por daños y perjuicios.</string>
   <string name="quick_settings_panel_title">Panel de ajustes rápidos</string>
@@ -291,6 +292,10 @@
   <string name="cm_sound_mode_vibrate">Vibrar</string>
   <string name="cm_sound_mode_sound">Sonar</string>
   <string name="cm_sound_mode_soundVibrate">Sonar y vibrar</string>
+  <string name="pref_location_mode_title">Modos de ubicación</string>
+  <string name="cm_location_mode_battery_saving">Ahorro de batería</string>
+  <string name="cm_location_mode_device_only">Solo en dispositivo</string>
+  <string name="cm_location_mode_high_accuracy">Alta precisión</string>
   <string name="tiles_reset_title">Restablecer</string>
   <string name="tiles_reset_message">¿Restablecer los controles y la disposición?</string>
   <string name="auto_brightness_setup_title">Brillo automático</string>
@@ -959,7 +964,6 @@ Tocando de forma prolongada cada línea se mostrarán opciones adicionales. Sele
   <string name="set_priority_sub_error">Error en el establecimiento de la prioridad de suscripción. Suscripción inactiva.</string>
   <string name="prompt">Preguntar</string>
   <string name="prompt_user">Preguntar al usuario</string>
-  <string name="sar_info">Valor SAR máximo</string>
   <string name="maximum_head_level">Cabeza: %1$s W/kg</string>
   <string name="maximum_body_level">Cuerpo: %1$s W/kg</string>
   <string name="tune_away_title">TuneAway</string>
@@ -980,4 +984,20 @@ Tocando de forma prolongada cada línea se mostrarán opciones adicionales. Sele
   <string name="wifi_ap_clients_title">Dispositivos conectados</string>
   <string name="wifi_ap_client_ap_disabled">Punto de acceso deshabilitado</string>
   <string name="wifi_ap_client_none_connected">No hay dispositivos conectados</string>
+  <string name="profile_menu_delete_title">Eliminar</string>
+  <string name="profile_menu_triggers_title">Modificar eventos</string>
+  <string name="profile_action_none">Sin acción</string>
+  <string name="profile_action_disabled">Deshabilitado</string>
+  <string name="profile_action_enable">Habilitado</string>
+  <string name="profile_tabs_wifi">Wi-Fi</string>
+  <string name="profile_tabs_bluetooth">Bluetooth</string>
+  <string name="profile_tabs_nfc">NFC</string>
+  <string name="profile_setup_setup_triggers_title">Paso 1: Añadir eventos</string>
+  <string name="profile_setup_setup_triggers_title_config">Modificar eventos: <xliff:g id="profile_name">%1$s</xliff:g></string>
+  <string name="profile_setup_actions_title">Paso 2: Configurar acciones</string>
+  <string name="profile_setup_actions_title_config">Reconfigurar acciones</string>
+  <string name="no_bluetooth_triggers">No hay eventos de Bluetooth disponibles</string>
+  <string name="no_wifi_triggers">No hay eventos de Wi-Fi disponibles</string>
+  <string name="profile_setup_setup_triggers_description">Por favor, selecciona que eventos activarán este perfil</string>
+  <string name="profile_setup_actions_description">Ahora configura que sucederá cuando el perfil sea activado</string>
 </resources>

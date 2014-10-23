@@ -216,6 +216,7 @@
   <string name="lockscreen_maximize_widgets_summary">화면을 켤 때 위젯 확장</string>
   <string name="lockscreen_enable_camera_title">카메라 위젯</string>
   <string name="safe_headset_volume_title">안전한 헤드셋 볼륨</string>
+  <string name="safe_headset_volume_restore_title">연결 시 헤드셋 볼륨 줄이기</string>
   <string name="cyanogenmod_waiver_title">면제</string>
   <string name="cyanogenmod_waiver_body">해당 설정을 바꾸는 것은 당신이 거주하고 있는 주 혹은 국가의 법률에 위반 될 수도 있습니다.\n\n아래의 \'확인\' 버튼을 누르면, 위의 경고를 확인하였고, CyanogenMod와 해당 개발자들을 법적 책임에 연관 시키지 않을 것에 동의하게 됩니다.</string>
   <string name="quick_settings_panel_title">빠른 설정 패널</string>
@@ -291,6 +292,10 @@
   <string name="cm_sound_mode_vibrate">진동</string>
   <string name="cm_sound_mode_sound">소리</string>
   <string name="cm_sound_mode_soundVibrate">소리 및 진동</string>
+  <string name="pref_location_mode_title">위치 모드</string>
+  <string name="cm_location_mode_battery_saving">배터리 절약</string>
+  <string name="cm_location_mode_device_only">기기 전용</string>
+  <string name="cm_location_mode_high_accuracy">높은 정확성</string>
   <string name="tiles_reset_title">재설정</string>
   <string name="tiles_reset_message">표시되는 타일과 레이아웃을 기본값으로 복원할까요?</string>
   <string name="auto_brightness_setup_title">자동 밝기</string>
@@ -958,7 +963,6 @@
   <string name="set_priority_sub_error">우선순위 회선을 설정하는 도중에 오류가 발생했습니다. 회선이 비활성화되어 있습니다.</string>
   <string name="prompt">알림</string>
   <string name="prompt_user">사용자에게 알림</string>
-  <string name="sar_info">최대 SAR</string>
   <string name="maximum_head_level">머리: %1$s W/kg</string>
   <string name="maximum_body_level">몸: %1$s W/kg</string>
   <string name="tune_away_title">TuneAway</string>
@@ -979,4 +983,20 @@
   <string name="wifi_ap_clients_title">연결된 장치</string>
   <string name="wifi_ap_client_ap_disabled">핫스팟을 사용하지 않습니다</string>
   <string name="wifi_ap_client_none_connected">연결된 장치 없음</string>
+  <string name="profile_menu_delete_title">삭제</string>
+  <string name="profile_menu_triggers_title">트리거 변경</string>
+  <string name="profile_action_none">동작 없음</string>
+  <string name="profile_action_disabled">사용 안 함</string>
+  <string name="profile_action_enable">사용함</string>
+  <string name="profile_tabs_wifi">Wi-Fi</string>
+  <string name="profile_tabs_bluetooth">블루투스</string>
+  <string name="profile_tabs_nfc">NFC</string>
+  <string name="profile_setup_setup_triggers_title">1단계: 트리거 추가</string>
+  <string name="profile_setup_setup_triggers_title_config">트리거 변경: <xliff:g id="profile_name">%1$s</xliff:g></string>
+  <string name="profile_setup_actions_title">2단계: 동작 설정</string>
+  <string name="profile_setup_actions_title_config">동작 다시 설정</string>
+  <string name="no_bluetooth_triggers">사용 가능한 블루투스 트리거 없음</string>
+  <string name="no_wifi_triggers">사용 가능한 Wi-Fi 트리거 없음</string>
+  <string name="profile_setup_setup_triggers_description">이 프로필을 활성화할 트리거를 선택해주십시오</string>
+  <string name="profile_setup_actions_description">이 프로필이 활성화되면 무엇을 할 것인지 설정해주십시오</string>
 </resources>
