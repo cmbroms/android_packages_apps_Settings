@@ -34,8 +34,8 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
- * A {@link android.support.v4.app.FragmentPagerAdapter} class for swiping
- * between trigger fragments<br/>
+ * A {@link android.support.v4.app.FragmentPagerAdapter} class for swiping between playlists, recent,
+ * artists, albums, songs, and genre {@link android.support.v4.app.Fragment}s on phones.<br/>
  */
 public class TriggerPagerAdapter extends FragmentPagerAdapter {
 
@@ -171,15 +171,15 @@ public class TriggerPagerAdapter extends FragmentPagerAdapter {
      */
     public enum TriggerFragments {
         /**
-         * The wifi trigger fragment
+         * The artist fragment
          */
         WIFI(WifiTriggerFragment.class, R.string.profile_tabs_wifi),
         /**
-         * The bluetooth trigger fragment
+         * The album fragment
          */
         BLUETOOTH(BluetoothTriggerFragment.class, R.string.profile_tabs_bluetooth),
         /**
-         * The nfc trigger fragment
+         * The song fragment
          */
         NFC(NfcTriggerFragment.class, R.string.profile_tabs_nfc);
 
@@ -187,7 +187,7 @@ public class TriggerPagerAdapter extends FragmentPagerAdapter {
         private int mNameRes;
 
         /**
-         * Constructor of <code>TriggerFragments</code>
+         * Constructor of <code>MusicFragments</code>
          *
          * @param fragmentClass The fragment class
          */

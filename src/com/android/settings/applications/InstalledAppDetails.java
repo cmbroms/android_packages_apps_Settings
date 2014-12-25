@@ -20,13 +20,13 @@ import android.content.pm.ActivityInfo;
 import com.android.internal.telephony.ISms;
 import com.android.internal.telephony.SmsUsageMonitor;
 import com.android.settings.R;
+import com.android.settings.SettingsActivity;
 import com.android.settings.Utils;
 import com.android.settings.applications.ApplicationsState.AppEntry;
 
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
-import android.app.AppOpsManager;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
@@ -59,7 +59,6 @@ import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.UserHandle;
 import android.os.UserManager;
-import android.preference.PreferenceActivity;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.format.Formatter;
@@ -128,6 +127,7 @@ public class InstalledAppDetails extends Fragment
     private CheckBox mAskCompatibilityCB;
     private CheckBox mEnableCompatibilityCB;
     private boolean mCanClearData = true;
+    private boolean mAppControlRestricted = false;
     private TextView mAppVersion;
     private TextView mTotalSize;
     private TextView mAppSize;
@@ -143,10 +143,8 @@ public class InstalledAppDetails extends Fragment
     private Button mClearDataButton;
     private Button mMoveAppButton;
     private CompoundButton mNotificationSwitch;
-    private CompoundButton mPrivacyGuardSwitch;
 
     private PackageMoveObserver mPackageMoveObserver;
-    private AppOpsManager mAppOps;
 
     private final HashSet<String> mHomePackages = new HashSet<String>();
 
@@ -186,7 +184,6 @@ public class InstalledAppDetails extends Fragment
     private static final int DLG_DISABLE = DLG_BASE + 7;
     private static final int DLG_DISABLE_NOTIFICATIONS = DLG_BASE + 8;
     private static final int DLG_SPECIAL_DISABLE = DLG_BASE + 9;
-    private static final int DLG_PRIVACY_GUARD = DLG_BASE + 10;
 
     // Menu identifiers
     public static final int UNINSTALL_ALL_USERS_MENU = 1;
@@ -284,6 +281,10 @@ public class InstalledAppDetails extends Fragment
         if (enabled) {
             mClearDataButton.setOnClickListener(this);
         }
+
+        if (mAppControlRestricted) {
+            mClearDataButton.setEnabled(false);
+        }
     }
 
     private CharSequence getMoveErrMsg(int errCode) {
@@ -305,7 +306,7 @@ public class InstalledAppDetails extends Fragment
     }
 
     private void initMoveButton() {
-        if (Environment.isExternalStorageEmulated()) {
+        if (!Environment.isNoEmulatedStorageExist()) {
             mMoveAppButton.setVisibility(View.INVISIBLE);
             return;
         }
@@ -323,21 +324,11 @@ public class InstalledAppDetails extends Fragment
             mCanBeOnSdCardChecker.init();
             moveDisable = !mCanBeOnSdCardChecker.check(mAppEntry.info);
         }
-        if (moveDisable) {
+        if (moveDisable || mAppControlRestricted) {
             mMoveAppButton.setEnabled(false);
         } else {
             mMoveAppButton.setOnClickListener(this);
             mMoveAppButton.setEnabled(true);
-        }
-    }
-
-    private boolean isThisASystemPackage() {
-        try {
-            PackageInfo sys = mPm.getPackageInfo("android", PackageManager.GET_SIGNATURES);
-            return (mPackageInfo != null && mPackageInfo.signatures != null &&
-                    sys.signatures[0].equals(mPackageInfo.signatures[0]));
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
         }
     }
 
@@ -346,7 +337,8 @@ public class InstalledAppDetails extends Fragment
         // Try to prevent the user from bricking their phone
         // by not allowing disabling of apps signed with the
         // system cert and any launcher app in the system.
-        if (mHomePackages.contains(mAppEntry.info.packageName) || isThisASystemPackage()) {
+        if (mHomePackages.contains(mAppEntry.info.packageName)
+                || Utils.isSystemPackage(mPm, mPackageInfo)) {
             // Disable button for core system applications.
             button.setText(R.string.disable_text);
         } else if (mAppEntry.info.enabled) {
@@ -362,18 +354,22 @@ public class InstalledAppDetails extends Fragment
 
     private void initUninstallButtons() {
         mUpdatedSysApp = (mAppEntry.info.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0;
+        final boolean isBundled = (mAppEntry.info.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
         boolean enabled = true;
         if (mUpdatedSysApp) {
             mUninstallButton.setText(R.string.app_factory_reset);
-            boolean specialDisable = false;
-            if ((mAppEntry.info.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
-                specialDisable = handleDisableable(mSpecialDisableButton);
+            boolean showSpecialDisable = false;
+            if (isBundled) {
+                showSpecialDisable = handleDisableable(mSpecialDisableButton);
                 mSpecialDisableButton.setOnClickListener(this);
             }
-            mMoreControlButtons.setVisibility(specialDisable ? View.VISIBLE : View.GONE);
+            if (mAppControlRestricted) {
+                showSpecialDisable = false;
+            }
+            mMoreControlButtons.setVisibility(showSpecialDisable ? View.VISIBLE : View.GONE);
         } else {
             mMoreControlButtons.setVisibility(View.GONE);
-            if ((mAppEntry.info.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
+            if (isBundled) {
                 enabled = handleDisableable(mUninstallButton);
             } else if ((mPackageInfo.applicationInfo.flags
                     & ApplicationInfo.FLAG_INSTALLED) == 0
@@ -392,26 +388,38 @@ public class InstalledAppDetails extends Fragment
             enabled = false;
         }
 
+        // Home apps need special handling.  Bundled ones we don't risk downgrading
+        // because that can interfere with home-key resolution.  Furthermore, we
+        // can't allow uninstallation of the only home app, and we don't want to
+        // allow uninstallation of an explicitly preferred one -- the user can go
+        // to Home settings and pick a different one, after which we'll permit
+        // uninstallation of the now-not-default one.
+        if (enabled && mHomePackages.contains(mPackageInfo.packageName)) {
+            if (isBundled) {
+                enabled = false;
+            } else {
+                ArrayList<ResolveInfo> homeActivities = new ArrayList<ResolveInfo>();
+                ComponentName currentDefaultHome  = mPm.getHomeActivities(homeActivities);
+                if (currentDefaultHome == null) {
+                    // No preferred default, so permit uninstall only when
+                    // there is more than one candidate
+                    enabled = (mHomePackages.size() > 1);
+                } else {
+                    // There is an explicit default home app -- forbid uninstall of
+                    // that one, but permit it for installed-but-inactive ones.
+                    enabled = !mPackageInfo.packageName.equals(currentDefaultHome.getPackageName());
+                }
+            }
+        }
+
+        if (mAppControlRestricted) {
+            enabled = false;
+        }
+
         // This is a protected app component.
         // You cannot a uninstall a protected component
         if (mPackageInfo.applicationInfo.protect) {
             enabled = false;
-        }
-
-        // If this is the default (or only) home app, suppress uninstall (even if
-        // we still think it should be allowed for other reasons)
-        if (enabled && mHomePackages.contains(mPackageInfo.packageName)) {
-            ArrayList<ResolveInfo> homeActivities = new ArrayList<ResolveInfo>();
-            ComponentName currentDefaultHome  = mPm.getHomeActivities(homeActivities);
-            if (currentDefaultHome == null) {
-                // No preferred default, so permit uninstall only when
-                // there is more than one candidate
-                enabled = (mHomePackages.size() > 1);
-            } else {
-                // There is an explicit default home app -- forbid uninstall of
-                // that one, but permit it for installed-but-inactive ones.
-                enabled = !mPackageInfo.packageName.equals(currentDefaultHome.getPackageName());
-            }
         }
 
         mUninstallButton.setEnabled(enabled);
@@ -432,23 +440,12 @@ public class InstalledAppDetails extends Fragment
             // this does not bode well
         }
         mNotificationSwitch.setChecked(enabled);
-        if (isThisASystemPackage()) {
+        if (Utils.isSystemPackage(mPm, mPackageInfo)) {
             mNotificationSwitch.setEnabled(false);
         } else {
             mNotificationSwitch.setEnabled(true);
             mNotificationSwitch.setOnCheckedChangeListener(this);
         }
-    }
-
-    private void initPrivacyGuardButton() {
-        if (mPrivacyGuardSwitch == null) {
-            return;
-        }
-        mAppOps = (AppOpsManager) getActivity().getSystemService(Context.APP_OPS_SERVICE);
-        boolean isEnabled = mAppOps.getPrivacyGuardSettingForPackage(
-            mAppEntry.info.uid, mAppEntry.info.packageName);
-        mPrivacyGuardSwitch.setChecked(isEnabled);
-        mPrivacyGuardSwitch.setOnCheckedChangeListener(this);
     }
 
     /** Called when the activity is first created. */
@@ -480,17 +477,19 @@ public class InstalledAppDetails extends Fragment
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.installed_app_details, container, false);
-        Utils.prepareCustomPreferencesList(container, view, view, false);
+
+        final ViewGroup allDetails = (ViewGroup) view.findViewById(R.id.all_details);
+        Utils.forceCustomPadding(allDetails, true /* additive padding */);
 
         mRootView = view;
         mComputingStr = getActivity().getText(R.string.computing_size);
         
         // Set default values on sizes
-        mTotalSize = (TextView)view.findViewById(R.id.total_size_text);
-        mAppSize = (TextView)view.findViewById(R.id.application_size_text);
-        mDataSize = (TextView)view.findViewById(R.id.data_size_text);
-        mExternalCodeSize = (TextView)view.findViewById(R.id.external_code_size_text);
-        mExternalDataSize = (TextView)view.findViewById(R.id.external_data_size_text);
+        mTotalSize = (TextView) view.findViewById(R.id.total_size_text);
+        mAppSize = (TextView) view.findViewById(R.id.application_size_text);
+        mDataSize = (TextView) view.findViewById(R.id.data_size_text);
+        mExternalCodeSize = (TextView) view.findViewById(R.id.external_code_size_text);
+        mExternalDataSize = (TextView) view.findViewById(R.id.external_data_size_text);
 
         if (Environment.isExternalStorageEmulated()) {
             ((View)mExternalCodeSize.getParent()).setVisibility(View.GONE);
@@ -501,13 +500,13 @@ public class InstalledAppDetails extends Fragment
         View btnPanel = view.findViewById(R.id.control_buttons_panel);
         mForceStopButton = (Button) btnPanel.findViewById(R.id.left_button);
         mForceStopButton.setText(R.string.force_stop);
-        mUninstallButton = (Button)btnPanel.findViewById(R.id.right_button);
+        mUninstallButton = (Button) btnPanel.findViewById(R.id.right_button);
         mForceStopButton.setEnabled(false);
         
         // Get More Control button panel
         mMoreControlButtons = view.findViewById(R.id.more_control_buttons_panel);
         mMoreControlButtons.findViewById(R.id.left_button).setVisibility(View.INVISIBLE);
-        mSpecialDisableButton = (Button)mMoreControlButtons.findViewById(R.id.right_button);
+        mSpecialDisableButton = (Button) mMoreControlButtons.findViewById(R.id.right_button);
         mMoreControlButtons.setVisibility(View.GONE);
         
         // Initialize clear data and move install location buttons
@@ -519,15 +518,14 @@ public class InstalledAppDetails extends Fragment
         mCacheSize = (TextView) view.findViewById(R.id.cache_size_text);
         mClearCacheButton = (Button) view.findViewById(R.id.clear_cache_button);
 
-        mActivitiesButton = (Button)view.findViewById(R.id.clear_activities_button);
+        mActivitiesButton = (Button) view.findViewById(R.id.clear_activities_button);
         
         // Screen compatibility control
         mScreenCompatSection = view.findViewById(R.id.screen_compatibility_section);
-        mAskCompatibilityCB = (CheckBox)view.findViewById(R.id.ask_compatibility_cb);
-        mEnableCompatibilityCB = (CheckBox)view.findViewById(R.id.enable_compatibility_cb);
+        mAskCompatibilityCB = (CheckBox) view.findViewById(R.id.ask_compatibility_cb);
+        mEnableCompatibilityCB = (CheckBox) view.findViewById(R.id.enable_compatibility_cb);
         
         mNotificationSwitch = (CompoundButton) view.findViewById(R.id.notification_switch);
-        mPrivacyGuardSwitch = (CompoundButton) view.findViewById(R.id.privacy_guard_switch);
 
         return view;
     }
@@ -638,28 +636,9 @@ public class InstalledAppDetails extends Fragment
         ImageView icon = (ImageView) appSnippet.findViewById(R.id.app_icon);
         mState.ensureIcon(mAppEntry);
         icon.setImageDrawable(mAppEntry.icon);
-
-        // Clicking on application icon opens application.
-        final String finalPackageName = pkgInfo.packageName;
-        icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PackageManager pm = v.getContext().getPackageManager();
-                Intent intent = pm.getLaunchIntentForPackage(finalPackageName);
-                if (intent == null)
-                    return;
-
-                v.getContext().startActivity(intent);
-            }
-        });
-
         // Set application name.
         TextView label = (TextView) appSnippet.findViewById(R.id.app_name);
         label.setText(mAppEntry.label);
-        // Set application package name.
-        TextView packageName = (TextView) appSnippet.findViewById(R.id.app_pkgname);
-        packageName.setText(mAppEntry.info.packageName);
-        packageName.setVisibility(View.VISIBLE);
         // Version number of application
         mAppVersion = (TextView) appSnippet.findViewById(R.id.app_size);
 
@@ -676,6 +655,7 @@ public class InstalledAppDetails extends Fragment
     public void onResume() {
         super.onResume();
         
+        mAppControlRestricted = mUserManager.hasUserRestriction(UserManager.DISALLOW_APPS_CONTROL);
         mSession.resume();
         if (!refreshUi()) {
             setIntentAndFinish(true, true);
@@ -686,6 +666,12 @@ public class InstalledAppDetails extends Fragment
     public void onPause() {
         super.onPause();
         mSession.pause();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mSession.release();
     }
 
     @Override
@@ -796,7 +782,7 @@ public class InstalledAppDetails extends Fragment
 
         // Get list of preferred activities
         List<ComponentName> prefActList = new ArrayList<ComponentName>();
-        
+
         // Intent list cannot be null. so pass empty list
         List<IntentFilter> intentList = new ArrayList<IntentFilter>();
         mPm.getPreferredActivities(intentList, prefActList, packageName);
@@ -805,7 +791,7 @@ public class InstalledAppDetails extends Fragment
         boolean hasUsbDefaults = false;
         try {
             hasUsbDefaults = mUsbManager.hasDefaults(packageName, UserHandle.myUserId());
-        } catch (RemoteException e) {
+        } catch (RemoteException | NullPointerException e) {
             Log.e(TAG, "mUsbManager.hasDefaults", e);
         }
         boolean hasBindAppWidgetPermission =
@@ -984,11 +970,6 @@ public class InstalledAppDetails extends Fragment
             }
         }
 
-        // only setup the privacy guard setting if we didn't get uninstalled
-        if (!mMoveInProgress) {
-            initPrivacyGuardButton();
-        }
-
         return true;
     }
 
@@ -1039,8 +1020,8 @@ public class InstalledAppDetails extends Fragment
         if(localLOGV) Log.i(TAG, "appChanged="+appChanged);
         Intent intent = new Intent();
         intent.putExtra(ManageApplications.APP_CHG, appChanged);
-        PreferenceActivity pa = (PreferenceActivity)getActivity();
-        pa.finishPreferencePanel(this, Activity.RESULT_OK, intent);
+        SettingsActivity sa = (SettingsActivity)getActivity();
+        sa.finishPreferencePanel(this, Activity.RESULT_OK, intent);
     }
     
     private void refreshSizeInfo() {
@@ -1103,6 +1084,10 @@ public class InstalledAppDetails extends Fragment
                 mClearCacheButton.setEnabled(true);
                 mClearCacheButton.setOnClickListener(this);
             }
+        }
+        if (mAppControlRestricted) {
+            mClearCacheButton.setEnabled(false);
+            mClearDataButton.setEnabled(false);
         }
     }
     
@@ -1205,7 +1190,6 @@ public class InstalledAppDetails extends Fragment
                 case DLG_CLEAR_DATA:
                     return new AlertDialog.Builder(getActivity())
                     .setTitle(getActivity().getText(R.string.clear_data_dlg_title))
-                    .setIconAttribute(android.R.attr.alertDialogIcon)
                     .setMessage(getActivity().getText(R.string.clear_data_dlg_text))
                     .setPositiveButton(R.string.dlg_ok,
                             new DialogInterface.OnClickListener() {
@@ -1219,7 +1203,6 @@ public class InstalledAppDetails extends Fragment
                 case DLG_FACTORY_RESET:
                     return new AlertDialog.Builder(getActivity())
                     .setTitle(getActivity().getText(R.string.app_factory_reset_dlg_title))
-                    .setIconAttribute(android.R.attr.alertDialogIcon)
                     .setMessage(getActivity().getText(R.string.app_factory_reset_dlg_text))
                     .setPositiveButton(R.string.dlg_ok,
                             new DialogInterface.OnClickListener() {
@@ -1234,7 +1217,6 @@ public class InstalledAppDetails extends Fragment
                 case DLG_APP_NOT_FOUND:
                     return new AlertDialog.Builder(getActivity())
                     .setTitle(getActivity().getText(R.string.app_not_found_dlg_title))
-                    .setIconAttribute(android.R.attr.alertDialogIcon)
                     .setMessage(getActivity().getText(R.string.app_not_found_dlg_title))
                     .setNeutralButton(getActivity().getText(R.string.dlg_ok),
                             new DialogInterface.OnClickListener() {
@@ -1247,7 +1229,6 @@ public class InstalledAppDetails extends Fragment
                 case DLG_CANNOT_CLEAR_DATA:
                     return new AlertDialog.Builder(getActivity())
                     .setTitle(getActivity().getText(R.string.clear_failed_dlg_title))
-                    .setIconAttribute(android.R.attr.alertDialogIcon)
                     .setMessage(getActivity().getText(R.string.clear_failed_dlg_text))
                     .setNeutralButton(R.string.dlg_ok,
                             new DialogInterface.OnClickListener() {
@@ -1261,7 +1242,6 @@ public class InstalledAppDetails extends Fragment
                 case DLG_FORCE_STOP:
                     return new AlertDialog.Builder(getActivity())
                     .setTitle(getActivity().getText(R.string.force_stop_dlg_title))
-                    .setIconAttribute(android.R.attr.alertDialogIcon)
                     .setMessage(getActivity().getText(R.string.force_stop_dlg_text))
                     .setPositiveButton(R.string.dlg_ok,
                         new DialogInterface.OnClickListener() {
@@ -1277,14 +1257,12 @@ public class InstalledAppDetails extends Fragment
                             getOwner().getMoveErrMsg(moveErrorCode));
                     return new AlertDialog.Builder(getActivity())
                     .setTitle(getActivity().getText(R.string.move_app_failed_dlg_title))
-                    .setIconAttribute(android.R.attr.alertDialogIcon)
                     .setMessage(msg)
                     .setNeutralButton(R.string.dlg_ok, null)
                     .create();
                 case DLG_DISABLE:
                     return new AlertDialog.Builder(getActivity())
                     .setTitle(getActivity().getText(R.string.app_disable_dlg_title))
-                    .setIconAttribute(android.R.attr.alertDialogIcon)
                     .setMessage(getActivity().getText(R.string.app_disable_dlg_text))
                     .setPositiveButton(R.string.dlg_ok,
                         new DialogInterface.OnClickListener() {
@@ -1300,7 +1278,6 @@ public class InstalledAppDetails extends Fragment
                 case DLG_DISABLE_NOTIFICATIONS:
                     return new AlertDialog.Builder(getActivity())
                     .setTitle(getActivity().getText(R.string.app_disable_notifications_dlg_title))
-                    .setIconAttribute(android.R.attr.alertDialogIcon)
                     .setMessage(getActivity().getText(R.string.app_disable_notifications_dlg_text))
                     .setPositiveButton(R.string.dlg_ok,
                         new DialogInterface.OnClickListener() {
@@ -1312,14 +1289,14 @@ public class InstalledAppDetails extends Fragment
                     .setNegativeButton(R.string.dlg_cancel,
                         new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
+                            // Re-enable the checkbox
+                            getOwner().mNotificationSwitch.setChecked(true);
                         }
                     })
                     .create();
                 case DLG_SPECIAL_DISABLE:
                     return new AlertDialog.Builder(getActivity())
                     .setTitle(getActivity().getText(R.string.app_special_disable_dlg_title))
-                    .setIconAttribute(android.R.attr.alertDialogIcon)
                     .setMessage(getActivity().getText(R.string.app_special_disable_dlg_text))
                     .setPositiveButton(R.string.dlg_ok,
                             new DialogInterface.OnClickListener() {
@@ -1331,48 +1308,8 @@ public class InstalledAppDetails extends Fragment
                     })
                     .setNegativeButton(R.string.dlg_cancel, null)
                     .create();
-                case DLG_PRIVACY_GUARD:
-                    final int messageResId;
-                    if ((getOwner().mAppEntry.info.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
-                        messageResId = R.string.privacy_guard_dlg_system_app_text;
-                    } else {
-                        messageResId = R.string.privacy_guard_dlg_text;
-                    }
-
-                    return new AlertDialog.Builder(getActivity())
-                    .setTitle(R.string.privacy_guard_dlg_title)
-                    .setIconAttribute(android.R.attr.alertDialogIcon)
-                    .setMessage(messageResId)
-                    .setPositiveButton(R.string.dlg_ok,
-                        new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            getOwner().setPrivacyGuard(true);
-                        }
-                    })
-                    .setNegativeButton(R.string.dlg_cancel,
-                        new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    })
-                    .create();
             }
             throw new IllegalArgumentException("unknown id " + id);
-        }
-
-        @Override
-        public void onCancel(DialogInterface dialog) {
-            int id = getArguments().getInt("id");
-            switch (id) {
-                case DLG_DISABLE_NOTIFICATIONS:
-                    // Re-enable the checkbox
-                    getOwner().mNotificationSwitch.setChecked(true);
-                    break;
-                case DLG_PRIVACY_GUARD:
-                    // Re-enable the checkbox
-                    getOwner().mPrivacyGuardSwitch.setChecked(false);
-                    break;
-            }
         }
     }
 
@@ -1405,8 +1342,12 @@ public class InstalledAppDetails extends Fragment
     };
 
     private void updateForceStopButton(boolean enabled) {
-        mForceStopButton.setEnabled(enabled);
-        mForceStopButton.setOnClickListener(InstalledAppDetails.this);
+        if (mAppControlRestricted) {
+            mForceStopButton.setEnabled(false);
+        } else {
+            mForceStopButton.setEnabled(enabled);
+            mForceStopButton.setOnClickListener(InstalledAppDetails.this);
+        }
     }
     
     private void checkForceStop() {
@@ -1458,11 +1399,6 @@ public class InstalledAppDetails extends Fragment
         } catch (android.os.RemoteException ex) {
             mNotificationSwitch.setChecked(!enabled); // revert
         }
-    }
-
-    private void setPrivacyGuard(boolean enabled) {
-        mAppOps.setPrivacyGuardSettingForPackage(
-            mAppEntry.info.uid, mAppEntry.info.packageName, enabled);
     }
 
     private int getPremiumSmsPermission(String packageName) {
@@ -1561,12 +1497,6 @@ public class InstalledAppDetails extends Fragment
                 showDialogInner(DLG_DISABLE_NOTIFICATIONS, 0);
             } else {
                 setNotificationsEnabled(true);
-            }
-        } else if (buttonView == mPrivacyGuardSwitch) {
-            if (isChecked) {
-                showDialogInner(DLG_PRIVACY_GUARD, 0);
-            } else {
-                setPrivacyGuard(false);
             }
         }
     }

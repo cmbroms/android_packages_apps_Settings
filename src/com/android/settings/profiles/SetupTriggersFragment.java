@@ -23,7 +23,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -32,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import com.android.settings.R;
 import com.android.settings.SettingsPreferenceFragment;
+import com.android.settings.SubSettings;
 import com.android.settings.profiles.triggers.NfcTriggerFragment;
 
 public class SetupTriggersFragment extends SettingsPreferenceFragment {
@@ -110,7 +110,7 @@ public class SetupTriggersFragment extends SettingsPreferenceFragment {
         pager.setAdapter(mAdapter);
 
         PagerTabStrip tabs = (PagerTabStrip) root.findViewById(R.id.tabs);
-        tabs.setTabIndicatorColorResource(android.R.color.holo_blue_light);
+        tabs.setTabIndicatorColorResource(R.color.theme_accent);
 
         if (mNewProfileMode) {
             Button nextButton = (Button) root.findViewById(R.id.next);
@@ -121,7 +121,7 @@ public class SetupTriggersFragment extends SettingsPreferenceFragment {
                     args.putParcelable(ProfilesSettings.EXTRA_PROFILE,  mProfile);
                     args.putBoolean(ProfilesSettings.EXTRA_NEW_PROFILE, mNewProfileMode);
 
-                    PreferenceActivity pa = (PreferenceActivity) getActivity();
+                    SubSettings pa = (SubSettings) getActivity();
                     pa.startPreferencePanel(SetupActionsFragment.class.getCanonicalName(), args,
                             R.string.profile_profile_manage, null,
                             SetupTriggersFragment.this, REQUEST_SETUP_ACTIONS);
@@ -151,4 +151,6 @@ public class SetupTriggersFragment extends SettingsPreferenceFragment {
             }
         }
     }
+
+
 }

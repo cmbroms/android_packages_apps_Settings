@@ -32,6 +32,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import com.android.settings.R;
 import com.android.settings.Settings;
+import com.android.settings.SubSettings;
 import com.android.settings.profiles.NFCProfileTagCallback;
 import com.android.settings.profiles.NFCProfileUtils;
 import com.android.settings.profiles.ProfilesSettings;
@@ -64,19 +65,19 @@ public class NfcTriggerFragment extends Fragment implements NFCProfileTagCallbac
         if (getArguments() != null) {
             mProfile = getArguments().getParcelable(ProfilesSettings.EXTRA_PROFILE);
         }
-        ((Settings) getActivity()).setNfcProfileCallback(this);
+        ((SubSettings) getActivity()).setNfcProfileCallback(this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ((Settings) getActivity()).setNfcProfileCallback(null);
+        ((SubSettings) getActivity()).setNfcProfileCallback(null);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (mNfcAdapter != null && mProfile != null) {
+        if (mProfile != null) {
             enableTagWriteMode();
         }
     }
@@ -84,9 +85,7 @@ public class NfcTriggerFragment extends Fragment implements NFCProfileTagCallbac
     @Override
     public void onPause() {
         super.onPause();
-        if (mNfcAdapter != null) {
-            disableTagWriteMode();
-        }
+        disableTagWriteMode();
     }
 
     private PendingIntent getPendingIntent() {
@@ -119,7 +118,9 @@ public class NfcTriggerFragment extends Fragment implements NFCProfileTagCallbac
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         return inflater.inflate(R.layout.nfc_writer, container, false);
     }
+
+
 }

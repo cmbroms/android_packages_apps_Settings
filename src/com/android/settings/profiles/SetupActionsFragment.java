@@ -32,7 +32,6 @@ import android.media.AudioManager;
 import android.media.RingtoneManager;
 import android.net.wimax.WimaxHelper;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,16 +41,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import com.android.settings.R;
+import com.android.settings.SubSettings;
+import com.android.settings.cyanogenmod.DeviceUtils;
 import com.android.settings.SettingsPreferenceFragment;
 import com.android.settings.profiles.actions.ItemListAdapter;
 import com.android.settings.profiles.actions.item.AirplaneModeItem;
 import com.android.settings.profiles.actions.item.ConnectionOverrideItem;
-import com.android.settings.profiles.actions.item.ExpandedDesktopItem;
 import com.android.settings.profiles.actions.item.Header;
 import com.android.settings.profiles.actions.item.Item;
 import com.android.settings.profiles.actions.item.LockModeItem;
@@ -71,9 +73,6 @@ import static android.app.ConnectionSettings.PROFILE_CONNECTION_SYNC;
 import static android.app.ConnectionSettings.PROFILE_CONNECTION_WIFI;
 import static android.app.ConnectionSettings.PROFILE_CONNECTION_WIFIAP;
 import static android.app.ConnectionSettings.PROFILE_CONNECTION_WIMAX;
-import static com.android.internal.util.cm.QSUtils.deviceSupportsBluetooth;
-import static com.android.internal.util.cm.QSUtils.deviceSupportsMobileData;
-import static com.android.internal.util.cm.QSUtils.deviceSupportsNfc;
 
 public class SetupActionsFragment extends SettingsPreferenceFragment
         implements AdapterView.OnItemClickListener {
@@ -94,8 +93,9 @@ public class SetupActionsFragment extends SettingsPreferenceFragment
         Profile.LockMode.DEFAULT, Profile.LockMode.INSECURE, Profile.LockMode.DISABLE
     };
     private static final int[] EXPANDED_DESKTOP_MAPPING = new int[] {
-        Profile.ExpandedDesktopMode.DEFAULT, Profile.ExpandedDesktopMode.DISABLE,
-        Profile.ExpandedDesktopMode.ENABLE
+        Profile.ExpandedDesktopMode.DEFAULT,
+        Profile.ExpandedDesktopMode.ENABLE,
+        Profile.ExpandedDesktopMode.DISABLE
     };
 
     public static SetupActionsFragment newInstance(Profile profile, boolean newProfile) {
@@ -128,14 +128,14 @@ public class SetupActionsFragment extends SettingsPreferenceFragment
 
         // connection overrides
         items.add(new Header(getString(R.string.profile_connectionoverrides_title)));
-        if (deviceSupportsBluetooth()) {
+        if (DeviceUtils.deviceSupportsBluetooth()) {
             items.add(new ConnectionOverrideItem(PROFILE_CONNECTION_BLUETOOTH,
                     mProfile.getSettingsForConnection(PROFILE_CONNECTION_BLUETOOTH)));
         }
         items.add(generateConnectionOverrideItem(PROFILE_CONNECTION_GPS));
         items.add(generateConnectionOverrideItem(PROFILE_CONNECTION_WIFI));
         items.add(generateConnectionOverrideItem(PROFILE_CONNECTION_SYNC));
-        if (deviceSupportsMobileData(getActivity())) {
+        if (DeviceUtils.deviceSupportsMobileData(getActivity())) {
             items.add(generateConnectionOverrideItem(PROFILE_CONNECTION_MOBILEDATA));
             items.add(generateConnectionOverrideItem(PROFILE_CONNECTION_WIFIAP));
 
@@ -148,7 +148,7 @@ public class SetupActionsFragment extends SettingsPreferenceFragment
         if (WimaxHelper.isWimaxSupported(getActivity())) {
             items.add(generateConnectionOverrideItem(PROFILE_CONNECTION_WIMAX));
         }
-        if (deviceSupportsNfc(getActivity())) {
+        if (DeviceUtils.deviceSupportsNfc(getActivity())) {
             items.add(generateConnectionOverrideItem(PROFILE_CONNECTION_NFC));
         }
 
@@ -164,8 +164,6 @@ public class SetupActionsFragment extends SettingsPreferenceFragment
         items.add(new RingModeItem(mProfile.getRingMode()));
         items.add(new AirplaneModeItem(mProfile.getAirplaneMode()));
         items.add(new LockModeItem(mProfile));
-        items.add(new ExpandedDesktopItem(mProfile));
-
 
         mAdapter = new ItemListAdapter(getActivity(), items);
 
@@ -205,7 +203,7 @@ public class SetupActionsFragment extends SettingsPreferenceFragment
                 args.putParcelable(ProfilesSettings.EXTRA_PROFILE,  mProfile);
                 args.putBoolean(ProfilesSettings.EXTRA_NEW_PROFILE, false);
 
-                PreferenceActivity pa = (PreferenceActivity) getActivity();
+                SubSettings pa = (SubSettings) getActivity();
                 pa.startPreferencePanel(SetupTriggersFragment.class.getCanonicalName(), args,
                         R.string.profile_profile_manage, null, null, 0);
 
@@ -288,35 +286,6 @@ public class SetupActionsFragment extends SettingsPreferenceFragment
         builder.show();
     }
 
-    private void requestExpandedDesktopDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        final String[] expDesktopNames =
-                getResources().getStringArray(R.array.profile_expanded_desktop_entries);
-
-        int defaultIndex = 0; // no action
-        for (int i = 0; i < EXPANDED_DESKTOP_MAPPING.length; i++) {
-            if (EXPANDED_DESKTOP_MAPPING[i] == mProfile.getExpandedDesktopMode()) {
-                defaultIndex = i;
-                break;
-            }
-        }
-
-        builder.setTitle(R.string.power_menu_expanded_desktop);
-        builder.setSingleChoiceItems(expDesktopNames, defaultIndex,
-                new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                mProfile.setExpandedDesktopMode(EXPANDED_DESKTOP_MAPPING[item]);
-                updateProfile();
-                mAdapter.notifyDataSetChanged();
-                dialog.dismiss();
-            }
-        });
-
-        builder.setNegativeButton(android.R.string.cancel, null);
-        builder.show();
-    }
-
     private void requestAirplaneModeDialog(final AirplaneModeSettings setting) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final String[] connectionNames =
@@ -381,13 +350,15 @@ public class SetupActionsFragment extends SettingsPreferenceFragment
 
         int defaultIndex = 0; // normal by default
         if (setting.isOverride()) {
-            if (setting.getValue().equals(values[1] /* vibrate */)) {
+            if (setting.getValue().equals(values[0] /* normal */)) {
+                defaultIndex = 0;
+            } else if (setting.getValue().equals(values[1] /* vibrate */)) {
                 defaultIndex = 1; // enabled
             } else if (setting.getValue().equals(values[2] /* mute */)) {
                 defaultIndex = 2; // mute
-            } else {
-                defaultIndex = 1; // disabled
             }
+        } else {
+            defaultIndex = 3;
         }
 
         builder.setTitle(R.string.ring_mode_title);
@@ -396,16 +367,20 @@ public class SetupActionsFragment extends SettingsPreferenceFragment
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 switch (item) {
-                    case 0: // disable override
-                        setting.setOverride(false);
+                    case 0: // enable override, normal
+                        setting.setOverride(true);
+                        setting.setValue(values[0]);
                         break;
-                    case 1: // enable override, disable
+                    case 1: // enable override, vibrate
                         setting.setOverride(true);
                         setting.setValue(values[1]);
                         break;
-                    case 2: // enable override, enable
+                    case 2: // enable override, mute
                         setting.setOverride(true);
                         setting.setValue(values[2]);
+                        break;
+                    case 3:
+                        setting.setOverride(false);
                         break;
                 }
                 mProfile.setRingMode(setting);
@@ -472,10 +447,22 @@ public class SetupActionsFragment extends SettingsPreferenceFragment
 
         final AudioManager am = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
         final LayoutInflater inflater = LayoutInflater.from(getActivity());
-        final View view = inflater.inflate(com.android.internal.R.layout.seekbar_dialog, null);
-        final SeekBar seekBar = (SeekBar) view.findViewById(com.android.internal.R.id.seekbar);
+        final View view = inflater.inflate(R.layout.dialog_profiles_volume_override, null);
+        final SeekBar seekBar = (SeekBar) view.findViewById(R.id.seekbar);
+        final CheckBox override = (CheckBox) view.findViewById(R.id.checkbox);
+        override.setChecked(streamSettings.isOverride());
+        override.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                streamSettings.setOverride(isChecked);
+                seekBar.setEnabled(isChecked);
 
-        view.findViewById(android.R.id.icon).setVisibility(View.GONE);
+                mProfile.setStreamSettings(streamSettings);
+                mAdapter.notifyDataSetChanged();
+                updateProfile();
+            }
+        });
+        seekBar.setEnabled(streamSettings.isOverride());
         seekBar.setMax(am.getStreamMaxVolume(streamId));
         seekBar.setProgress(streamSettings.getValue());
         builder.setView(view);
@@ -560,8 +547,6 @@ public class SetupActionsFragment extends SettingsPreferenceFragment
         if (itemAtPosition instanceof AirplaneModeItem) {
             AirplaneModeItem item = (AirplaneModeItem) itemAtPosition;
             requestAirplaneModeDialog(item.getSettings());
-        } else if (itemAtPosition instanceof ExpandedDesktopItem) {
-            requestExpandedDesktopDialog();
         } else if (itemAtPosition instanceof LockModeItem) {
             requestLockscreenModeDialog();
         } else if (itemAtPosition instanceof RingModeItem) {

@@ -375,7 +375,7 @@ public class LightSettingsDialog extends AlertDialog implements
         @Override
         public View getView(int position, View view, ViewGroup parent) {
             if (view == null) {
-                view = mInflater.inflate(R.layout.pulse_time_item, null);
+                view = mInflater.inflate(R.layout.pulse_time_item, parent, false);
             }
 
             Pair<String, Integer> entry = getItem(position);

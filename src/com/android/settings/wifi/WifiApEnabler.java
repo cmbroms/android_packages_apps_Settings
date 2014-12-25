@@ -16,24 +16,33 @@
 
 package com.android.settings.wifi;
 
-import android.app.Activity;
-import android.content.*;
-import android.net.ConnectivityManager;
-import android.net.wifi.WifiManager;
-import android.provider.Settings;
-import android.widget.Switch;
 import com.android.settings.R;
+import com.android.settings.WirelessSettings;
 
 import java.util.ArrayList;
 
-public class WifiApEnabler {
-    public interface OnStateChangeListener {
-        void onStateChanged(boolean enabled);
-    }
+import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.SupplicantState;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.preference.SwitchPreference;
+import android.provider.Settings;
+import android.text.TextUtils;
+import android.util.Log;
+import android.widget.Toast;
 
+public class WifiApEnabler {
     private final Context mContext;
-    private Switch mSwitch;
-    private final OnStateChangeListener mListener;
+    private final SwitchPreference mSwitch;
+    private final CharSequence mOriginalSummary;
 
     private WifiManager mWifiManager;
     private final IntentFilter mIntentFilter;
@@ -43,8 +52,6 @@ public class WifiApEnabler {
     /* Indicates if we have to wait for WIFI_STATE_CHANGED intent */
     private boolean mWaitForWifiStateChange;
 
-    private WifiApClientsProgressCategory mClientsCategory;
-
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -53,16 +60,18 @@ public class WifiApEnabler {
                 handleWifiApStateChanged(intent.getIntExtra(
                         WifiManager.EXTRA_WIFI_AP_STATE, WifiManager.WIFI_AP_STATE_FAILED));
             } else if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(action)) {
-                if (mWaitForWifiStateChange) {
+                if (mWaitForWifiStateChange == true) {
                     handleWifiStateChanged(intent.getIntExtra(
                             WifiManager.EXTRA_WIFI_STATE, WifiManager.WIFI_STATE_UNKNOWN));
                 }
             } else if (ConnectivityManager.ACTION_TETHER_STATE_CHANGED.equals(action)) {
+                ArrayList<String> available = intent.getStringArrayListExtra(
+                        ConnectivityManager.EXTRA_AVAILABLE_TETHER);
                 ArrayList<String> active = intent.getStringArrayListExtra(
                         ConnectivityManager.EXTRA_ACTIVE_TETHER);
                 ArrayList<String> errored = intent.getStringArrayListExtra(
                         ConnectivityManager.EXTRA_ERRORED_TETHER);
-                updateTetherState(active.toArray(), errored.toArray());
+                updateTetherState(available.toArray(), active.toArray(), errored.toArray());
             } else if (Intent.ACTION_AIRPLANE_MODE_CHANGED.equals(action)) {
                 enableWifiSwitch();
             }
@@ -70,16 +79,15 @@ public class WifiApEnabler {
         }
     };
 
-    public WifiApEnabler(Activity activity, Switch switch_,
-                         OnStateChangeListener listener, WifiApClientsProgressCategory clientsCategory) {
-        mContext = activity;
-        mSwitch = switch_;
-        mListener = listener;
-        mClientsCategory = clientsCategory;
+    public WifiApEnabler(Context context, SwitchPreference switchPreference) {
+        mContext = context;
+        mSwitch = switchPreference;
+        mOriginalSummary = switchPreference.getSummary();
+        switchPreference.setPersistent(false);
         mWaitForWifiStateChange = false;
 
-        mWifiManager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
-        mCm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        mCm = (ConnectivityManager)mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         mWifiRegexs = mCm.getTetherableWifiRegexs();
 
@@ -101,10 +109,10 @@ public class WifiApEnabler {
     private void enableWifiSwitch() {
         boolean isAirplaneMode = Settings.Global.getInt(mContext.getContentResolver(),
                 Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
-        if (!isAirplaneMode) {
+        if(!isAirplaneMode) {
             mSwitch.setEnabled(true);
         } else {
-            mClientsCategory.setEmptyTextRes(R.string.wifi_ap_client_ap_disabled);
+            mSwitch.setSummary(mOriginalSummary);
             mSwitch.setEnabled(false);
         }
     }
@@ -117,7 +125,7 @@ public class WifiApEnabler {
          */
         int wifiState = mWifiManager.getWifiState();
         if (enable && ((wifiState == WifiManager.WIFI_STATE_ENABLING) ||
-                (wifiState == WifiManager.WIFI_STATE_ENABLED))) {
+                    (wifiState == WifiManager.WIFI_STATE_ENABLED))) {
             mWifiManager.setWifiEnabled(false);
             Settings.Global.putInt(cr, Settings.Global.WIFI_SAVED_STATE, 1);
         }
@@ -128,19 +136,20 @@ public class WifiApEnabler {
         if (!enable) {
             try {
                 wifiSavedState = Settings.Global.getInt(cr, Settings.Global.WIFI_SAVED_STATE);
-            } catch (Settings.SettingNotFoundException ignored) {
+            } catch (Settings.SettingNotFoundException e) {
+                ;
             }
 
             if (wifiSavedState == 1) {
-                mWaitForWifiStateChange = true;
+                 mWaitForWifiStateChange = true;
             }
         }
 
         if (mWifiManager.setWifiApEnabled(null, enable)) {
-            // Disable here, enabled on receiving success broadcast
+            /* Disable here, enabled on receiving success broadcast */
             mSwitch.setEnabled(false);
         } else {
-            mClientsCategory.setEmptyTextRes(R.string.wifi_error);
+            mSwitch.setSummary(R.string.wifi_error);
         }
 
         /**
@@ -154,63 +163,69 @@ public class WifiApEnabler {
         }
     }
 
-    private void updateTetherState(Object[] tethered, Object[] errored) {
+    public void updateConfigSummary(WifiConfiguration wifiConfig) {
+        String s = mContext.getString(
+                com.android.internal.R.string.wifi_tether_configure_ssid_default);
+        mSwitch.setSummary(String.format(
+                    mContext.getString(R.string.wifi_tether_enabled_subtext),
+                    (wifiConfig == null) ? s : wifiConfig.SSID));
+    }
+
+    private void updateTetherState(Object[] available, Object[] tethered, Object[] errored) {
         boolean wifiTethered = false;
         boolean wifiErrored = false;
 
         for (Object o : tethered) {
-            String s = (String) o;
+            String s = (String)o;
             for (String regex : mWifiRegexs) {
                 if (s.matches(regex)) wifiTethered = true;
             }
         }
-
-        for (Object o : errored) {
-            String s = (String) o;
+        for (Object o: errored) {
+            String s = (String)o;
             for (String regex : mWifiRegexs) {
                 if (s.matches(regex)) wifiErrored = true;
             }
         }
 
-        if (wifiErrored && !wifiTethered) {
-            mClientsCategory.setEmptyTextRes(R.string.wifi_error);
+        if (wifiTethered) {
+            WifiConfiguration wifiConfig = mWifiManager.getWifiApConfiguration();
+            updateConfigSummary(wifiConfig);
+        } else if (wifiErrored) {
+            mSwitch.setSummary(R.string.wifi_error);
         }
     }
 
     private void handleWifiApStateChanged(int state) {
         switch (state) {
             case WifiManager.WIFI_AP_STATE_ENABLING:
-                mClientsCategory.setEmptyTextRes(R.string.wifi_tether_starting);
+                mSwitch.setSummary(R.string.wifi_tether_starting);
                 mSwitch.setEnabled(false);
                 break;
             case WifiManager.WIFI_AP_STATE_ENABLED:
-                updateState(true);
-                /* Doesn't need the airplane check */
-                mClientsCategory.setEmptyTextRes(R.string.wifi_ap_client_none_connected);
+                /**
+                 * Summary on enable is handled by tether
+                 * broadcast notice
+                 */
+                mSwitch.setChecked(true);
+                /* Doesnt need the airplane check */
                 mSwitch.setEnabled(true);
                 break;
             case WifiManager.WIFI_AP_STATE_DISABLING:
-                mClientsCategory.setEmptyTextRes(R.string.wifi_tether_stopping);
+                mSwitch.setSummary(R.string.wifi_tether_stopping);
                 mSwitch.setEnabled(false);
                 break;
             case WifiManager.WIFI_AP_STATE_DISABLED:
-                updateState(false);
-                mClientsCategory.setEmptyTextRes(R.string.wifi_ap_client_ap_disabled);
-                if (!mWaitForWifiStateChange) {
+                mSwitch.setChecked(false);
+                mSwitch.setSummary(mOriginalSummary);
+                if (mWaitForWifiStateChange == false) {
                     enableWifiSwitch();
                 }
                 break;
             default:
-                updateState(false);
-                mClientsCategory.setEmptyTextRes(R.string.wifi_ap_client_ap_disabled);
+                mSwitch.setChecked(false);
+                mSwitch.setSummary(R.string.wifi_error);
                 enableWifiSwitch();
-        }
-    }
-
-    private void updateState(boolean enabled) {
-        mSwitch.setChecked(enabled);
-        if (mListener != null) {
-            mListener.onStateChanged(enabled);
         }
     }
 

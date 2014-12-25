@@ -19,13 +19,14 @@ package com.android.settings.profiles;
 import android.content.ActivityNotFoundException;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
-import android.preference.PreferenceActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.settings.R;
+import com.android.settings.SettingsActivity;
 import com.android.settings.SettingsPreferenceFragment;
+import com.android.settings.SubSettings;
 
 public class ProfilesPreference extends CheckBoxPreference implements View.OnClickListener {
     private static final String TAG = ProfilesPreference.class.getSimpleName();
@@ -130,7 +131,7 @@ public class ProfilesPreference extends CheckBoxPreference implements View.OnCli
 
     // utility method used to start sub activity
     private void startProfileConfigActivity() {
-        PreferenceActivity pa = (PreferenceActivity) mFragment.getActivity();
+        SubSettings pa = (SubSettings) mFragment.getActivity();
         pa.startPreferencePanel(SetupActionsFragment.class.getCanonicalName(), mSettingsBundle,
                 R.string.profile_profile_manage, null, null, PROFILE_DETAILS);
     }

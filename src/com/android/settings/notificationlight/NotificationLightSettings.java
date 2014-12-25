@@ -21,20 +21,18 @@ import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -47,6 +45,7 @@ import com.android.settings.R;
 import com.android.settings.SettingsPreferenceFragment;
 import com.android.settings.cyanogenmod.PackageListAdapter;
 import com.android.settings.cyanogenmod.PackageListAdapter.PackageItem;
+import com.android.settings.cyanogenmod.SystemSettingSwitchPreference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,17 +58,13 @@ public class NotificationLightSettings extends SettingsPreferenceFragment implem
     private static final String NOTIFICATION_LIGHT_PULSE_DEFAULT_COLOR = "notification_light_pulse_default_color";
     private static final String NOTIFICATION_LIGHT_PULSE_DEFAULT_LED_ON = "notification_light_pulse_default_led_on";
     private static final String NOTIFICATION_LIGHT_PULSE_DEFAULT_LED_OFF = "notification_light_pulse_default_led_off";
-    private static final String NOTIFICATION_LIGHT_PULSE_CUSTOM_ENABLE = "notification_light_pulse_custom_enable";
-    private static final String NOTIFICATION_LIGHT_PULSE = "notification_light_pulse";
     private static final String NOTIFICATION_LIGHT_PULSE_CALL_COLOR = "notification_light_pulse_call_color";
     private static final String NOTIFICATION_LIGHT_PULSE_CALL_LED_ON = "notification_light_pulse_call_led_on";
     private static final String NOTIFICATION_LIGHT_PULSE_CALL_LED_OFF = "notification_light_pulse_call_led_off";
     private static final String NOTIFICATION_LIGHT_PULSE_VMAIL_COLOR = "notification_light_pulse_vmail_color";
     private static final String NOTIFICATION_LIGHT_PULSE_VMAIL_LED_ON = "notification_light_pulse_vmail_led_on";
     private static final String NOTIFICATION_LIGHT_PULSE_VMAIL_LED_OFF = "notification_light_pulse_vmail_led_off";
-    private static final String PULSE_PREF = "pulse_enabled";
     private static final String DEFAULT_PREF = "default";
-    private static final String CUSTOM_PREF = "custom_enabled";
     private static final String MISSED_CALL_PREF = "missed_call";
     private static final String VOICEMAIL_PREF = "voicemail";
     public static final int ACTION_TEST = 0;
@@ -83,8 +78,8 @@ public class NotificationLightSettings extends SettingsPreferenceFragment implem
     private int mDefaultLedOff;
     private PackageManager mPackageManager;
     private PreferenceGroup mApplicationPrefList;
-    private CheckBoxPreference mEnabledPref;
-    private CheckBoxPreference mCustomEnabledPref;
+    private SystemSettingSwitchPreference mEnabledPref;
+    private SystemSettingSwitchPreference mCustomEnabledPref;
     private ApplicationLightPreference mDefaultPref;
     private ApplicationLightPreference mCallPref;
     private ApplicationLightPreference mVoicemailPref;
@@ -107,17 +102,19 @@ public class NotificationLightSettings extends SettingsPreferenceFragment implem
         mMultiColorNotificationLed = resources.getBoolean(
                 com.android.internal.R.bool.config_multiColorNotificationLed);
 
-        mDefaultColor = resources.getColor(
-                com.android.internal.R.color.config_defaultNotificationColor);
+        // Get the system defined default notification color
+        mDefaultColor =
+                resources.getColor(com.android.internal.R.color.config_defaultNotificationColor);
+
         mDefaultLedOn = resources.getInteger(
                 com.android.internal.R.integer.config_defaultNotificationLedOn);
         mDefaultLedOff = resources.getInteger(
                 com.android.internal.R.integer.config_defaultNotificationLedOff);
 
-        mEnabledPref = (CheckBoxPreference)
+        mEnabledPref = (SystemSettingSwitchPreference)
                 findPreference(Settings.System.NOTIFICATION_LIGHT_PULSE);
         mEnabledPref.setOnPreferenceChangeListener(this);
-        mCustomEnabledPref = (CheckBoxPreference)
+        mCustomEnabledPref = (SystemSettingSwitchPreference)
                 findPreference(Settings.System.NOTIFICATION_LIGHT_PULSE_CUSTOM_ENABLE);
         mCustomEnabledPref.setOnPreferenceChangeListener(this);
 
@@ -420,7 +417,7 @@ public class NotificationLightSettings extends SettingsPreferenceFragment implem
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         mMenu = menu;
         mMenu.add(0, MENU_ADD, 0, R.string.profiles_add)
-                .setIcon(R.drawable.ic_menu_add)
+                .setIcon(R.drawable.ic_menu_add_white)
                 .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
     }
 
@@ -528,5 +525,5 @@ public class NotificationLightSettings extends SettingsPreferenceFragment implem
             }
         }
 
-    };
+    }
 }

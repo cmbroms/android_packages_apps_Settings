@@ -315,7 +315,10 @@ public class RunningServiceDetails extends Fragment
             // check if error reporting is enabled in secure settings
             int enabled = Settings.Global.getInt(getActivity().getContentResolver(),
                     Settings.Global.SEND_ACTION_APP_ERROR, 0);
-            if (enabled != 0 && si != null) {
+            // allow reporting if a service is present and the app is not a system app
+            boolean canReport = (si != null) && (si.mServiceInfo.applicationInfo.flags
+                    & ApplicationInfo.FLAG_SYSTEM) == 0;
+            if (enabled != 0 && canReport) {
                 detail.mInstaller = ApplicationErrorReport.getErrorReportReceiver(
                         getActivity(), si.mServiceInfo.packageName,
                         si.mServiceInfo.applicationInfo.flags);
@@ -583,7 +586,6 @@ public class RunningServiceDetails extends Fragment
                     
                     return new AlertDialog.Builder(getActivity())
                             .setTitle(getActivity().getString(R.string.runningservicedetails_stop_dlg_title))
-                            .setIconAttribute(android.R.attr.alertDialogIcon)
                             .setMessage(getActivity().getString(R.string.runningservicedetails_stop_dlg_text))
                             .setPositiveButton(R.string.dlg_ok,
                                     new DialogInterface.OnClickListener() {

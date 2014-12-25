@@ -33,6 +33,15 @@
                     android:targetClass="@string/additional_system_update_menu" />
         </PreferenceScreen>
 
+        <!-- CyanogenMod Updates -->
+        <PreferenceScreen android:key="cm_updates"
+                android:title="@string/cmupdate_settings_title"
+                android:summary="@string/system_update_settings_list_item_summary">
+            <intent android:action="android.intent.action.MAIN"
+                    android:targetPackage="com.cyanogenmod.updater"
+                    android:targetClass="com.cyanogenmod.updater.UpdatesSettings" />
+        </PreferenceScreen>
+
         <!-- Device status - launches activity -->
         <PreferenceScreen android:key="status_info"
                 android:title="@string/device_status" 
@@ -40,27 +49,6 @@
             <intent android:action="android.intent.action.MAIN"
                     android:targetPackage="com.android.settings"
                     android:targetClass="com.android.settings.deviceinfo.Status" />
-        </PreferenceScreen>
-
-        <!-- CyanogenMod Updates -->
-        <PreferenceScreen android:key="cm_updates"
-                android:title="@string/cmupdate_settings_title" 
-                android:summary="@string/cmupdate_settings_summary">
-            <intent android:action="android.intent.action.MAIN"
-                    android:targetPackage="com.cyanogenmod.updater"
-                    android:targetClass="com.cyanogenmod.updater.UpdatesSettings" />
-        </PreferenceScreen>
-
-        <!-- Change Log -->
-        <PreferenceScreen android:key="changelog"
-            android:title="@string/changelog_title"
-            android:fragment="com.android.settings.cyanogenmod.ChangeLog" >
-        </PreferenceScreen>
-
-        <!-- Contributors cloud -->
-        <PreferenceScreen android:key="contributor_cloud"
-            android:title="@string/contributor_cloud_title"
-            android:fragment="com.android.settings.cyanogenmod.ContributorsCloud" >
         </PreferenceScreen>
 
         <!-- Legal Information -->
@@ -87,13 +75,6 @@
                 <intent android:action="android.settings.LICENSE" />
             </PreferenceScreen>
 
-            <!-- CM License information -->
-            <PreferenceScreen
-                    android:key="cmlicense"
-                    android:title="@string/cmlicense_title">
-                <intent android:action="android.settings.CMLICENSE" />
-            </PreferenceScreen>
-
             <!-- Terms and conditions -->
             <PreferenceScreen
                     android:key="terms"
@@ -101,22 +82,19 @@
                 <intent android:action="android.settings.TERMS" />
             </PreferenceScreen>
 
+            <Preference
+                    android:key="wallpaper_attributions"
+                    android:title="@string/wallpaper_attributions"
+                    android:summary="@string/wallpaper_attributions_values"
+                    />
+
         </PreferenceScreen>
-        
+
         <PreferenceScreen
                 android:key="safetylegal"
                 android:title="@string/settings_safetylegal_title">
             <intent android:action="android.settings.SAFETY" />
         </PreferenceScreen>
-
-        <!-- Contributors -->
-        <!-- 
-        <PreferenceScreen
-                android:key="contributors"
-                android:title="@string/contributors_title">
-            <intent android:action="android.settings.TEAM" />
-        </PreferenceScreen>
-        -->
 
         <PreferenceScreen
                 android:key="regulatory_info"
@@ -124,12 +102,17 @@
             <intent android:action="android.settings.SHOW_REGULATORY_INFO" />
         </PreferenceScreen>
 
+        <!-- Feedback on the device -->
+        <PreferenceScreen android:key="device_feedback"
+                android:title="@string/device_feedback">
+        </PreferenceScreen>
+
         <!-- Device hardware model -->
         <Preference android:key="device_model" 
                 style="?android:preferenceInformationStyle"
                 android:title="@string/model_number"
                 android:summary="@string/device_info_default"/>
-                
+
         <!-- Mod version -->
         <Preference android:key="mod_version"
                 style="?android:preferenceInformationStyle"
@@ -153,26 +136,14 @@
                 style="?android:preferenceInformationStyle"
                 android:title="@string/baseband_version"
                 android:summary="@string/device_info_default"/>
-        
+
         <!-- Device Kernel version -->
         <Preference android:key="kernel_version" 
                 style="?android:preferenceInformationStyle"
                 android:title="@string/kernel_version"
                 android:summary="@string/device_info_default"/>
 
-        <!-- Device cpu info -->
-        <Preference android:key="device_cpu"
-                style="?android:preferenceInformationStyle"
-                android:title="@string/cpu_info"
-                android:summary="@string/device_info_default"/>
-
-        <!-- Device mem info -->
-        <Preference android:key="device_memory"
-                style="?android:preferenceInformationStyle"
-                android:title="@string/mem_info"
-                android:summary="@string/device_info_default"/>
-
-        <!-- Mod build date -->
+        <!-- Build date -->
         <Preference android:key="build_date"
                 style="?android:preferenceInformationStyle"
                 android:title="@string/build_date"

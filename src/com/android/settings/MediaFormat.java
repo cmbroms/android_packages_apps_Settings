@@ -17,6 +17,7 @@
 package com.android.settings;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -41,17 +42,45 @@ public class MediaFormat extends Activity {
     private static final int KEYGUARD_REQUEST = 55;
 
     private LayoutInflater mInflater;
+    private StorageVolume mStorageVolume;
 
     private View mInitialView;
-    private TextView mInitiateText;
+    private TextView mInitiateTextView;
     private Button mInitiateButton;
 
     private View mFinalView;
-    private TextView mFinalText;
+    private TextView mFinalTextView;
     private Button mFinalButton;
 
-    private StorageVolume mVolume;
-    private boolean mIsUsbStorage;
+    public static boolean isUsbStorage(StorageVolume volumeObj, Context context) {
+        if (volumeObj == null || context == null) {
+            return false;
+        }
+
+        // check if the supplied storage volume is of USB storage
+        Resources resourcesObj = context.getResources();
+        if (resourcesObj == null) { return false; }
+
+        boolean isUsb = volumeObj.getDescription(context).equalsIgnoreCase(
+                resourcesObj.getString(R.string.storage_usb));
+
+        return isUsb;
+    }
+
+    public static boolean isUiccStorage(StorageVolume volumeObj, Context context) {
+        if (volumeObj == null || context == null) {
+            return false;
+        }
+
+        // check if the supplied storage volume is of UICC (Mega SIM) storage
+        Resources resourcesObj = context.getResources();
+        if (resourcesObj == null) { return false; }
+
+        boolean isUicc = volumeObj.getDescription(context).equalsIgnoreCase(
+                resourcesObj.getString(R.string.storage_uicc));
+
+        return isUicc;
+    }
 
     /**
      * The user has gone through the multiple confirmation, so now we go ahead
@@ -66,7 +95,9 @@ public class MediaFormat extends Activity {
                 Intent intent = new Intent(ExternalStorageFormatter.FORMAT_ONLY);
                 intent.setComponent(ExternalStorageFormatter.COMPONENT_NAME);
                 // Transfer the storage volume to the new intent
-                intent.putExtra(StorageVolume.EXTRA_STORAGE_VOLUME, mVolume);
+                final StorageVolume storageVolume = getIntent().getParcelableExtra(
+                        StorageVolume.EXTRA_STORAGE_VOLUME);
+                intent.putExtra(StorageVolume.EXTRA_STORAGE_VOLUME, storageVolume);
                 startService(intent);
                 finish();
             }
@@ -77,11 +108,20 @@ public class MediaFormat extends Activity {
      * component as a subactivity
      */
     private boolean runKeyguardConfirmation(int request) {
+        // Initialize default resource id, then set the right string based on volume
+        int explanationResId = R.string.media_format_gesture_explanation;
+
+        if (isUsbStorage(mStorageVolume, this)) {
+            explanationResId = R.string.usb_media_format_gesture_explanation;
+
+        } else if (isUiccStorage(mStorageVolume, this)) {
+            explanationResId = R.string.uicc_media_format_gesture_explanation;
+        }
+
         return new ChooseLockSettingsHelper(this)
                 .launchConfirmationActivity(request,
                         getText(R.string.media_format_gesture_prompt),
-                        getText(mIsUsbStorage ? R.string.usb_media_format_gesture_explanation :
-                                R.string.sd_media_format_gesture_explanation));
+                        getText(explanationResId));
     }
 
     @Override
@@ -122,18 +162,24 @@ public class MediaFormat extends Activity {
     private void establishFinalConfirmationState() {
         if (mFinalView == null) {
             mFinalView = mInflater.inflate(R.layout.media_format_final, null);
-            mFinalText =
-                    (TextView) mFinalView.findViewById(R.id.execute_media_desc);
-            mFinalText.setText(mIsUsbStorage ? R.string.usb_media_format_final_desc :
-                    R.string.sd_media_format_final_desc);
             mFinalButton =
                     (Button) mFinalView.findViewById(R.id.execute_media_format);
-            mFinalButton.setText(mIsUsbStorage ? R.string.usb_media_format_button_text :
-                    R.string.sd_media_format_button_text);
+            mFinalTextView = (TextView) mFinalView
+                    .findViewById(R.id.execute_media_format_label);
             mFinalButton.setOnClickListener(mFinalClickListener);
         }
 
         setContentView(mFinalView);
+
+        // set the title based on volume
+        if (isUsbStorage(mStorageVolume, this)) {
+            setTitle(R.string.usb_media_format_button_text);
+            mFinalTextView.setText(R.string.usb_media_format_final_desc);
+
+        } else if (isUiccStorage(mStorageVolume, this)) {
+            setTitle(R.string.uicc_media_format_button_text);
+            mFinalTextView.setText(R.string.uicc_media_format_final_desc);
+        }
     }
 
     /**
@@ -151,18 +197,26 @@ public class MediaFormat extends Activity {
     private void establishInitialState() {
         if (mInitialView == null) {
             mInitialView = mInflater.inflate(R.layout.media_format_primary, null);
-            mInitiateText =
-                    (TextView) mInitialView.findViewById(R.id.initiate_media_desc);
-            mInitiateText.setText(mIsUsbStorage ? R.string.usb_media_format_desc :
-                    R.string.sd_media_format_desc);
+            mInitiateTextView = (TextView) mInitialView
+                    .findViewById(R.id.initiate_media_format_label);
             mInitiateButton =
                     (Button) mInitialView.findViewById(R.id.initiate_media_format);
-            mInitiateButton.setText(mIsUsbStorage ? R.string.usb_media_format_button_text :
-                    R.string.sd_media_format_button_text);
             mInitiateButton.setOnClickListener(mInitiateListener);
         }
 
         setContentView(mInitialView);
+
+        // set the title based on volume
+        if (isUsbStorage(mStorageVolume, this)) {
+            setTitle(R.string.usb_media_format_button_text);
+            mInitiateTextView.setText(R.string.usb_media_format_desc);
+            mInitiateButton.setText(R.string.usb_media_format_button_text);
+
+        } else if (isUiccStorage(mStorageVolume, this)) {
+            setTitle(R.string.uicc_media_format_button_text);
+            mInitiateTextView.setText(R.string.uicc_media_format_desc);
+            mInitiateButton.setText(R.string.uicc_media_format_button_text);
+        }
     }
 
     @Override
@@ -173,10 +227,8 @@ public class MediaFormat extends Activity {
         mFinalView = null;
         mInflater = LayoutInflater.from(this);
 
-        mVolume = getIntent().getParcelableExtra(StorageVolume.EXTRA_STORAGE_VOLUME);
-        mIsUsbStorage = mVolume != null && mVolume.getDescriptionId() ==
-                android.R.string.storage_usb;
-        setTitle(mIsUsbStorage ? R.string.usb_media_format_title : R.string.sd_media_format_title);
+        mStorageVolume = getIntent().getParcelableExtra(
+                StorageVolume.EXTRA_STORAGE_VOLUME);
 
         establishInitialState();
     }

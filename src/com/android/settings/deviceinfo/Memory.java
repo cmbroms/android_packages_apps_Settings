@@ -39,8 +39,8 @@ import android.os.storage.IMountService;
 import android.os.storage.StorageEventListener;
 import android.os.storage.StorageManager;
 import android.os.storage.StorageVolume;
+import android.os.SystemProperties;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.util.Log;
 import android.view.Menu;
@@ -48,9 +48,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.android.settings.MediaFormat;
 import com.android.settings.R;
+import com.android.settings.SettingsActivity;
 import com.android.settings.SettingsPreferenceFragment;
 import com.android.settings.Utils;
+import com.android.settings.search.BaseSearchIndexProvider;
+import com.android.settings.search.Indexable;
+import com.android.settings.search.SearchIndexableRaw;
 import com.google.android.collect.Lists;
 
 import java.util.ArrayList;
@@ -60,7 +65,7 @@ import java.util.List;
  * Panel showing storage usage on disk for known {@link StorageVolume} returned
  * by {@link StorageManager}. Calculates and displays usage of data types.
  */
-public class Memory extends SettingsPreferenceFragment {
+public class Memory extends SettingsPreferenceFragment implements Indexable {
     private static final String TAG = "MemorySettings";
 
     private static final String TAG_CONFIRM_CLEAR_CACHE = "confirmClearCache";
@@ -71,9 +76,9 @@ public class Memory extends SettingsPreferenceFragment {
     // The mountToggle Preference that has last been clicked.
     // Assumes no two successive unmount event on 2 different volumes are performed before the first
     // one's preference is disabled
-    private Preference mLastClickedMountToggle;
-    private String mClickedMountPoint;
-    private StorageVolumePreferenceCategory mLastClickedCategory;
+    private static Preference sLastClickedMountToggle;
+    private static String sClickedMountPoint;
+    private StorageVolume mStorageVolume;
 
     // Access using getMountService()
     private IMountService mMountService;
@@ -99,7 +104,29 @@ public class Memory extends SettingsPreferenceFragment {
 
         final StorageVolume[] storageVolumes = mStorageManager.getVolumeList();
         for (StorageVolume volume : storageVolumes) {
+            // add those storage volumes which are not emulated & allow UMS.
+            // sometimes a storage drive like Mega SIM could carry two volumes,
+            // with only one volume supported for UMS.
             if (!volume.isEmulated()) {
+                // check if the volume is for UICC & if hardware has UICC enabled
+                // if hardware doesn't have UICC, do not show up on UI
+                boolean uiccStatus = SystemProperties.getBoolean("persist.sys.isUICCEnabled", false);
+                boolean isOtgSupported = SystemProperties.getBoolean("persist.sys.isUsbOtgEnabled",
+                        false);
+
+                if ((MediaFormat.isUiccStorage(volume, context) && (!uiccStatus))
+                        || volume.getPath().contains("uicc1")) {
+                    Log.w(TAG, "Hardware has UICC disabled, Hiding UICC UI");
+
+                    continue;
+                }
+
+                if (MediaFormat.isUsbStorage(volume, context) && (!isOtgSupported)) {
+                    Log.w(TAG, "Hardware has USB OTG not supported, Hiding OTG UI");
+
+                    continue;
+                }
+
                 addCategory(StorageVolumePreferenceCategory.buildForPhysical(context, volume));
             }
         }
@@ -178,7 +205,8 @@ public class Memory extends SettingsPreferenceFragment {
     public void onPrepareOptionsMenu(Menu menu) {
         final MenuItem usb = menu.findItem(R.id.storage_usb);
         UserManager um = (UserManager)getActivity().getSystemService(Context.USER_SERVICE);
-        boolean usbItemVisible = !um.hasUserRestriction(UserManager.DISALLOW_USB_FILE_TRANSFER);
+        boolean usbItemVisible = !isMassStorageEnabled()
+                && !um.hasUserRestriction(UserManager.DISALLOW_USB_FILE_TRANSFER);
         usb.setVisible(usbItemVisible);
     }
 
@@ -186,14 +214,13 @@ public class Memory extends SettingsPreferenceFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.storage_usb:
-                if (getActivity() instanceof PreferenceActivity) {
-                    ((PreferenceActivity) getActivity()).startPreferencePanel(
+                if (getActivity() instanceof SettingsActivity) {
+                    ((SettingsActivity) getActivity()).startPreferencePanel(
                             UsbSettings.class.getCanonicalName(),
-                            null,
-                            R.string.storage_title_usb, null,
-                            this, 0);
+                            null, R.string.storage_title_usb, null, this, 0);
                 } else {
-                    startFragment(this, UsbSettings.class.getCanonicalName(), -1, null);
+                    startFragment(this, UsbSettings.class.getCanonicalName(),
+                            R.string.storage_title_usb, -1, null);
                 }
                 return true;
         }
@@ -235,9 +262,10 @@ public class Memory extends SettingsPreferenceFragment {
 
             final StorageVolume volume = category.getStorageVolume();
             if (volume != null && category.mountToggleClicked(preference)) {
-                mLastClickedCategory = category;
-                mLastClickedMountToggle = preference;
-                mClickedMountPoint = volume.getPath();
+                sLastClickedMountToggle = preference;
+                sClickedMountPoint = volume.getPath();
+                mStorageVolume = volume;
+
                 String state = mStorageManager.getVolumeState(volume.getPath());
                 if (Environment.MEDIA_MOUNTED.equals(state) ||
                         Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
@@ -272,48 +300,68 @@ public class Memory extends SettingsPreferenceFragment {
 
     @Override
     public Dialog onCreateDialog(int id) {
+
         switch (id) {
-        case DLG_CONFIRM_UNMOUNT:
-            return new AlertDialog.Builder(getActivity())
-                .setTitle(mLastClickedCategory.isUsbStorage() ?
-                        R.string.usb_dlg_confirm_unmount_title :
-                        R.string.sd_dlg_confirm_unmount_title)
-                .setPositiveButton(R.string.dlg_ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        doUnmount();
-                    }})
-                .setNegativeButton(R.string.cancel, null)
-                .setMessage(mLastClickedCategory.isUsbStorage() ?
-                        R.string.usb_dlg_confirm_unmount_text :
-                        R.string.sd_dlg_confirm_unmount_text)
-                .create();
-        case DLG_ERROR_UNMOUNT:
-            return new AlertDialog.Builder(getActivity())
-                .setTitle(mLastClickedCategory.isUsbStorage() ?
-                        R.string.usb_dlg_error_unmount_title :
-                        R.string.sd_dlg_error_unmount_title)
-                .setNeutralButton(R.string.dlg_ok, null)
-                .setMessage(mLastClickedCategory.isUsbStorage() ?
-                        R.string.usb_dlg_error_unmount_text :
-                        R.string.sd_dlg_error_unmount_text)
-                .create();
+            case DLG_CONFIRM_UNMOUNT:
+                int titleResId = R.string.dlg_confirm_unmount_title;
+                int messageResId = R.string.dlg_confirm_unmount_text;
+
+                // set the strings based on volume
+                if (MediaFormat.isUsbStorage(mStorageVolume, getActivity())) {
+                    titleResId = R.string.dlg_confirm_usb_unmount_title;
+                    messageResId = R.string.dlg_confirm_usb_unmount_text;
+
+                } else if (MediaFormat.isUiccStorage(mStorageVolume, getActivity())) {
+                    titleResId = R.string.dlg_confirm_uicc_unmount_title;
+                    messageResId = R.string.dlg_confirm_uicc_unmount_text;
+                }
+
+                return new AlertDialog.Builder(getActivity())
+                        .setTitle(titleResId)
+                        .setPositiveButton(R.string.dlg_ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                doUnmount();
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, null)
+                        .setMessage(messageResId)
+                        .create();
+
+            case DLG_ERROR_UNMOUNT:
+                int errMessageResId = R.string.dlg_error_unmount_text;
+
+                // set the strings based on volume
+                if (MediaFormat.isUsbStorage(mStorageVolume, getActivity())) {
+                    errMessageResId = R.string.dlg_error_usb_unmount_text;
+
+                } else if (MediaFormat.isUiccStorage(mStorageVolume, getActivity())) {
+                    errMessageResId = R.string.dlg_error_uicc_unmount_text;
+                }
+
+                return new AlertDialog.Builder(getActivity())
+                        .setTitle(R.string.dlg_error_unmount_title)
+                        .setNeutralButton(R.string.dlg_ok, null)
+                        .setMessage(errMessageResId)
+                        .create();
         }
         return null;
     }
 
     private void doUnmount() {
         // Present a toast here
-        Toast.makeText(getActivity(), mLastClickedCategory.isUsbStorage() ?
-                R.string.usb_unmount_inform_text : R.string.sd_unmount_inform_text,
-                Toast.LENGTH_SHORT).show();
+        if (mStorageVolume != null && MediaFormat.isUsbStorage(mStorageVolume, getActivity())) {
+            Toast.makeText(getActivity(), R.string.usb_unmount_inform_text,
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), R.string.unmount_inform_text, Toast.LENGTH_SHORT).show();
+        }
+
         IMountService mountService = getMountService();
         try {
-            mLastClickedMountToggle.setEnabled(false);
-            mLastClickedMountToggle.setTitle(mLastClickedCategory.isUsbStorage() ?
-                    R.string.usb_sd_ejecting_title : R.string.sd_sd_ejecting_title);
-            mLastClickedMountToggle.setSummary(mLastClickedCategory.isUsbStorage() ?
-                    R.string.usb_sd_ejecting_summary : R.string.sd_sd_ejecting_summary);
-            mountService.unmountVolume(mClickedMountPoint, true, false);
+            sLastClickedMountToggle.setEnabled(false);
+            sLastClickedMountToggle.setTitle(getString(R.string.sd_ejecting_title));
+            sLastClickedMountToggle.setSummary(getString(R.string.sd_ejecting_summary));
+            mountService.unmountVolume(sClickedMountPoint, true, false);
         } catch (RemoteException e) {
             // Informative dialog to user that unmount failed.
             showDialogInner(DLG_ERROR_UNMOUNT);
@@ -327,7 +375,7 @@ public class Memory extends SettingsPreferenceFragment {
 
     private boolean hasAppsAccessingStorage() throws RemoteException {
         IMountService mountService = getMountService();
-        int stUsers[] = mountService.getStorageUsers(mClickedMountPoint);
+        int stUsers[] = mountService.getStorageUsers(sClickedMountPoint);
         if (stUsers != null && stUsers.length > 0) {
             return true;
         }
@@ -365,7 +413,7 @@ public class Memory extends SettingsPreferenceFragment {
         IMountService mountService = getMountService();
         try {
             if (mountService != null) {
-                mountService.mountVolume(mClickedMountPoint);
+                mountService.mountVolume(sClickedMountPoint);
             } else {
                 Log.e(TAG, "Mount service is null, can't mount");
             }
@@ -437,4 +485,78 @@ public class Memory extends SettingsPreferenceFragment {
             return builder.create();
         }
     }
+
+    /**
+     * Enable indexing of searchable data
+     */
+    public static final SearchIndexProvider SEARCH_INDEX_DATA_PROVIDER =
+        new BaseSearchIndexProvider() {
+            @Override
+            public List<SearchIndexableRaw> getRawDataToIndex(Context context, boolean enabled) {
+                final List<SearchIndexableRaw> result = new ArrayList<SearchIndexableRaw>();
+
+                SearchIndexableRaw data = new SearchIndexableRaw(context);
+                data.title = context.getString(R.string.storage_settings);
+                data.screenTitle = context.getString(R.string.storage_settings);
+                result.add(data);
+
+                data = new SearchIndexableRaw(context);
+                data.title = context.getString(R.string.internal_storage);
+                data.screenTitle = context.getString(R.string.storage_settings);
+                result.add(data);
+
+                data = new SearchIndexableRaw(context);
+                final StorageVolume[] storageVolumes = StorageManager.from(context).getVolumeList();
+                for (StorageVolume volume : storageVolumes) {
+                    if (!volume.isEmulated()) {
+                        data.title = volume.getDescription(context);
+                        data.screenTitle = context.getString(R.string.storage_settings);
+                        result.add(data);
+                    }
+                }
+
+                data = new SearchIndexableRaw(context);
+                data.title = context.getString(R.string.memory_size);
+                data.screenTitle = context.getString(R.string.storage_settings);
+                result.add(data);
+
+                data = new SearchIndexableRaw(context);
+                data.title = context.getString(R.string.memory_available);
+                data.screenTitle = context.getString(R.string.storage_settings);
+                result.add(data);
+
+                data = new SearchIndexableRaw(context);
+                data.title = context.getString(R.string.memory_apps_usage);
+                data.screenTitle = context.getString(R.string.storage_settings);
+                result.add(data);
+
+                data = new SearchIndexableRaw(context);
+                data.title = context.getString(R.string.memory_dcim_usage);
+                data.screenTitle = context.getString(R.string.storage_settings);
+                result.add(data);
+
+                data = new SearchIndexableRaw(context);
+                data.title = context.getString(R.string.memory_music_usage);
+                data.screenTitle = context.getString(R.string.storage_settings);
+                result.add(data);
+
+                data = new SearchIndexableRaw(context);
+                data.title = context.getString(R.string.memory_downloads_usage);
+                data.screenTitle = context.getString(R.string.storage_settings);
+                result.add(data);
+
+                data = new SearchIndexableRaw(context);
+                data.title = context.getString(R.string.memory_media_cache_usage);
+                data.screenTitle = context.getString(R.string.storage_settings);
+                result.add(data);
+
+                data = new SearchIndexableRaw(context);
+                data.title = context.getString(R.string.memory_media_misc_usage);
+                data.screenTitle = context.getString(R.string.storage_settings);
+                result.add(data);
+
+                return result;
+            }
+        };
+
 }

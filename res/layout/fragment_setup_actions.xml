@@ -21,9 +21,10 @@
         android:id="@android:id/list"
         android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="0dp"/>
+        android:layout_height="0dp"
+        android:paddingStart="@*android:dimen/preference_item_padding_side"
+        android:paddingEnd="@*android:dimen/preference_item_padding_side"/>
 
-    <View style="@style/settingSeparator" />
 
     <LinearLayout
         android:id="@+id/bottom_buttons"
@@ -34,7 +35,7 @@
 
         <Button
             android:id="@+id/back"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/wizard_back"
@@ -43,13 +44,12 @@
 
         <Button
             android:id="@+id/finish"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/wizard_finish"
             style="?android:attr/borderlessButtonStyle"
             />
-
 
     </LinearLayout>
 

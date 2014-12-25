@@ -21,6 +21,9 @@ import android.preference.Preference;
 import android.util.AttributeSet;
 import android.view.View;
 
+/**
+ * A category with a progress spinner
+ */
 public class ProgressCategory extends ProgressCategoryBase {
 
     private int mEmptyTextRes;
@@ -28,10 +31,25 @@ public class ProgressCategory extends ProgressCategoryBase {
     private Preference mNoDeviceFoundPreference;
     private boolean mNoDeviceFoundAdded;
 
+    public ProgressCategory(Context context) {
+        this(context, null);
+    }
+
+    public ProgressCategory(Context context, AttributeSet attrs) {
+        super(context, attrs, 0);
+    }
+
     public ProgressCategory(Context context, AttributeSet attrs,
-            int emptyTextRes) {
-        super(context, attrs);
+            int defStyleAttr) {
+        this(context, attrs, defStyleAttr, 0);
+    }
+
+    public ProgressCategory(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
         setLayoutResource(R.layout.preference_progress_category);
+    }
+
+    public void setEmptyTextRes(int emptyTextRes) {
         mEmptyTextRes = emptyTextRes;
     }
 
@@ -64,22 +82,8 @@ public class ProgressCategory extends ProgressCategoryBase {
     }
 
     @Override
-    public void removeAll() {
-        super.removeAll();
-        mNoDeviceFoundAdded = false;
-    }
-
-    @Override
     public void setProgress(boolean progressOn) {
         mProgress = progressOn;
-        notifyChanged();
-    }
-
-    public void setEmptyTextRes(int emptyTextRes) {
-        mEmptyTextRes = emptyTextRes;
-        if (mNoDeviceFoundPreference != null) {
-            mNoDeviceFoundPreference.setTitle(emptyTextRes);
-        }
         notifyChanged();
     }
 }

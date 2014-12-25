@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 The Android Open Source Project
+ * Copyright (C) 2014 The CyanogenMod Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ import android.preference.PreferenceScreen;
 import com.android.internal.telephony.util.BlacklistUtils;
 import com.android.settings.R;
 import com.android.settings.SettingsPreferenceFragment;
-import com.android.settings.Utils;
 
 /**
  * Privacy settings
@@ -41,24 +40,14 @@ public class PrivacySettings extends SettingsPreferenceFragment {
 
         mBlacklist = (PreferenceScreen) findPreference(KEY_BLACKLIST);
 
-        // Determine options based on device telephony support
-        if (getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
-            // WhisperPush
-            // Only add if device has telephony support and has WhisperPush installed.
-            if (Utils.isPackageInstalled(getActivity(), "org.whispersystems.whisperpush")) {
-                addPreferencesFromResource(R.xml.security_settings_whisperpush);
-            }
-        } else {
-            // No telephony, remove dependent options
-            getPreferenceScreen().removePreference(mBlacklist);
-            mBlacklist = null;
-        }
+        // Add package manager to check if features are available
+        PackageManager pm = getPackageManager();
 
-        addPreferencesFromResource(R.xml.security_settings_cyanogenmod);
-        // Logger
-        // Only add if device has Logger installed
-        if (Utils.isPackageInstalled(getActivity(), "com.cyngn.logger")) {
-            addPreferencesFromResource(R.xml.security_settings_logger);
+        // Determine options based on device telephony support
+        if (!pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
+            // No telephony, remove dependent options
+            PreferenceScreen root = getPreferenceScreen();
+            root.removePreference(mBlacklist);
         }
     }
 
@@ -69,12 +58,11 @@ public class PrivacySettings extends SettingsPreferenceFragment {
     }
 
     private void updateBlacklistSummary() {
-        if (mBlacklist != null) {
-            if (BlacklistUtils.isBlacklistEnabled(getActivity())) {
-                mBlacklist.setSummary(R.string.blacklist_summary);
-            } else {
-                mBlacklist.setSummary(R.string.blacklist_summary_disabled);
-            }
+        if (BlacklistUtils.isBlacklistEnabled(getActivity())) {
+            mBlacklist.setSummary(R.string.blacklist_summary);
+        } else {
+            mBlacklist.setSummary(R.string.blacklist_summary_disabled);
         }
     }
+
 }
