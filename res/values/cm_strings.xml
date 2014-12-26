@@ -277,10 +277,10 @@
     <string name="no_filters_title">No filters set</string>
 
     <!-- CM Updater -->
-    <string name="cmupdate_settings_title">CyanogenMod updates</string>
+   <!-- <string name="cmupdate_settings_title">CyanogenMod updates</string>-->
 
-    <!-- About phone screen, CyanogenMod version -->
-    <string name="mod_version">CyanogenMod version</string>
+    <!-- About phone screen-->
+    <string name="mod_version">CMB Roms Version</string>
     <string name="mod_version_default">Unknown</string>
 
     <!-- About phone screen, build date -->
