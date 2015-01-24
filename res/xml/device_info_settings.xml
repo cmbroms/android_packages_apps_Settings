@@ -45,10 +45,16 @@
         <!-- Device status - launches activity -->
         <PreferenceScreen android:key="status_info"
                 android:title="@string/device_status" 
-                android:summary="@string/device_status_summary_cm">
+                android:summary="@string/device_status_summary">
             <intent android:action="android.intent.action.MAIN"
                     android:targetPackage="com.android.settings"
                     android:targetClass="com.android.settings.deviceinfo.Status" />
+        </PreferenceScreen>
+
+        <!-- Contributors cloud -->
+        <PreferenceScreen android:key="contributor_cloud"
+            android:title="@string/contributor_cloud_title"
+            android:fragment="com.android.settings.cyanogenmod.ContributorsCloud" >
         </PreferenceScreen>
 
         <!-- Legal Information -->
@@ -73,6 +79,13 @@
                     android:key="license"
                     android:title="@string/license_title">
                 <intent android:action="android.settings.LICENSE" />
+            </PreferenceScreen>
+
+            <!-- CM License information -->
+            <PreferenceScreen
+                    android:key="cmlicense"
+                    android:title="@string/cmlicense_title">
+                <intent android:action="android.settings.CMLICENSE" />
             </PreferenceScreen>
 
             <!-- Terms and conditions -->
@@ -110,7 +123,7 @@
         <!-- Device hardware model -->
         <Preference android:key="device_model" 
                 style="?android:preferenceInformationStyle"
-                android:title="@string/model_number"
+                android:title="@string/model_name"
                 android:summary="@string/device_info_default"/>
 
         <!-- Mod version -->

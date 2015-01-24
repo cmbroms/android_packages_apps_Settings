@@ -41,6 +41,7 @@ import android.content.res.Resources.NotFoundException;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.LinkProperties;
@@ -80,6 +81,11 @@ import com.android.settings.dashboard.DashboardCategory;
 import com.android.settings.dashboard.DashboardTile;
 import com.android.settings.drawable.CircleFramedDrawable;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
@@ -468,6 +474,51 @@ public final class Utils {
         } else {
             return R.string.tether_settings_title_bluetooth;
         }
+    }
+
+    public static boolean fileExists(String filename) {
+        return new File(filename).exists();
+    }
+
+    public static boolean fileIsReadable(String fname) {
+        return new File(fname).canRead();
+    }
+
+    public static boolean fileIsWritable(String fname) {
+        return new File(fname).canWrite();
+    }
+
+    public static String fileReadOneLine(String fname) {
+        BufferedReader br;
+        String line = null;
+
+        try {
+            br = new BufferedReader(new FileReader(fname), 512);
+            try {
+                line = br.readLine();
+            } finally {
+                br.close();
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "IO Exception when reading /sys/ file", e);
+        }
+        return line;
+    }
+
+    public static boolean fileWriteOneLine(String fname, String value) {
+        try {
+            FileWriter fw = new FileWriter(fname);
+            try {
+                fw.write(value);
+            } finally {
+                fw.close();
+            }
+        } catch (IOException e) {
+            String Error = "Error writing to " + fname + ". Exception: ";
+            Log.e(TAG, Error, e);
+            return false;
+        }
+        return true;
     }
 
     /* Used by UserSettings as well. Call this on a non-ui thread. */
@@ -1018,5 +1069,42 @@ public final class Utils {
             }
         }
         return sb.toString();
+    }
+
+    public static boolean isPackageInstalled(Context context, String pkg, boolean ignoreState) {
+        if (pkg != null) {
+            try {
+                PackageInfo pi = context.getPackageManager().getPackageInfo(pkg, 0);
+                if (!pi.applicationInfo.enabled && !ignoreState) {
+                    return false;
+                }
+            } catch (NameNotFoundException e) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean isPackageInstalled(Context context, String pkg) {
+        return isPackageInstalled(context, pkg, true);
+    }
+
+    public static Context createPackageContext(Context context, String packageName) {
+        try {
+            return context.createPackageContext(packageName, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            // fall through
+        }
+        return null;
+    }
+
+    public static Drawable getNamedDrawable(Context context, String name) {
+        if (context == null) {
+            return null;
+        }
+        final Resources res = context.getResources();
+        final int resId = res.getIdentifier(name, "drawable", context.getPackageName());
+        return resId > 0 ? res.getDrawable(resId) : null;
     }
 }
